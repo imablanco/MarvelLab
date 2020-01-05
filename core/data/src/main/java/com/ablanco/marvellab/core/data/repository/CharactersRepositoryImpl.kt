@@ -1,9 +1,11 @@
 package com.ablanco.marvellab.core.data.repository
 
 import com.ablanco.marvellab.core.data.api.CharactersApiDataSource
+import com.ablanco.marvellab.core.data.db.CharactersDbDataSource
 import com.ablanco.marvellab.core.domain.model.Character
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -11,10 +13,30 @@ import kotlinx.coroutines.flow.flow
  * MarvelLab.
  */
 class CharactersRepositoryImpl(
-    private val apiDataSource: CharactersApiDataSource
+    private val apiDataSource: CharactersApiDataSource,
+    private val dbDataSource: CharactersDbDataSource
 ) : CharactersRepository {
 
-    override fun getCharacters(): Flow<List<Character>> = flow {
-        emit(apiDataSource.getCharacters())
+    override fun searchCharacters(search: String?): Flow<List<Character>> = flow {
+        dbDataSource.searchCharacters(search).collect { dbCharacters ->
+            if (dbCharacters.isEmpty()) {
+                apiDataSource.searchCharacters(search).also { dbDataSource.saveCharacters(it) }
+            } else {
+                emit(dbCharacters)
+            }
+        }
+    }
+
+    override fun getComicCharacters(comicId: String): Flow<List<Character>> = flow {
+        dbDataSource.getComicCharacters(comicId).collect { dbCharacters ->
+            if (dbCharacters.isEmpty()) {
+                apiDataSource.getComicCharacters(comicId).also {
+                    dbDataSource.saveCharacters(it)
+                    dbDataSource.saveComicCharacters(comicId, it)
+                }
+            } else {
+                emit(dbCharacters)
+            }
+        }
     }
 }

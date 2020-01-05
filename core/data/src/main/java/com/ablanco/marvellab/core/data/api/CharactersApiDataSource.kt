@@ -9,8 +9,16 @@ import kotlinx.coroutines.delay
  */
 class CharactersApiDataSource {
 
-    suspend fun getCharacters(): List<Character> {
-        delay(1000)
-        return emptyList()
+    suspend fun searchCharacters(search: String? = null): List<Character> {
+        delay(250)
+        return search?.let {
+            SampleData.characters.filter { it.name?.contains(search, true) == true }
+        } ?: SampleData.characters
     }
+
+    suspend fun getComicCharacters(comicId: String): List<Character> {
+        delay(250)
+        return SampleData.comicCharacters[comicId].orEmpty()
+    }
+
 }

@@ -9,5 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CharactersRepository {
 
-    fun getCharacters(): Flow<List<Character>>
+    fun searchCharacters(search: String? = null): Flow<List<Character>>
+
+    fun getComicCharacters(comicId: String): Flow<List<Character>>
 }
