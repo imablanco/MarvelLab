@@ -7,12 +7,13 @@ import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2019-12-23.
  * MarvelLab.
  */
-class CharactersRepositoryImpl(
+class CharactersRepositoryImpl @Inject constructor(
     private val apiDataSource: CharactersApiDataSource,
     private val dbDataSource: CharactersDbDataSource
 ) : CharactersRepository {

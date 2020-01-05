@@ -2,12 +2,13 @@ package com.ablanco.marvellab.core.data.api
 
 import com.ablanco.marvellab.core.domain.model.Character
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2019-12-23.
  * MarvelLab.
  */
-class CharactersApiDataSource {
+class CharactersApiDataSource @Inject constructor() {
 
     suspend fun searchCharacters(search: String? = null): List<Character> {
         delay(250)

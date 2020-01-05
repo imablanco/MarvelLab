@@ -6,12 +6,13 @@ import com.ablanco.marvellab.core.data.db.model.CharacterComicCrossRef
 import com.ablanco.marvellab.core.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2019-12-23.
  * MarvelLab.
  */
-class CharactersDbDataSource(
+class CharactersDbDataSource @Inject constructor(
     private val charactersDao: CharactersDao,
     private val characterComicCrossRefDao: CharacterComicCrossRefDao
 ) {
