@@ -1,0 +1,30 @@
+package com.ablanco.marvellab.core.presentation
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+/**
+ * Created by Álvaro Blanco Cabrero on 2020-01-07.
+ * MarvelLab.
+ */
+abstract class BaseViewModel<V : ViewState, A : ViewAction> : ViewModel() {
+
+    protected abstract val initialViewState: V
+
+    private val _viewState: MutableLiveData<V> by lazy { mutableLiveData(initialViewState) }
+    private val _viewAction: LiveEvent<A> = LiveEvent()
+
+    val viewState: LiveData<V> = _viewState
+    val viewAction: LiveData<A> = _viewAction
+
+    protected fun getState(): V = viewState.value ?: throw IllegalStateException()
+
+    protected fun setState(reducer: V.() -> V) {
+        _viewState.value = getState().reducer()
+    }
+
+    protected fun dispatchAction(action: A) {
+        _viewAction.value = action
+    }
+}
