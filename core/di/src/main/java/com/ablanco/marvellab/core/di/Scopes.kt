@@ -3,10 +3,9 @@ package com.ablanco.marvellab.core.di
 import javax.inject.Scope
 
 /**
- * Created by Álvaro Blanco Cabrero on 2020-01-08.
+ * Created by Álvaro Blanco Cabrero on 2020-01-09.
  * MarvelLab.
  */
-
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class FeatureScope

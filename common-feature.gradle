@@ -1,10 +1,15 @@
 apply from: "$rootDir/common-android-library.gradle"
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 dependencies{
 
     implementation project(":core:domain")
-    implementation project(":core:data")
     implementation project(":core:presentation")
+    implementation project(":core:di")
+    implementation project(":core:ui")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$androidCoreVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

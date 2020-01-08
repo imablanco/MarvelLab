@@ -1,5 +1,8 @@
-apply from: "$rootDir/common-kotlin-library.gradle"
+apply from: "$rootDir/common-android-library.gradle"
+
 dependencies {
-    implementation project(":core:domain")
+    implementation project(':core:domain')
     implementation "javax.inject:javax.inject:$javaxInjectVersion"
+    implementation "androidx.fragment:fragment-ktx:$androidFragmentVersion"
+
 }
