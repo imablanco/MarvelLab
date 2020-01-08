@@ -17,6 +17,7 @@ buildscript {
         roomDebuggerVersion = '1.0.6'
         daggerVersion = '2.11'
         lifecycleVersion = "2.1.0"
+        javaxInjectVersion = "1"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

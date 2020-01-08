@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation project(':core:domain')
+    implementation project(':core:di')
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
 
     implementation "androidx.room:room-runtime:$roomVersion"

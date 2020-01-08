@@ -1,6 +1,7 @@
 package com.ablanco.marvellab.core.data.di
 
 import android.content.Context
+import com.ablanco.marvellab.core.di.CoreComponent
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import dagger.BindsInstance
 import dagger.Component
@@ -12,9 +13,9 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = [DataModule::class])
-interface DataComponent {
+interface DataComponent : CoreComponent {
 
-    val charactersRepository: CharactersRepository
+    override val charactersRepository: CharactersRepository
 
     @Component.Builder
     interface Builder {
