@@ -27,6 +27,6 @@ class SplashActivity : AppCompatActivity() {
             .build()
             .inject(this)
 
-        
+
     }
 }

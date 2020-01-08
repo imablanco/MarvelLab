@@ -1,5 +1,6 @@
 package com.ablanco.marvellab.features.welcome.presentation
 
+import com.ablanco.marvellab.core.di.ActivityScope
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
@@ -11,7 +12,7 @@ import javax.inject.Inject
  * Created by Álvaro Blanco Cabrero on 2020-01-07.
  * MarvelLab.
  */
-
+@ActivityScope
 class SplashViewModelFactory @Inject constructor(
     private val charactersRepository: CharactersRepository
 ) : BaseViewModelFactory<SplashViewModel>() {

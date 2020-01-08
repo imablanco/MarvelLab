@@ -14,7 +14,6 @@ import dagger.Component
 @Component(dependencies = [CoreComponent::class])
 interface SplashComponent {
 
-    @ActivityScope
     val splashViewModelFactory: SplashViewModelFactory
 
     fun inject(splashActivity: SplashActivity)
