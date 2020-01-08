@@ -1,0 +1,10 @@
+apply from: "$rootDir/common-android-library.gradle"
+
+dependencies{
+
+    implementation project(":core:domain")
+    implementation project(":core:data")
+    implementation project(":core:presentation")
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.core:core-ktx:$androidCoreVersion"
+}

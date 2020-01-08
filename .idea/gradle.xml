@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/presentation" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/welcome" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

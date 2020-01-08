@@ -3,6 +3,10 @@ package com.ablanco.marvellab.core.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-07.
@@ -27,4 +31,7 @@ abstract class BaseViewModel<V : ViewState, A : ViewAction> : ViewModel() {
     protected fun dispatchAction(action: A) {
         _viewAction.value = action
     }
+
+    protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
+        viewModelScope.launch(block = block)
 }
