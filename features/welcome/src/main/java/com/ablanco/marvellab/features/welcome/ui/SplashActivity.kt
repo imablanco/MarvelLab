@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var splashViewModelFactory: SplashViewModelFactory
 
-    private val splashViewModel: SplashViewModel by viewModel(splashViewModelFactory)
+    private val viewModel: SplashViewModel by viewModel(splashViewModelFactory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +27,8 @@ class SplashActivity : AppCompatActivity() {
             .build()
             .inject(this)
 
-
+        if(savedInstanceState == null) {
+            viewModel.load()
+        }
     }
 }

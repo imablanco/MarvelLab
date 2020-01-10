@@ -21,6 +21,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "androidx.preference:preference-ktx:$preferenceVersion"
+    implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
 
     debugImplementation "com.amitshekhar.android:debug-db:$roomDebuggerVersion"
 }

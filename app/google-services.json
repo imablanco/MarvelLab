@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "404586032695",
+    "firebase_url": "https://marvellab.firebaseio.com",
+    "project_id": "marvellab",
+    "storage_bucket": "marvellab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404586032695:android:d3c94d0a2d81318e6259b2",
+        "android_client_info": {
+          "package_name": "com.ablanco.marvellab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404586032695-lgllgg6bgbvdj6voe59i766c8kpdnpk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2wVwoCldzPOty4twjYGSMnzqPCE0D1Qs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404586032695-lgllgg6bgbvdj6voe59i766c8kpdnpk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

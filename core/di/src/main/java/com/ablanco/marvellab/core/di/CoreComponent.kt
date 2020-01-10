@@ -1,5 +1,6 @@
 package com.ablanco.marvellab.core.di
 
+import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 
 /**
@@ -9,6 +10,8 @@ import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 interface CoreComponent {
 
     val charactersRepository: CharactersRepository
+
+    val authRepository: AuthRepository
 }
 
 interface CoreComponentOwner {

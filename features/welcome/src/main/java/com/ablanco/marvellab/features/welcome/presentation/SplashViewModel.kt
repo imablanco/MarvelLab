@@ -1,10 +1,10 @@
 package com.ablanco.marvellab.features.welcome.presentation
 
 import com.ablanco.marvellab.core.di.ActivityScope
-import com.ablanco.marvellab.core.domain.repository.CharactersRepository
+import com.ablanco.marvellab.core.domain.model.Success
+import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
-import com.ablanco.marvellab.core.presentation.ViewAction
 import com.ablanco.marvellab.core.presentation.ViewState
 import javax.inject.Inject
 
@@ -14,22 +14,23 @@ import javax.inject.Inject
  */
 @ActivityScope
 class SplashViewModelFactory @Inject constructor(
-    private val charactersRepository: CharactersRepository
+    private val authRepository: AuthRepository
 ) : BaseViewModelFactory<SplashViewModel>() {
 
-    override fun create(): SplashViewModel = SplashViewModel(charactersRepository)
+    override fun create(): SplashViewModel = SplashViewModel(authRepository)
 }
 
 object SplashViewState : ViewState
 
-object SplashViewActions : ViewAction
-
-class SplashViewModel(private val charactersRepository: CharactersRepository) :
-    LoaderViewModel<SplashViewState, SplashViewActions>() {
+class SplashViewModel(private val authRepository: AuthRepository) :
+    LoaderViewModel<SplashViewState, SplashViewAction>() {
 
     override val initialViewState: SplashViewState = SplashViewState
 
     override fun load() {
-
+        launch {
+            val isLogged = authRepository.isUserLogged() is Success
+            dispatchAction(IsUserLoggedAction(isLogged))
+        }
     }
 }
