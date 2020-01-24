@@ -19,8 +19,8 @@ abstract class BaseViewModel<V : ViewState, A : ViewAction> : ViewModel() {
     private val _viewState: MutableLiveData<V> by lazy { mutableLiveData(initialViewState) }
     private val _viewAction: LiveEvent<A> = LiveEvent()
 
-    val viewState: LiveData<V> = _viewState
-    val viewAction: LiveData<A> = _viewAction
+    val viewState: LiveData<V> by lazy { _viewState }
+    val viewAction: LiveData<A> by lazy { _viewAction }
 
     protected fun getState(): V = viewState.value ?: throw IllegalStateException()
 

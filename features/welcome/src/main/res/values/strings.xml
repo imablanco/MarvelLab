@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Welcome</string>
+    <string name="welcome_sign_up">Register</string>
+    <string name="welcome_login">Login</string>
+    <string name="welcome_title">Welcome to MarvelLab</string>
+    <string name="sign_up_register">Sign Up</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_password_hint">Password</string>
+    <string name="sign_up_invalid_email">Wrong email format</string>
+    <string name="sign_up_invalid_password">Password too short</string>
+    <string name="sign_up_process_error">There was a problem signing you up</string>
 </resources>

@@ -29,12 +29,12 @@ class AuthApiDataSource @Inject constructor() {
     suspend fun signUp(username: String, password: String): CompletableResource =
         suspendCancellableCoroutine { cont ->
             firebaseAuth.createUserWithEmailAndPassword(username, password)
-                .addOnSuccessListener { if (cont.isActive) cont.resume(completableResource()) }
+                .addOnSuccessListener { if (cont.isActive) cont.resume(completed()) }
                 .addOnFailureListener { if (cont.isActive) cont.resume(failOf(it)) }
         }
 
     fun logout(): CompletableResource {
         firebaseAuth.signOut()
-        return completableResource()
+        return completed()
     }
 }

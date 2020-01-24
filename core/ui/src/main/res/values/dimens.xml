@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="buttonIconSize">24dp</dimen>
+    <dimen name="buttonIconPadding">-24dp</dimen>
+    <dimen name="marginNormal">16dp</dimen>
+</resources>

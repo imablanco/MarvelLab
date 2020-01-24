@@ -29,9 +29,10 @@ dependencies {
     implementation project(':core:di')
     implementation project(':core:domain')
     implementation project(':core:data')
+    implementation project(':core:ui')
     implementation project(':features:welcome')
 
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$androidCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constaintLayoutVersion"

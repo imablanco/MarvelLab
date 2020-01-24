@@ -2,7 +2,7 @@ apply from: "$rootDir/common-android-library.gradle"
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-dependencies{
+dependencies {
 
     implementation project(":core:domain")
     implementation project(":core:presentation")
@@ -11,6 +11,7 @@ dependencies{
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$androidCoreVersion"
+    implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

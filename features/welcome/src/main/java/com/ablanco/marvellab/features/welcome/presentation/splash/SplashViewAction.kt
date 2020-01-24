@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.features.welcome.presentation
+package com.ablanco.marvellab.features.welcome.presentation.splash
 
 import com.ablanco.marvellab.core.presentation.ViewAction
 

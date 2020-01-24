@@ -22,6 +22,7 @@ buildscript {
         preferenceVersion = "1.1.0"
         firebaseAnalyticsVersion = "17.2.1"
         firebaseAuthVersion = "19.2.0"
+        materialVersion = "1.1.0-rc02"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

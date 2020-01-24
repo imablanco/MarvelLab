@@ -1,7 +1,6 @@
-package com.ablanco.marvellab.features.welcome.presentation
+package com.ablanco.marvellab.features.welcome.presentation.splash
 
 import com.ablanco.marvellab.core.di.ActivityScope
-import com.ablanco.marvellab.core.domain.model.Success
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
@@ -29,7 +28,7 @@ class SplashViewModel(private val authRepository: AuthRepository) :
 
     override fun load() {
         launch {
-            val isLogged = authRepository.isUserLogged() is Success
+            val isLogged = authRepository.isUserLogged().invoke() ?: false
             dispatchAction(IsUserLoggedAction(isLogged))
         }
     }

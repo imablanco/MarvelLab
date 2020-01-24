@@ -11,6 +11,9 @@ import com.ablanco.marvellab.core.di.CoreComponentOwner
  */
 class App : Application(), CoreComponentOwner {
 
+    private val _coreComponent: CoreComponent by lazy {
+        DaggerDataComponent.builder().context(this).build()
+    }
     override val coreComponent: CoreComponent
-        get() = DaggerDataComponent.builder().context(this).build()
+        get() = _coreComponent
 }

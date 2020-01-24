@@ -16,9 +16,9 @@ fun <T> mutableLiveData(initialValue: T): MutableLiveData<T> =
     MutableLiveData<T>().apply { value = initialValue }
 
 inline fun <reified T : ViewModel> FragmentActivity.viewModel(
-    factory: ViewModelProvider.Factory? = null
-) = lazy { ViewModelProviders.of(this, factory)[T::class.java] }
+    crossinline getFactory: () -> ViewModelProvider.Factory? = { null }
+) = lazy { ViewModelProviders.of(this, getFactory())[T::class.java] }
 
 inline fun <reified T : ViewModel> Fragment.viewModel(
-    factory: ViewModelProvider.Factory? = null
-) = lazy { ViewModelProviders.of(this, factory)[T::class.java] }
+    crossinline getFactory: () -> ViewModelProvider.Factory? = { null }
+) = lazy { ViewModelProviders.of(this, getFactory())[T::class.java] }

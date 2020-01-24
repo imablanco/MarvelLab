@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="Button" parent="Widget.MaterialComponents.Button">
+        <item name="iconPadding">@dimen/buttonIconPadding</item>
+        <item name="iconSize">@dimen/buttonIconSize</item>
+    </style>
+
+    <style name="Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">@dimen/buttonIconPadding</item>
+        <item name="iconSize">@dimen/buttonIconSize</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+    </style>
+
+</resources>

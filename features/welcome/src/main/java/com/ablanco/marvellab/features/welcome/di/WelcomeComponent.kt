@@ -2,8 +2,8 @@ package com.ablanco.marvellab.features.welcome.di
 
 import com.ablanco.marvellab.core.di.ActivityScope
 import com.ablanco.marvellab.core.di.CoreComponent
-import com.ablanco.marvellab.features.welcome.presentation.splash.SplashViewModelFactory
-import com.ablanco.marvellab.features.welcome.ui.splash.SplashActivity
+import com.ablanco.marvellab.features.welcome.presentation.welcome.WelcomeViewModelFactory
+import com.ablanco.marvellab.features.welcome.ui.welcome.WelcomeActivity
 import dagger.Component
 
 /**
@@ -12,9 +12,9 @@ import dagger.Component
  */
 @ActivityScope
 @Component(dependencies = [CoreComponent::class])
-interface SplashComponent {
+interface WelcomeComponent {
 
-    val splashViewModelFactory: SplashViewModelFactory
+    val welcomeViewModelFactory: WelcomeViewModelFactory
 
-    fun inject(splashActivity: SplashActivity)
+    fun inject(welcomeActivity: WelcomeActivity)
 }
