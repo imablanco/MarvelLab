@@ -24,6 +24,7 @@ dependencies {
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
     implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
-
+    implementation "com.google.firebase:firebase-config-ktx:$firebaseRemoteConfigVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
     debugImplementation "com.amitshekhar.android:debug-db:$roomDebuggerVersion"
 }

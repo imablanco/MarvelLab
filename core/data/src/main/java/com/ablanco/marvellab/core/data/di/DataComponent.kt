@@ -4,6 +4,8 @@ import android.content.Context
 import com.ablanco.marvellab.core.di.CoreComponent
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
+import com.ablanco.marvellab.core.domain.repository.ConfigRepository
+import com.ablanco.marvellab.core.domain.repository.UserRepository
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,6 +21,10 @@ interface DataComponent : CoreComponent {
     override val charactersRepository: CharactersRepository
 
     override val authRepository: AuthRepository
+
+    override val userRepository: UserRepository
+
+    override val configRepository: ConfigRepository
 
     @Component.Builder
     interface Builder {

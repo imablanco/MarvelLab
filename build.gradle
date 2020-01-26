@@ -20,9 +20,11 @@ buildscript {
         javaxInjectVersion = "1"
         androidFragmentVersion = "1.1.0"
         preferenceVersion = "1.1.0"
-        firebaseAnalyticsVersion = "17.2.1"
+        firebaseAnalyticsVersion = "17.2.2"
         firebaseAuthVersion = "19.2.0"
         materialVersion = "1.1.0-rc02"
+        firebaseRemoteConfigVersion = "19.1.0"
+        gsonVersion = "2.8.6"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'
