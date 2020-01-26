@@ -9,9 +9,11 @@ import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerWelcomeComponent
+import com.ablanco.marvellab.features.welcome.presentation.welcome.LoginAction
 import com.ablanco.marvellab.features.welcome.presentation.welcome.SignUpAction
 import com.ablanco.marvellab.features.welcome.presentation.welcome.WelcomeViewModel
 import com.ablanco.marvellab.features.welcome.presentation.welcome.WelcomeViewModelFactory
+import com.ablanco.marvellab.features.welcome.ui.login.LoginActivity
 import com.ablanco.marvellab.features.welcome.ui.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 import javax.inject.Inject
@@ -40,6 +42,7 @@ class WelcomeActivity : AppCompatActivity() {
         viewModel.viewAction.observe(this, Observer { action ->
             when (action) {
                 is SignUpAction -> SignUpActivity.start(this)
+                is LoginAction -> LoginActivity.start(this)
             }
         })
     }

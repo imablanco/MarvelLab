@@ -9,4 +9,10 @@
     <string name="sign_up_invalid_email">Wrong email format</string>
     <string name="sign_up_invalid_password">Password too short</string>
     <string name="sign_up_process_error">There was a problem signing you up</string>
+    <string name="login">Login</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_invalid_email">Wrong email format</string>
+    <string name="login_invalid_password">Password too short</string>
+    <string name="login_process_error">There was a problem login you in</string>
 </resources>

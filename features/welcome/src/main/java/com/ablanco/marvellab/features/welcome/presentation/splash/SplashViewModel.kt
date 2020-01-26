@@ -28,7 +28,7 @@ class SplashViewModel(private val authRepository: AuthRepository) :
 
     override fun load() {
         launch {
-            val isLogged = authRepository.isUserLogged().invoke() ?: false
+            val isLogged = authRepository.isUserLogged().getOrNull() ?: false
             dispatchAction(IsUserLoggedAction(isLogged))
         }
     }

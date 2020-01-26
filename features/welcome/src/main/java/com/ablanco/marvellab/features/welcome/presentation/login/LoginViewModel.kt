@@ -1,26 +1,23 @@
-package com.ablanco.marvellab.features.welcome.presentation.signup
+package com.ablanco.marvellab.features.welcome.presentation.login
 
 import com.ablanco.marvellab.core.di.ActivityScope
-import com.ablanco.marvellab.core.domain.model.Success
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
-import com.ablanco.marvellab.core.presentation.BaseViewModel
-import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
-import com.ablanco.marvellab.core.presentation.ViewState
+import com.ablanco.marvellab.core.presentation.*
 import javax.inject.Inject
 
 /**
- * Created by Álvaro Blanco Cabrero on 2020-01-23.
+ * Created by Álvaro Blanco Cabrero on 2020-01-26.
  * MarvelLab.
  */
 
 @ActivityScope
-class SignUpViewModelFactory @Inject constructor(private val authRepository: AuthRepository) :
-    BaseViewModelFactory<SingUpViewModel>() {
+class LoginViewModelFactory @Inject constructor(private val authRepository: AuthRepository) :
+    BaseViewModelFactory<LoginViewModel>() {
 
-    override fun create(): SingUpViewModel = SingUpViewModel(authRepository)
+    override fun create(): LoginViewModel = LoginViewModel(authRepository)
 }
 
-data class SignUpViewState(
+data class LoginViewState(
     val email: String? = null,
     val password: String? = null,
     val isEmailInvalid: Boolean = false,
@@ -29,15 +26,17 @@ data class SignUpViewState(
     val isLoading: Boolean = false
 ) : ViewState
 
-class SingUpViewModel(private val authRepository: AuthRepository) :
-    BaseViewModel<SignUpViewState, SignUpViewAction>() {
+class LoginViewModel(private val authRepository: AuthRepository) :
+    BaseViewModel<LoginViewState, LoginViewAction>() {
 
-    override val initialViewState: SignUpViewState = SignUpViewState()
+    override val initialViewState: LoginViewState = LoginViewState()
+
+    private val emailValidator = EmailValidator()
+    private val passwordValidator = MinLengthTextValidator(PASSWORD_MIN_LENGTH)
 
     fun onEmail(text: String) {
         setState {
-            //TODO email format
-            val isValid = text.isNotBlank()
+            val isValid = emailValidator.isValid(text)
             copy(
                 email = text,
                 isEmailInvalid = !isValid,
@@ -48,7 +47,7 @@ class SingUpViewModel(private val authRepository: AuthRepository) :
 
     fun onPassword(text: String) {
         setState {
-            val isValid = text.length >= PASSWORD_MIN_LENGTH
+            val isValid = passwordValidator.isValid(text)
             copy(
                 password = text,
                 isPasswordInvalid = !isValid,
@@ -57,14 +56,15 @@ class SingUpViewModel(private val authRepository: AuthRepository) :
         }
     }
 
-    fun signUp() {
+    fun login() {
         val username = getState().email ?: return
         val password = getState().password ?: return
 
         launch {
             setState { copy(isLoading = true) }
-            val signUpSuccessful = authRepository.signUp(username, password) is Success
-            dispatchAction(UserSignedUpAction(signUpSuccessful))
+            val loginSuccessful = authRepository.login(username, password).getOrNull() ?: false
+            dispatchAction(UserLoggedAction(loginSuccessful))
+            setState { copy(isLoading = false) }
         }
     }
 

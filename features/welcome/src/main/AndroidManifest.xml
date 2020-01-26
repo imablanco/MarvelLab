@@ -12,6 +12,7 @@
         </activity>
         <activity android:name=".ui.welcome.WelcomeActivity" />
         <activity android:name=".ui.signup.SignUpActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
     </application>
 
 </manifest>
