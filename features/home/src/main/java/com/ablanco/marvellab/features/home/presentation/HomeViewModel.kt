@@ -1,6 +1,8 @@
 package com.ablanco.marvellab.features.home.presentation
 
 import com.ablanco.marvellab.core.di.ActivityScope
+import com.ablanco.marvellab.core.domain.model.config.HomeSection
+import com.ablanco.marvellab.core.domain.repository.ConfigRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
 import com.ablanco.marvellab.core.presentation.ViewState
@@ -13,20 +15,30 @@ import javax.inject.Inject
 
 
 @ActivityScope
-class HomeViewModelFactory @Inject constructor() : BaseViewModelFactory<HomeViewModel>() {
+class HomeViewModelFactory @Inject constructor(private val configRepository: ConfigRepository) :
+    BaseViewModelFactory<HomeViewModel>() {
 
-    override fun create(): HomeViewModel = HomeViewModel()
+    override fun create(): HomeViewModel = HomeViewModel(configRepository)
 }
 
-object HomeViewState : ViewState
+data class HomeViewState(
+    val isLoading: Boolean = false,
+    val bottomItems: List<HomeSectionUi> = emptyList()
+) : ViewState
 
-class HomeViewModel : LoaderViewModel<HomeViewState, HomeViewAction>() {
+class HomeViewModel(
+    private val configRepository: ConfigRepository
+) : LoaderViewModel<HomeViewState, HomeViewAction>() {
 
-    override val initialViewState: HomeViewState =
-        HomeViewState
+    override val initialViewState: HomeViewState = HomeViewState()
 
     override fun load() {
-        //TBD
+        launch {
+            setState { copy(isLoading = true) }
+            val config = configRepository.getHomeConfig().getOrNull()
+            val sections = config?.sections?.sortedBy(HomeSection::type).orEmpty()
+            setState { copy(isLoading = true, bottomItems = sections.map(HomeSection::toUi)) }
+        }
     }
 
 }

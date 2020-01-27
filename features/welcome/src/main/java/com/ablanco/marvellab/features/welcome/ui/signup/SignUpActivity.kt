@@ -14,6 +14,8 @@ import com.ablanco.marvellab.features.welcome.di.DaggerSignUpComponent
 import com.ablanco.marvellab.features.welcome.presentation.signup.SignUpViewModelFactory
 import com.ablanco.marvellab.features.welcome.presentation.signup.SingUpViewModel
 import com.ablanco.marvellab.features.welcome.presentation.signup.UserSignedUpAction
+import com.ablanco.marvellab.shared.navigation.Home
+import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import javax.inject.Inject
@@ -52,7 +54,7 @@ class SignUpActivity : AppCompatActivity() {
             when (action) {
                 is UserSignedUpAction -> {
                     if (action.success) {
-                        //TODO go to home!
+                        featureNavigator?.getIntent(Home)?.let(::startActivity)
                     } else {
                         Snackbar.make(
                             rootLayout,

@@ -31,6 +31,8 @@ dependencies {
     implementation project(':core:data')
     implementation project(':core:ui')
     implementation project(':features:welcome')
+    implementation project(':features:home')
+    implementation project(':shared:navigation')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"

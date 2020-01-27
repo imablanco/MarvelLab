@@ -10,9 +10,9 @@ import com.google.gson.reflect.TypeToken
  * MarvelLab.
  */
 
-private val gson = GsonBuilder().create()
+val gson = GsonBuilder().create()
 
 fun <T : Any> T.toJson(): String = gson.toJson(this)
 
-fun <T : Any> String.fromJson(): Resource<T> =
+inline fun <reified T : Any> String.fromJson(): Resource<T> =
     runCatching { gson.fromJson<T>(this, object : TypeToken<T>() {}.type) }.toResource()

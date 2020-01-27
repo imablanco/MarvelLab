@@ -11,6 +11,8 @@ import com.ablanco.marvellab.features.welcome.presentation.splash.IsUserLoggedAc
 import com.ablanco.marvellab.features.welcome.presentation.splash.SplashViewModel
 import com.ablanco.marvellab.features.welcome.presentation.splash.SplashViewModelFactory
 import com.ablanco.marvellab.features.welcome.ui.welcome.WelcomeActivity
+import com.ablanco.marvellab.shared.navigation.Home
+import com.ablanco.marvellab.shared.navigation.featureNavigator
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity() {
@@ -34,6 +36,7 @@ class SplashActivity : AppCompatActivity() {
             when (action) {
                 is IsUserLoggedAction -> {
                     if (action.isLogged) {
+                        featureNavigator?.getIntent(Home)?.let(::startActivity)
                     } else {
                         WelcomeActivity.start(this)
                     }

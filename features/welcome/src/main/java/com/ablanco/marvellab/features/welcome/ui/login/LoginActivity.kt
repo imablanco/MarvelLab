@@ -14,6 +14,8 @@ import com.ablanco.marvellab.features.welcome.di.DaggerLoginComponent
 import com.ablanco.marvellab.features.welcome.presentation.login.LoginViewModel
 import com.ablanco.marvellab.features.welcome.presentation.login.LoginViewModelFactory
 import com.ablanco.marvellab.features.welcome.presentation.login.UserLoggedAction
+import com.ablanco.marvellab.shared.navigation.Home
+import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -52,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             when (action) {
                 is UserLoggedAction -> {
                     if (action.success) {
-                        //TODO go to home!
+                        featureNavigator?.getIntent(Home)?.let(::startActivity)
                     } else {
                         Snackbar.make(
                             rootLayout,

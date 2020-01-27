@@ -30,4 +30,4 @@ fun HomeSectionTypeData.toDomain() = when (this) {
 
 fun HomeSectionData.toDomain() = HomeSection(name, icon, type?.toDomain(), order)
 
-fun HomeConfigData.toDomain() = HomeConfig(sections?.map { it.toDomain() })
+fun HomeConfigData.toDomain() = HomeConfig(sections?.map(HomeSectionData::toDomain))

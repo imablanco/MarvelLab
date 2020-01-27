@@ -22,7 +22,9 @@ class ConfigApiDataSource @Inject constructor() {
 
     suspend fun getHomeConfig(): Resource<HomeConfig> =
         suspendCancellableCoroutine { cont ->
-            remoteConfig.fetchAndActivate()
+            //TODO change fetch interval in release
+            remoteConfig.fetch(1)
+                .continueWithTask<Boolean> { remoteConfig.activate() }
                 .addOnSuccessListener {
                     val result = remoteConfig.getString(HOME)
                         .fromJson<HomeConfigData>()
