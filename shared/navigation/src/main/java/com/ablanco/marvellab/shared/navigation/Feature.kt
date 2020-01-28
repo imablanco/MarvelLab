@@ -9,3 +9,4 @@ sealed class Feature
 
 object Welcome : Feature()
 object Home : Feature()
+object Profile : Feature()
