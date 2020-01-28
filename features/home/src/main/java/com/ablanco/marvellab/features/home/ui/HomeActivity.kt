@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.presentation.viewModel
+import com.ablanco.marvellab.core.ui.extensions.clearBackStack
+import com.ablanco.marvellab.core.ui.extensions.isAtRoot
 import com.ablanco.marvellab.core.ui.extensions.replace
 import com.ablanco.marvellab.features.home.R
 import com.ablanco.marvellab.features.home.di.DaggerHomeComponent
@@ -43,6 +45,7 @@ class HomeActivity : AppCompatActivity() {
 
                 featureNavigator?.run {
                     getFragment(sectionFeature)?.let {
+                        clearBackStack()
                         replace(R.id.container, it)
                         true
                     } ?: getIntent(sectionFeature)?.let {
@@ -56,5 +59,13 @@ class HomeActivity : AppCompatActivity() {
         })
 
         viewModel.load()
+    }
+
+    override fun onBackPressed() {
+        if (isAtRoot) {
+            finish()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

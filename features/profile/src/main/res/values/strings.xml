@@ -1,4 +1,8 @@
 <resources>
     <string name="profile_title">Profile</string>
     <string name="profile_save">Save profile</string>
+    <string name="profile_edit_photo">Edit photo</string>
+    <string name="profile_name_hint">Username</string>
+    <string name="profile_email_hint">Email</string>
+    <string name="profile_error_name">Name can not be empty</string>
 </resources>

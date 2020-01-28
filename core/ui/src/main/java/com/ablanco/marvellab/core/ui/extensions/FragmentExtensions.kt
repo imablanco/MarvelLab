@@ -10,4 +10,16 @@ import androidx.fragment.app.FragmentActivity
  */
 
 fun FragmentActivity.replace(@IdRes container: Int, fragment: Fragment) =
-    supportFragmentManager.beginTransaction().replace(container, fragment).commitNow()
+    supportFragmentManager
+        .beginTransaction()
+        .replace(container, fragment)
+        .addToBackStack(null)
+        .commit()
+
+
+fun FragmentActivity.clearBackStack() {
+    repeat(supportFragmentManager.backStackEntryCount) { supportFragmentManager.popBackStack() }
+}
+
+val FragmentActivity.isAtRoot: Boolean
+    get() = supportFragmentManager.backStackEntryCount == 1

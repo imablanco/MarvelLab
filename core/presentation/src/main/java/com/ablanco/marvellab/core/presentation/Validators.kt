@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.ablanco.marvellab.core.presentation
 
 import java.util.regex.Pattern
@@ -24,4 +26,6 @@ fun <T> Validator(validator: (T) -> Boolean): Validator<T> = object : Validator<
 }
 
 fun EmailValidator(): Validator<String> = Validator { Patterns.emailPattern.matcher(it).matches() }
-fun MinLengthTextValidator(length: Int): Validator<String> = Validator { it.length >= length }
+fun MinLengthTextValidator(length: Int): Validator<String> =
+    Validator { it.trim().length >= length }
+fun NonEmptyTextValidator(): Validator<String> = MinLengthTextValidator(1)
