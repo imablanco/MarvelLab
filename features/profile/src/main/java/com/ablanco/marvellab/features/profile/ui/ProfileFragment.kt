@@ -14,6 +14,7 @@ import com.ablanco.marvellab.features.profile.R
 import com.ablanco.marvellab.features.profile.di.DaggerProfileComponent
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModel
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModelFactory
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_profile.*
 import javax.inject.Inject
@@ -68,6 +69,11 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
             tilName.error = getString(R.string.profile_error_name).takeIf { !state.isNameValid }
             btSave.isEnabled = state.canSave
             toolbar.menu.findItem(R.id.action_change_photo)?.isEnabled = state.canEditPhoto
+            Glide.with(this)
+                .load(state.userPictureUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .into(ivProfile)
         })
 
         if (savedInstanceState == null) {
