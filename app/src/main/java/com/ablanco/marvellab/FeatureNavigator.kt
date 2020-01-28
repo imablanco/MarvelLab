@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.ablanco.marvellab.characters.ui.CharactersListFragment
 import com.ablanco.marvellab.features.home.ui.HomeActivity
 import com.ablanco.marvellab.features.profile.ui.ProfileFragment
 import com.ablanco.marvellab.features.welcome.ui.splash.SplashActivity
@@ -26,6 +27,10 @@ class FeatureNavigatorImpl(private val context: Context) : FeatureNavigator {
     override fun getFragment(feature: Feature): Fragment? =
         when (feature) {
             is Profile -> ProfileFragment()
+            is Characters -> {
+                //TODO manage detail
+                feature.characterId?.let { CharactersListFragment() } ?: CharactersListFragment()
+            }
             else -> null
         }
 }

@@ -7,5 +7,6 @@ include ':app',
         ':features:welcome',
         ':features:home',
         ':shared:navigation',
-        ':features:profile'
+        ':features:profile',
+        ':features:characters'
 rootProject.name = 'MarvelLab'

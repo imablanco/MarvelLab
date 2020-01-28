@@ -10,3 +10,4 @@ sealed class Feature
 object Welcome : Feature()
 object Home : Feature()
 object Profile : Feature()
+class Characters(val characterId: String? = null) : Feature()
