@@ -25,6 +25,7 @@ buildscript {
         materialVersion = "1.1.0-rc02"
         firebaseRemoteConfigVersion = "19.1.0"
         gsonVersion = "2.8.6"
+        glideVersion = "4.11.0"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

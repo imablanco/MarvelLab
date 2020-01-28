@@ -13,6 +13,7 @@ import com.ablanco.marvellab.features.home.di.DaggerHomeComponent
 import com.ablanco.marvellab.features.home.presentation.HomeViewModel
 import com.ablanco.marvellab.features.home.presentation.HomeViewModelFactory
 import com.ablanco.marvellab.shared.navigation.featureNavigator
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
@@ -36,7 +37,11 @@ class HomeActivity : AppCompatActivity() {
         viewModel.viewState.observe(this, Observer { state ->
             bottomNavigationView.menu.clear()
             state.bottomItems.forEachIndexed { index, section ->
-                bottomNavigationView.menu.add(0, index, index, section.name)
+                bottomNavigationView.menu.add(0, index, index, section.name).apply {
+                    section.icon?.let { iconUrl ->
+                        Glide.with(this@HomeActivity).load(iconUrl).into(MenuIconTarget(this))
+                    }
+                }
             }
 
             bottomNavigationView.setOnNavigationItemSelectedListener { menu ->
