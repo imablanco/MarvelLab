@@ -14,7 +14,18 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
  * Created by Álvaro Blanco Cabrero on 2020-01-28.
  * MarvelLab.
  */
-abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId)
+abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
+
+    private var isRestored = false
+
+    final override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        onViewReady(savedInstanceState, isRestored)
+        isRestored = true
+    }
+
+    abstract fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean)
+}
 
 abstract class BaseToolbarFragment(contentLayoutId: Int) : BaseFragment(contentLayoutId),
     ToolbarConfigOwner, ToolbarOwner<Toolbar> {

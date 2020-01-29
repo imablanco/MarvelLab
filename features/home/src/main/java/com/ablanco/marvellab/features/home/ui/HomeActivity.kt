@@ -1,10 +1,10 @@
 package com.ablanco.marvellab.features.home.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.core.ui.extensions.clearBackStack
 import com.ablanco.marvellab.core.ui.extensions.isAtRoot
 import com.ablanco.marvellab.core.ui.extensions.replace
@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: HomeViewModelFactory
 
-    private val viewModel: HomeViewModel by viewModel { viewModelFactory }
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

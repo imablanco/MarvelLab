@@ -3,11 +3,11 @@ package com.ablanco.marvellab.features.welcome.ui.signup
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerSignUpComponent
@@ -25,7 +25,7 @@ class SignUpActivity : AppCompatActivity() {
     @Inject
     lateinit var signUpViewModelFactory: SignUpViewModelFactory
 
-    private val viewModel: SingUpViewModel by viewModel { signUpViewModelFactory }
+    private val viewModel: SingUpViewModel by viewModels { signUpViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

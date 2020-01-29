@@ -17,8 +17,10 @@ class CharactersDbDataSource @Inject constructor(
     private val characterComicCrossRefDao: CharacterComicCrossRefDao
 ) {
 
-    fun searchCharacters(search: String? = null): Flow<List<Character>> =
-        charactersDao.searchCharacters(search).map { list -> list.map { it.toDomain() } }
+    fun searchCharacters(search: String? = null): Flow<List<Character>> {
+        val daoCall = search?.let(charactersDao::searchCharacters) ?: charactersDao.getCharacters()
+        return daoCall.map { list -> list.map { it.toDomain() } }
+    }
 
     fun getComicCharacters(comicId: String): Flow<List<Character>> =
         charactersDao.getComicCharacters(comicId).map { entity ->

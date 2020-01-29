@@ -1,10 +1,10 @@
 package com.ablanco.marvellab.features.welcome.ui.splash
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerSplashComponent
 import com.ablanco.marvellab.features.welcome.presentation.splash.IsUserLoggedAction
@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var splashViewModelFactory: SplashViewModelFactory
 
-    private val viewModel: SplashViewModel by viewModel { splashViewModelFactory }
+    private val viewModel: SplashViewModel by viewModels { splashViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

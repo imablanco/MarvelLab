@@ -12,5 +12,5 @@ data class CharacterEntity(
     @PrimaryKey val characterId: String,
     val name: String?,
     val description: String?,
-    val imageUrl: String
+    val imageUrl: String?
 )

@@ -29,6 +29,7 @@ buildscript {
         firebaseStorageVersion = "19.1.0"
         imageproviderVersion = "0.1.0"
         dexterVersion = "6.0.2"
+        fragmentKtxVersion = "1.2.0"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

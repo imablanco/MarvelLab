@@ -3,4 +3,6 @@
 
     <!--Base colors-->
     <color name="colorWhite">#FFF</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorBlack0">#00000000</color>
 </resources>

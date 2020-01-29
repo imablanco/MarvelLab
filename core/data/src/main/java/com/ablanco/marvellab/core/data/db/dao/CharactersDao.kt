@@ -12,8 +12,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CharactersDao {
 
-    @Query("""select * from characters where name like :search""")
+    @Query("""select * from characters where name like '%'||:search||'%'""")
     fun searchCharacters(search: String? = null): Flow<List<CharacterEntity>>
+
+    @Query("""select * from characters""")
+    fun getCharacters(): Flow<List<CharacterEntity>>
 
     @Transaction
     @Query("""select * from comics where comics.comicId = :comicId""")

@@ -3,11 +3,11 @@ package com.ablanco.marvellab.features.welcome.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerLoginComponent
@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
 
-    private val viewModel: LoginViewModel by viewModel { loginViewModelFactory }
+    private val viewModel: LoginViewModel by viewModels { loginViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

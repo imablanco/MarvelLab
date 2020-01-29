@@ -21,7 +21,11 @@ class CharactersRepositoryImpl @Inject constructor(
     override fun searchCharacters(search: String?): Flow<List<Character>> = flow {
         dbDataSource.searchCharacters(search).collect { dbCharacters ->
             if (dbCharacters.isEmpty()) {
-                apiDataSource.searchCharacters(search).also { dbDataSource.saveCharacters(it) }
+                apiDataSource.searchCharacters(search).also { apiCharacters ->
+                    if (apiCharacters.isNotEmpty()) {
+                        dbDataSource.saveCharacters(apiCharacters)
+                    }
+                }
             } else {
                 emit(dbCharacters)
             }
@@ -31,9 +35,11 @@ class CharactersRepositoryImpl @Inject constructor(
     override fun getComicCharacters(comicId: String): Flow<List<Character>> = flow {
         dbDataSource.getComicCharacters(comicId).collect { dbCharacters ->
             if (dbCharacters.isEmpty()) {
-                apiDataSource.getComicCharacters(comicId).also {
-                    dbDataSource.saveCharacters(it)
-                    dbDataSource.saveComicCharacters(comicId, it)
+                apiDataSource.getComicCharacters(comicId).also { apiCharacters ->
+                    if (apiCharacters.isNotEmpty()) {
+                        dbDataSource.saveCharacters(apiCharacters)
+                        dbDataSource.saveComicCharacters(comicId, apiCharacters)
+                    }
                 }
             } else {
                 emit(dbCharacters)

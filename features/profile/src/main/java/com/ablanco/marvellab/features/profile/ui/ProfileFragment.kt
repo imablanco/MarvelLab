@@ -4,13 +4,13 @@ import android.Manifest
 import android.os.Bundle
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.ablanco.imageprovider.ImageProvider
 import com.ablanco.imageprovider.ImageSource
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.domain.extensions.withIO
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.bytes
 import com.ablanco.marvellab.core.ui.extensions.scale
@@ -38,7 +38,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
     @Inject
     lateinit var profileViewModelFactory: ProfileViewModelFactory
 
-    private val viewModel: ProfileViewModel by viewModel { profileViewModelFactory }
+    private val viewModel: ProfileViewModel by viewModels { profileViewModelFactory }
 
     override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(
@@ -55,8 +55,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
 
     override val toolbarView: CollapsingToolbarLayout by lazy { collapsingToolbarLayout }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
         DaggerProfileComponent
             .builder()
@@ -91,7 +90,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
             }
         })
 
-        if (savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }

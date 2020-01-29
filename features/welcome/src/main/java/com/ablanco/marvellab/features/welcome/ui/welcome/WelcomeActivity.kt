@@ -3,10 +3,10 @@ package com.ablanco.marvellab.features.welcome.ui.welcome
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerWelcomeComponent
 import com.ablanco.marvellab.features.welcome.presentation.welcome.LoginAction
@@ -23,7 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
     @Inject
     lateinit var welcomeViewModelFactory: WelcomeViewModelFactory
 
-    private val viewModel: WelcomeViewModel by viewModel { welcomeViewModelFactory }
+    private val viewModel: WelcomeViewModel by viewModels { welcomeViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
