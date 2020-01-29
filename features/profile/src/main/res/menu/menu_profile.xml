@@ -6,5 +6,6 @@
         android:id="@+id/action_change_photo"
         android:icon="@drawable/ic_mode_edit_black_24dp"
         android:title="@string/profile_edit_photo"
+        app:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom" />
 </menu>

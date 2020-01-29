@@ -15,4 +15,7 @@ interface UserRepository {
     fun getUser(): Flow<Resource<User>>
 
     suspend fun updateUser(userUpdate: UserUpdate): CompletableResource
+
+    suspend fun uploadUserProfilePicture(byteArray: ByteArray): CompletableResource
+
 }

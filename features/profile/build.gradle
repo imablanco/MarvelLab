@@ -3,4 +3,7 @@ apply from: "$rootDir/common-feature.gradle"
 dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout:$constaintLayoutVersion"
+    implementation "com.ablanco.imageprovider:imageprovider:$imageproviderVersion"
+    implementation "com.karumi:dexter:$dexterVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 }

@@ -16,7 +16,7 @@ buildscript {
         roomVersion = '2.2.3'
         roomDebuggerVersion = '1.0.6'
         daggerVersion = '2.11'
-        lifecycleVersion = "2.1.0"
+        lifecycleVersion = "2.2.0"
         javaxInjectVersion = "1"
         androidFragmentVersion = "1.1.0"
         preferenceVersion = "1.1.0"
@@ -26,6 +26,9 @@ buildscript {
         firebaseRemoteConfigVersion = "19.1.0"
         gsonVersion = "2.8.6"
         glideVersion = "4.11.0"
+        firebaseStorageVersion = "19.1.0"
+        imageproviderVersion = "0.1.0"
+        dexterVersion = "6.0.2"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

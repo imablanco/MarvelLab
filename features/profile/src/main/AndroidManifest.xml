@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ablanco.marvellab.features.profile" />
+    package="com.ablanco.marvellab.features.profile">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+</manifest>

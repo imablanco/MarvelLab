@@ -9,3 +9,4 @@ import com.ablanco.marvellab.core.presentation.ViewAction
 sealed class ProfileViewAction : ViewAction
 
 object ErrorSavingAction : ProfileViewAction()
+object PickPhotoAction : ProfileViewAction()

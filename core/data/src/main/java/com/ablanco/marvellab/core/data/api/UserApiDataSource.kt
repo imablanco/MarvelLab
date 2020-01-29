@@ -1,11 +1,12 @@
 package com.ablanco.marvellab.core.data.api
 
-import android.net.Uri
 import com.ablanco.marvellab.core.domain.model.*
 import com.ablanco.marvellab.core.domain.model.user.User
 import com.ablanco.marvellab.core.domain.model.user.UserUpdate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -25,8 +26,12 @@ class UserApiDataSource @Inject constructor() {
         FirebaseAuth.getInstance()
     }
 
+    private val firebaseStorage: FirebaseStorage by lazy {
+        FirebaseStorage.getInstance()
+    }
+
     @ExperimentalCoroutinesApi
-    private val currentUserChannel: ConflatedBroadcastChannel<Resource<User>> =
+    private val userChannel: ConflatedBroadcastChannel<Resource<User>> =
         ConflatedBroadcastChannel<Resource<User>>().apply {
             val user = firebaseAuth.currentUser?.let { successOf(it.toDomain()) }
                 ?: failOf(UserNotPresentException)
@@ -35,28 +40,50 @@ class UserApiDataSource @Inject constructor() {
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    fun getUser(): Flow<Resource<User>> = currentUserChannel.asFlow()
+    fun getUser(): Flow<Resource<User>> = userChannel.asFlow()
 
     @ExperimentalCoroutinesApi
     suspend fun updateUser(userUpdate: UserUpdate): CompletableResource =
         suspendCancellableCoroutine { cont ->
-
             val request = UserProfileChangeRequest.Builder()
                 .setDisplayName(userUpdate.name)
-                .setPhotoUri(userUpdate.profileUrl?.let { Uri.parse(it) })
                 .build()
-            firebaseAuth.currentUser?.updateProfile(request)
-                ?.addOnSuccessListener {
-                    firebaseAuth.currentUser?.let {
-                        currentUserChannel.offer(successOf(it.toDomain()))
-                    }
-                    cont.resume(completed())
-                }
-                ?.addOnFailureListener { cont.resume(failed(it)) }
-                ?: run { cont.resume(failed(UserNotPresentException)) }
+            updateUser(request, cont)
         }
+
+    @ExperimentalCoroutinesApi
+    suspend fun uploadUserProfilePicture(byteArray: ByteArray): CompletableResource {
+        val userId = firebaseAuth.currentUser?.uid ?: return failed(UserNotPresentException)
+        val reference = firebaseStorage.reference.child("$USERS_BUCKET_PATH/$userId.png")
+        return suspendCancellableCoroutine { cont ->
+            reference.putBytes(byteArray).continueWithTask { reference.downloadUrl }
+                .addOnSuccessListener { url ->
+                    val request = UserProfileChangeRequest.Builder()
+                        .setPhotoUri(url)
+                        .build()
+                    updateUser(request, cont)
+                }
+                .addOnFailureListener { cont.resume(failed(it)) }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun updateUser(
+        request: UserProfileChangeRequest,
+        cont: CancellableContinuation<CompletableResource>
+    ) {
+        firebaseAuth.currentUser?.updateProfile(request)
+            ?.addOnSuccessListener {
+                firebaseAuth.currentUser?.let { userChannel.offer(successOf(it.toDomain())) }
+                cont.resume(completed())
+            }
+            ?.addOnFailureListener { cont.resume(failed(it)) }
+            ?: run { cont.resume(failed(UserNotPresentException)) }
+    }
 
     companion object {
         val UserNotPresentException = IllegalStateException()
+
+        private const val USERS_BUCKET_PATH = "users/profile"
     }
 }

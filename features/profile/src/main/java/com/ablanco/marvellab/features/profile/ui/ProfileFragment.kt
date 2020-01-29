@@ -1,22 +1,32 @@
 package com.ablanco.marvellab.features.profile.ui
 
+import android.Manifest
 import android.os.Bundle
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.ablanco.imageprovider.ImageProvider
+import com.ablanco.imageprovider.ImageSource
 import com.ablanco.marvellab.core.di.coreComponent
+import com.ablanco.marvellab.core.domain.extensions.withIO
 import com.ablanco.marvellab.core.presentation.viewModel
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
+import com.ablanco.marvellab.core.ui.extensions.bytes
+import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
 import com.ablanco.marvellab.features.profile.R
 import com.ablanco.marvellab.features.profile.di.DaggerProfileComponent
+import com.ablanco.marvellab.features.profile.presentation.PickPhotoAction
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModel
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModelFactory
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.karumi.dexter.Dexter
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -36,8 +46,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
             menu = R.menu.menu_profile,
             onMenuClickListener = {
                 when (it.itemId) {
-                    R.id.action_change_photo -> {
-                    }
+                    R.id.action_change_photo -> viewModel.updatePhotoClicked()
                 }
                 true
             }
@@ -76,9 +85,33 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
                 .into(ivProfile)
         })
 
+        viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                is PickPhotoAction -> pickPhoto()
+            }
+        })
+
         if (savedInstanceState == null) {
             viewModel.load()
         }
     }
 
+    private fun pickPhoto() {
+        Dexter.withActivity(requireActivity())
+            .withPermission(Manifest.permission.CAMERA)
+            .withListener(PermissionListener {
+                ImageProvider(requireActivity()).getImage(ImageSource.CAMERA) { bitmap ->
+                    bitmap?.let {
+                        lifecycleScope.launch {
+                            val data = withIO { bitmap.scale(IMAGE_MAX_SIZE_PX).bytes() }
+                            viewModel.updateUserPhoto(data)
+                        }
+                    }
+                }
+            }).check()
+    }
+
+    companion object {
+        private const val IMAGE_MAX_SIZE_PX = 512
+    }
 }

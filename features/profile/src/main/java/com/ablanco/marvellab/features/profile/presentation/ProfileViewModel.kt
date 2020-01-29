@@ -66,10 +66,20 @@ class ProfileViewModel(private val userRepository: UserRepository) :
 
     fun save() {
         val name = getState().name ?: return
-        val photoUrl = getState().userPictureUrl
         launch {
             setState { copy(isLoading = true, canSave = false, canEditPhoto = false) }
-            val isSuccess = userRepository.updateUser(UserUpdate(name, photoUrl)) is Success
+            val isSuccess = userRepository.updateUser(UserUpdate(name)) is Success
+            if (!isSuccess) dispatchAction(ErrorSavingAction)
+            setState { copy(isLoading = false, canSave = true, canEditPhoto = true) }
+        }
+    }
+
+    fun updatePhotoClicked() = dispatchAction(PickPhotoAction)
+
+    fun updateUserPhoto(byteArray: ByteArray) {
+        launch {
+            setState { copy(isLoading = true, canSave = false, canEditPhoto = false) }
+            val isSuccess = userRepository.uploadUserProfilePicture(byteArray) is Success
             if (!isSuccess) dispatchAction(ErrorSavingAction)
             setState { copy(isLoading = false, canSave = true, canEditPhoto = true) }
         }

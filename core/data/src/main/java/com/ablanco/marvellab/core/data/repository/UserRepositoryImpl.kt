@@ -25,4 +25,8 @@ class UserRepositoryImpl @Inject constructor(private val userApiDataSource: User
     @ExperimentalCoroutinesApi
     override suspend fun updateUser(userUpdate: UserUpdate): CompletableResource =
         userApiDataSource.updateUser(userUpdate)
+
+    @ExperimentalCoroutinesApi
+    override suspend fun uploadUserProfilePicture(byteArray: ByteArray): CompletableResource =
+        userApiDataSource.uploadUserProfilePicture(byteArray)
 }
