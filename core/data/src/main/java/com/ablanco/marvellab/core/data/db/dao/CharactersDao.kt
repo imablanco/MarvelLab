@@ -18,10 +18,16 @@ interface CharactersDao {
     @Query("""select * from characters""")
     fun getCharacters(): Flow<List<CharacterEntity>>
 
+    @Query("""select * from characters where characterId = :characterId """)
+    suspend fun getCharacter(characterId: String): CharacterEntity?
+
     @Transaction
     @Query("""select * from comics where comics.comicId = :comicId""")
     fun getComicCharacters(comicId: String): Flow<ComicWithCharacters>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(characters: List<CharacterEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(character: CharacterEntity)
 }

@@ -11,12 +11,12 @@ sealed class Resource<A> {
 
     fun getOrNull(): A? = (this as Success<A>?)?.value
 
-    fun <B> map(mapper: (A) -> B): Resource<B> = when (this) {
+    inline fun <B> map(mapper: (A) -> B): Resource<B> = when (this) {
         is Success -> successOf(mapper(value))
         is Fail -> failOf(error)
     }
 
-    fun <C> fold(success: (A) -> C, fail: (Throwable) -> C) =
+    inline fun <C> fold(success: (A) -> C, fail: (Throwable) -> C) =
         when (this) {
             is Success -> success(value)
             is Fail -> fail(error)

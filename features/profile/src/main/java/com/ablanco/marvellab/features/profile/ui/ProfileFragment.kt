@@ -53,7 +53,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
         )
     }
 
-    override val toolbarView: CollapsingToolbarLayout by lazy { collapsingToolbarLayout }
+    override val getToolbarView: () -> CollapsingToolbarLayout = { collapsingToolbarLayout }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.characters.presentation
+package com.ablanco.marvellab.characters.presentation.list
 
 import com.ablanco.marvellab.core.presentation.ViewAction
 

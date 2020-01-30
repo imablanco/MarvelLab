@@ -1,6 +1,7 @@
 package com.ablanco.marvellab.core.domain.repository
 
 import com.ablanco.marvellab.core.domain.model.Character
+import com.ablanco.marvellab.core.domain.model.Resource
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -9,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CharactersRepository {
 
-    fun searchCharacters(search: String? = null, offset: Int = 0): Flow<List<Character>>
+    fun searchCharacters(search: String? = null, offset: Int = 0): Flow<Resource<List<Character>>>
 
-    fun getComicCharacters(comicId: String, offset: Int = 0): Flow<List<Character>>
+    suspend fun getCharacter(characterId: String): Flow<Resource<Character>>
+
+    fun getComicCharacters(comicId: String, offset: Int = 0): Flow<Resource<List<Character>>>
 }

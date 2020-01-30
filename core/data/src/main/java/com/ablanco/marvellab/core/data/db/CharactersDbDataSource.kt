@@ -5,6 +5,7 @@ import com.ablanco.marvellab.core.data.db.dao.CharactersDao
 import com.ablanco.marvellab.core.data.db.model.CharacterComicCrossRef
 import com.ablanco.marvellab.core.domain.model.Character
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -22,6 +23,10 @@ class CharactersDbDataSource @Inject constructor(
         return daoCall.map { list -> list.map { it.toDomain() } }
     }
 
+    fun getCharacter(characterId: String): Flow<Character?> = flow {
+        emit(charactersDao.getCharacter(characterId)?.toDomain())
+    }
+
     fun getComicCharacters(comicId: String): Flow<List<Character>> =
         charactersDao.getComicCharacters(comicId).map { entity ->
             entity.characters.map { it.toDomain() }
@@ -29,6 +34,8 @@ class CharactersDbDataSource @Inject constructor(
 
     suspend fun saveCharacters(characters: List<Character>) =
         charactersDao.insertAll(characters.map { it.toEntity() })
+
+    suspend fun saveCharacter(character: Character) = charactersDao.insert(character.toEntity())
 
     suspend fun saveComicCharacters(comicId: String, characters: List<Character>) =
         characterComicCrossRefDao.insertCrossRefs(

@@ -32,7 +32,7 @@ abstract class BaseToolbarFragment(contentLayoutId: Int) : BaseFragment(contentL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SimpleToolbarPlugin(requireActivity()).run { toolbarView.applyConfig(toolbarConfig) }
+        SimpleToolbarPlugin(requireActivity()).run { getToolbarView().applyConfig(toolbarConfig) }
     }
 }
 
@@ -41,7 +41,7 @@ abstract class BaseCollapsingToolbarFragment(contentLayoutId: Int) : BaseFragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CollapsingToolbarPlugin(requireActivity()).run { toolbarView.applyConfig(toolbarConfig) }
+        CollapsingToolbarPlugin(requireActivity()).run { getToolbarView().applyConfig(toolbarConfig) }
     }
 }
 

@@ -3,6 +3,9 @@ package com.ablanco.marvellab.core.data.repository
 import com.ablanco.marvellab.core.data.api.CharactersApiDataSource
 import com.ablanco.marvellab.core.data.db.CharactersDbDataSource
 import com.ablanco.marvellab.core.domain.model.Character
+import com.ablanco.marvellab.core.domain.model.Resource
+import com.ablanco.marvellab.core.domain.model.failOf
+import com.ablanco.marvellab.core.domain.model.successOf
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -18,36 +21,55 @@ class CharactersRepositoryImpl @Inject constructor(
     private val dbDataSource: CharactersDbDataSource
 ) : CharactersRepository {
 
-    override fun searchCharacters(search: String?, offset: Int): Flow<List<Character>> = flow {
-        dbDataSource.searchCharacters(search).collect { dbCharacters ->
-            if (dbCharacters.isEmpty()) {
-                apiDataSource.searchCharacters(search, offset).also { apiCharacters ->
-                    if (apiCharacters.isNotEmpty()) {
-                        dbDataSource.saveCharacters(apiCharacters)
-                    } else {
-                        emit(emptyList())
+    override fun searchCharacters(search: String?, offset: Int): Flow<Resource<List<Character>>> =
+        flow {
+            dbDataSource.searchCharacters(search).collect { dbResource ->
+                if (dbResource.isEmpty()) {
+                    apiDataSource.searchCharacters(search, offset).also { apiResource ->
+                        apiResource.getOrNull()?.let { characters ->
+                            if (characters.isNotEmpty()) {
+                                dbDataSource.saveCharacters(characters)
+                            } else {
+                                emit(successOf(emptyList()))
+                            }
+                        } ?: emit(apiResource)
                     }
+                } else {
+                    emit(successOf(dbResource))
                 }
+            }
+        }
+
+    override suspend fun getCharacter(characterId: String): Flow<Resource<Character>> = flow {
+        dbDataSource.getCharacter(characterId).collect { character ->
+            if (character == null) {
+                apiDataSource.getCharacter(characterId).fold(
+                    { dbDataSource.saveCharacter(it) },
+                    { emit(failOf(it)) }
+                )
             } else {
-                emit(dbCharacters)
+                emit(successOf(character))
             }
         }
     }
 
-    override fun getComicCharacters(comicId: String, offset: Int): Flow<List<Character>> = flow {
-        dbDataSource.getComicCharacters(comicId).collect { dbCharacters ->
-            if (dbCharacters.isEmpty()) {
-                apiDataSource.getComicCharacters(comicId).also { apiCharacters ->
-                    if (apiCharacters.isNotEmpty()) {
-                        dbDataSource.saveCharacters(apiCharacters)
-                        dbDataSource.saveComicCharacters(comicId, apiCharacters)
-                    } else {
-                        emit(emptyList())
+    override fun getComicCharacters(comicId: String, offset: Int): Flow<Resource<List<Character>>> =
+        flow {
+            dbDataSource.getComicCharacters(comicId).collect { dbCharacters ->
+                if (dbCharacters.isEmpty()) {
+                    apiDataSource.getComicCharacters(comicId).also { apiResource ->
+                        apiResource.getOrNull()?.let { characters ->
+                            if (characters.isNotEmpty()) {
+                                dbDataSource.saveCharacters(characters)
+                                dbDataSource.saveComicCharacters(comicId, characters)
+                            } else {
+                                emit(successOf(emptyList()))
+                            }
+                        } ?: emit(apiResource)
                     }
+                } else {
+                    emit(successOf(dbCharacters))
                 }
-            } else {
-                emit(dbCharacters)
             }
         }
-    }
 }

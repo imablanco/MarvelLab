@@ -16,7 +16,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 
 interface ToolbarOwner<T : View> {
 
-    val toolbarView: T
+    val getToolbarView: () -> T
 }
 
 interface ToolbarPlugin<T : View> {

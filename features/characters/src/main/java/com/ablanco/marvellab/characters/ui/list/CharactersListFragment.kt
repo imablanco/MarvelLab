@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ablanco.marvellab.characters.R
-import com.ablanco.marvellab.characters.di.DaggerCharactersListComponent
-import com.ablanco.marvellab.characters.presentation.CharactersListViewModel
-import com.ablanco.marvellab.characters.presentation.CharactersListViewModelFactory
-import com.ablanco.marvellab.characters.presentation.GoToCharacterDetail
+import com.ablanco.marvellab.characters.di.list.DaggerCharactersListComponent
+import com.ablanco.marvellab.characters.presentation.list.CharactersListViewModel
+import com.ablanco.marvellab.characters.presentation.list.CharactersListViewModelFactory
+import com.ablanco.marvellab.characters.presentation.list.GoToCharacterDetail
 import com.ablanco.marvellab.characters.ui.detail.CharacterDetailFragment
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseToolbarFragment
@@ -39,7 +39,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
             title = getString(R.string.characters_list_title)
         )
     }
-    override val toolbarView: Toolbar by lazy { toolbar }
+    override val getToolbarView: () -> Toolbar = { toolbar }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

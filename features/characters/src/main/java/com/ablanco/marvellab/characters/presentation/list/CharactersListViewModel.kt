@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.characters.presentation
+package com.ablanco.marvellab.characters.presentation.list
 
 import com.ablanco.marvellab.core.di.FragmentScope
 import com.ablanco.marvellab.core.domain.model.Character
@@ -19,7 +19,10 @@ import javax.inject.Inject
 class CharactersListViewModelFactory @Inject constructor(
     private val charactersRepository: CharactersRepository
 ) : BaseViewModelFactory<CharactersListViewModel>() {
-    override fun create(): CharactersListViewModel = CharactersListViewModel(charactersRepository)
+    override fun create(): CharactersListViewModel =
+        CharactersListViewModel(
+            charactersRepository
+        )
 }
 
 
@@ -31,7 +34,8 @@ data class CharactersListViewState(
 class CharactersListViewModel(private val charactersRepository: CharactersRepository) :
     LoaderViewModel<CharactersListViewState, CharactersListViewAction>() {
 
-    override val initialViewState: CharactersListViewState = CharactersListViewState()
+    override val initialViewState: CharactersListViewState =
+        CharactersListViewState()
 
     private var searchJob by autoCancelableJob()
 
@@ -41,10 +45,14 @@ class CharactersListViewModel(private val charactersRepository: CharactersReposi
         searchJob = launch {
             setState { copy(isLoading = true) }
             charactersRepository.searchCharacters(search, offset).collect {
-                setState { copy(isLoading = false, characters = it) }
+                setState { copy(isLoading = false, characters = it.getOrNull().orEmpty()) }
             }
         }
     }
 
-    fun characterClicked(character: Character) = dispatchAction(GoToCharacterDetail(character.id))
+    fun characterClicked(character: Character) = dispatchAction(
+        GoToCharacterDetail(
+            character.id
+        )
+    )
 }
