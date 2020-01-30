@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
-import com.ablanco.marvellab.core.ui.extensions.isAtRoot
+import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 /**
@@ -33,7 +33,8 @@ class SimpleToolbarPlugin(private val activity: FragmentActivity) : ToolbarPlugi
         setNavigationOnClickListener { activity.onBackPressed() }
         config.menu?.let(::inflateMenu)
         val navigationIcon = config.navigationIcon?.let(getDrawable)
-        setNavigationIcon(if (!activity.isAtRoot) navigationIcon else null)
+        val isAtRoot = activity.fragmentNavigator?.isAtRoot ?: false
+        setNavigationIcon(if (!isAtRoot) navigationIcon else null)
         config.onMenuClickListener?.let { listener -> setOnMenuItemClickListener { listener(it) } }
     }
 }
@@ -50,7 +51,8 @@ class CollapsingToolbarPlugin(private val activity: FragmentActivity) :
             setNavigationOnClickListener { activity.onBackPressed() }
             config.menu?.let(::inflateMenu)
             val navigationIcon = config.navigationIcon?.let(getDrawable)
-            setNavigationIcon(if (!activity.isAtRoot) navigationIcon else null)
+            val isAtRoot = activity.fragmentNavigator?.isAtRoot ?: false
+            setNavigationIcon(if (!isAtRoot) navigationIcon else null)
             config.onMenuClickListener?.let { listener -> setOnMenuItemClickListener { listener(it) } }
         }
     }

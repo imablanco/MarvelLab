@@ -7,3 +7,5 @@ import com.ablanco.marvellab.core.presentation.ViewAction
  * MarvelLab.
  */
 sealed class CharactersListViewAction : ViewAction
+
+data class GoToCharacterDetail(val characterId: String) : CharactersListViewAction()

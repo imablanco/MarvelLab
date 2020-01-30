@@ -4,4 +4,7 @@
     <dimen name="buttonIconSize">24dp</dimen>
     <dimen name="buttonIconPadding">-24dp</dimen>
     <dimen name="marginNormal">16dp</dimen>
+    <dimen name="marginMini">8dp</dimen>
+    <dimen name="roundedCornerSizeNormal">8dp</dimen>
+    <dimen name="roundedCornerSizeMini">4dp</dimen>
 </resources>

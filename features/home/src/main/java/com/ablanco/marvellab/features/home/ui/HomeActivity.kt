@@ -5,9 +5,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.ui.extensions.clearBackStack
-import com.ablanco.marvellab.core.ui.extensions.isAtRoot
-import com.ablanco.marvellab.core.ui.extensions.replace
+import com.ablanco.marvellab.core.ui.navigation.FragmentNavigator
+import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorImpl
+import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorOwner
 import com.ablanco.marvellab.features.home.R
 import com.ablanco.marvellab.features.home.di.DaggerHomeComponent
 import com.ablanco.marvellab.features.home.presentation.HomeViewModel
@@ -17,7 +17,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
+
+    override val fragmentNavigator: FragmentNavigator by lazy {
+        FragmentNavigatorImpl(supportFragmentManager, R.id.container)
+    }
 
     @Inject
     lateinit var viewModelFactory: HomeViewModelFactory
@@ -50,8 +54,8 @@ class HomeActivity : AppCompatActivity() {
 
                 featureNavigator?.run {
                     getFragment(sectionFeature)?.let {
-                        clearBackStack()
-                        replace(R.id.container, it)
+                        fragmentNavigator.clearBackStack()
+                        fragmentNavigator.navigate(it)
                         true
                     } ?: getIntent(sectionFeature)?.let {
                         startActivity(it)
@@ -67,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (isAtRoot) {
+        if (fragmentNavigator.isAtRoot) {
             finish()
         } else {
             super.onBackPressed()

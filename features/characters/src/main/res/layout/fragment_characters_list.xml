@@ -18,10 +18,32 @@
         android:id="@+id/rvCharacters"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/charactersListSearchTopOffset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginMini"
+        android:background="@drawable/bg_characters_list_search"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:drawablePadding="@dimen/marginNormal"
+        android:hint="@string/characters_list_search_hint"
+        android:imeOptions="actionSearch"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:lines="1"
+        android:padding="@dimen/marginNormal"
+        android:textColorHint="@color/colorBlack"
+        android:theme="@style/AppTheme.Overlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ProgressBar
         android:id="@+id/viewLoading"

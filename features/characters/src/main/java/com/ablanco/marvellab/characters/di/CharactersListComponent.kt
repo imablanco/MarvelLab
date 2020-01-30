@@ -1,7 +1,7 @@
 package com.ablanco.marvellab.characters.di
 
 import com.ablanco.marvellab.characters.presentation.CharactersListViewModelFactory
-import com.ablanco.marvellab.characters.ui.CharactersListFragment
+import com.ablanco.marvellab.characters.ui.list.CharactersListFragment
 import com.ablanco.marvellab.core.di.CoreComponent
 import com.ablanco.marvellab.core.di.FragmentScope
 import dagger.Component

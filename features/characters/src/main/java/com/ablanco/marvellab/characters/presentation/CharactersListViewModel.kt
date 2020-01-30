@@ -37,12 +37,14 @@ class CharactersListViewModel(private val charactersRepository: CharactersReposi
 
     override fun load() = searchCharacters()
 
-    fun searchCharacters(search: String? = null) {
+    fun searchCharacters(search: String? = null, offset: Int = 0) {
         searchJob = launch {
             setState { copy(isLoading = true) }
-            charactersRepository.searchCharacters(search).collect {
+            charactersRepository.searchCharacters(search, offset).collect {
                 setState { copy(isLoading = false, characters = it) }
             }
         }
     }
+
+    fun characterClicked(character: Character) = dispatchAction(GoToCharacterDetail(character.id))
 }

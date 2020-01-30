@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.ablanco.marvellab.characters.ui.CharactersListFragment
+import com.ablanco.marvellab.characters.ui.list.CharactersListFragment
 import com.ablanco.marvellab.features.home.ui.HomeActivity
 import com.ablanco.marvellab.features.profile.ui.ProfileFragment
 import com.ablanco.marvellab.features.welcome.ui.splash.SplashActivity

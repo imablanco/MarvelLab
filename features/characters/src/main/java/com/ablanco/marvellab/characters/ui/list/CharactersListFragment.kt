@@ -1,6 +1,8 @@
-package com.ablanco.marvellab.characters.ui
+package com.ablanco.marvellab.characters.ui.list
 
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -9,11 +11,15 @@ import com.ablanco.marvellab.characters.R
 import com.ablanco.marvellab.characters.di.DaggerCharactersListComponent
 import com.ablanco.marvellab.characters.presentation.CharactersListViewModel
 import com.ablanco.marvellab.characters.presentation.CharactersListViewModelFactory
+import com.ablanco.marvellab.characters.presentation.GoToCharacterDetail
+import com.ablanco.marvellab.characters.ui.detail.CharacterDetailFragment
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
+import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import javax.inject.Inject
 
@@ -35,27 +41,52 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
     }
     override val toolbarView: Toolbar by lazy { toolbar }
 
-    override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         DaggerCharactersListComponent
             .builder()
             .coreComponent(coreComponent)
             .build()
             .inject(this)
+    }
 
-        val adapter = CharactersListAdapter()
+    override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        rvCharacters.layoutManager = GridLayoutManager(requireContext(), 2)
+        val adapter = CharactersListAdapter(viewModel::characterClicked)
+
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        rvCharacters.layoutManager = layoutManager
         rvCharacters.adapter = adapter
+        rvCharacters.addOnScrollListener(EndScrollListener(layoutManager) { items ->
+            viewModel.searchCharacters(etSearch.textOrNull, items)
+        })
+        etSearch.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH ->
+                    viewModel.searchCharacters(etSearch.textOrNull)
+            }
+            false
+        }
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
             adapter.submitList(state.characters)
         })
 
+        viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                is GoToCharacterDetail -> fragmentNavigator?.navigate(
+                    CharacterDetailFragment.newInstance(action.characterId)
+                )
+            }
+        })
+
         if (!isRestored) {
             viewModel.load()
         }
     }
+
+    private val TextView.textOrNull: String?
+        get() = text.toString().takeIf { it.isNotBlank() }
 
 }

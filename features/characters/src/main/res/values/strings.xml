@@ -1,3 +1,4 @@
 <resources>
     <string name="characters_list_title">Characters</string>
+    <string name="characters_list_search_hint">Search</string>
 </resources>

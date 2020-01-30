@@ -55,13 +55,16 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
 
     override val toolbarView: CollapsingToolbarLayout by lazy { collapsingToolbarLayout }
 
-    override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         DaggerProfileComponent
             .builder()
             .coreComponent(coreComponent)
             .build()
             .inject(this)
+    }
+
+    override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
         etName.doAfterTextChanged { it?.toString()?.let(viewModel::nameEntered) }
         btSave.setOnClickListener { viewModel.save() }
