@@ -6,9 +6,13 @@
         <item name="materialButtonStyle">@style/Button</item>
         <item name="textInputStyle">@style/TextInputLayout</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:editTextColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
     </style>
 
     <style name="AppTheme.Overlay">
         <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:editTextColor">@color/colorBlack</item>
+        <item name="android:textColorHint">@color/colorBlack</item>
     </style>
 </resources>

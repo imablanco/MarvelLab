@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ablanco.marvellab.core.data.BuildConfig
 import com.ablanco.marvellab.core.data.db.dao.CharacterComicCrossRefDao
 import com.ablanco.marvellab.core.data.db.dao.CharactersDao
+import com.ablanco.marvellab.core.data.db.dao.CharactersSearchDao
 import com.ablanco.marvellab.core.data.db.model.CharacterComicCrossRef
 import com.ablanco.marvellab.core.data.db.model.CharacterEntity
+import com.ablanco.marvellab.core.data.db.model.CharacterSearchEntity
 import com.ablanco.marvellab.core.data.db.model.ComicEntity
 import java.lang.reflect.Method
 
@@ -18,13 +21,20 @@ import java.lang.reflect.Method
  * MarvelLab.
  */
 @Database(
-    entities = [CharacterEntity::class, ComicEntity::class, CharacterComicCrossRef::class],
+    entities = [
+        CharacterEntity::class,
+        CharacterSearchEntity::class,
+        ComicEntity::class,
+        CharacterComicCrossRef::class
+    ],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(StringListTypeConverter::class)
 abstract class MarvelDatabase : RoomDatabase() {
 
     abstract fun charactersDao(): CharactersDao
+    abstract fun charactersSearchDao(): CharactersSearchDao
     abstract fun characterComicCrossRefDao(): CharacterComicCrossRefDao
 }
 

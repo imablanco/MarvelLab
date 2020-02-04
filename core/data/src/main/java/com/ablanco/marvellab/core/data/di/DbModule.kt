@@ -5,6 +5,7 @@ import com.ablanco.marvellab.core.data.db.CreateDatabase
 import com.ablanco.marvellab.core.data.db.MarvelDatabase
 import com.ablanco.marvellab.core.data.db.dao.CharacterComicCrossRefDao
 import com.ablanco.marvellab.core.data.db.dao.CharactersDao
+import com.ablanco.marvellab.core.data.db.dao.CharactersSearchDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,6 +23,10 @@ class DbModule {
 
     @Provides
     fun providesCharactersDao(db: MarvelDatabase): CharactersDao = db.charactersDao()
+
+    @Provides
+    fun providesCharactersSearchDao(db: MarvelDatabase): CharactersSearchDao =
+        db.charactersSearchDao()
 
     @Provides
     fun providesCharacterComicCrossRefDao(db: MarvelDatabase): CharacterComicCrossRefDao =

@@ -3,6 +3,7 @@ package com.ablanco.marvellab.characters.ui.detail
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ablanco.marvellab.characters.R
 import com.ablanco.marvellab.characters.di.detail.DaggerCharacterDetailComponent
 import com.ablanco.marvellab.characters.presentation.detail.CharacterDetailViewModel
@@ -45,13 +46,21 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
             .inject(this)
     }
 
-
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
+
+        val adapter = CharacterComicsAdapter()
+        rvComics.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        rvComics.adapter = adapter
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
             collapsingToolbarLayout.title = state.character?.name
             tvDescription.text = state.character?.description
+            adapter.submitList(state.comics)
         })
 
         viewModel.viewAction.observe(viewLifecycleOwner, Observer { action -> })

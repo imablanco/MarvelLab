@@ -45,6 +45,7 @@ class CharacterDetailViewModel(
             charactersRepository.getCharacter(characterId).collect { character ->
                 setState { copy(isLoading = false, character = character.getOrNull()) }
             }
+            //TODO comics
         }
     }
 }

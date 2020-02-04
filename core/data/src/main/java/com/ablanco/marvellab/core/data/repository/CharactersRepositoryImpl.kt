@@ -23,19 +23,19 @@ class CharactersRepositoryImpl @Inject constructor(
 
     override fun searchCharacters(search: String?, offset: Int): Flow<Resource<List<Character>>> =
         flow {
-            dbDataSource.searchCharacters(search).collect { dbResource ->
-                if (dbResource.isEmpty()) {
+            dbDataSource.searchCharacters(search).collect { dbCharacters ->
+                if (dbCharacters.size <= offset) {
                     apiDataSource.searchCharacters(search, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { characters ->
                             if (characters.isNotEmpty()) {
-                                dbDataSource.saveCharacters(characters)
+                                dbDataSource.saveCharactersSearch(search, characters)
                             } else {
-                                emit(successOf(emptyList()))
+                                emit(successOf(dbCharacters))
                             }
                         } ?: emit(apiResource)
                     }
                 } else {
-                    emit(successOf(dbResource))
+                    emit(successOf(dbCharacters))
                 }
             }
         }

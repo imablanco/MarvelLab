@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_character_name"
+        android:background="@drawable/bg_text_overlay"
         android:ellipsize="end"
         android:lines="1"
         android:padding="@dimen/marginNormal"

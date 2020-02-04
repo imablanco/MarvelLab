@@ -10,14 +10,14 @@ import java.util.*
  */
 internal object SampleData {
 
-    val characters = listOf(
-        Character("0", "Iron Man", "", ""),
-        Character("1", "Captain America", "", ""),
-        Character("2", "Thor", "", ""),
-        Character("3", "Hulk", "", ""),
-        Character("4", "Black Widow", "", ""),
-        Character("5", "Thanos", "", "")
-    )
+    val characters = 0.rangeTo(100).map {
+        Character(
+            it.toString(),
+            "Character $it",
+            "This is the description for Character $it",
+            null
+        )
+    }
 
     val comics = listOf(
         Comic("0", "Iron Man #1", Date(), "")

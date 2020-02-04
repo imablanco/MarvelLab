@@ -18,11 +18,10 @@ class CharactersApiDataSource @Inject constructor() {
         offset: Int = 0
     ): Resource<List<Character>> {
         delay(250)
-        val limit = offset + CHARACTERS_PAGE_SIZE
         val characters = search?.let {
             SampleData.characters.filter { it.name?.contains(search, true) == true }
         } ?: SampleData.characters
-        return successOf(characters)
+        return successOf(characters.drop(offset).take(CHARACTERS_PAGE_SIZE))
     }
 
     suspend fun getCharacter(characterId: String): Resource<Character> {
