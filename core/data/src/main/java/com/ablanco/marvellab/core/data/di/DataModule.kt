@@ -1,13 +1,7 @@
 package com.ablanco.marvellab.core.data.di
 
-import com.ablanco.marvellab.core.data.repository.AuthRepositoryImpl
-import com.ablanco.marvellab.core.data.repository.CharactersRepositoryImpl
-import com.ablanco.marvellab.core.data.repository.ConfigRepositoryImpl
-import com.ablanco.marvellab.core.data.repository.UserRepositoryImpl
-import com.ablanco.marvellab.core.domain.repository.AuthRepository
-import com.ablanco.marvellab.core.domain.repository.CharactersRepository
-import com.ablanco.marvellab.core.domain.repository.ConfigRepository
-import com.ablanco.marvellab.core.domain.repository.UserRepository
+import com.ablanco.marvellab.core.data.repository.*
+import com.ablanco.marvellab.core.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -22,6 +16,10 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun providesCharactersRepository(impl: CharactersRepositoryImpl): CharactersRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesComicsRepository(impl: ComicsRepositoryImpl): ComicsRepository
 
     @Singleton
     @Binds

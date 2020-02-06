@@ -19,9 +19,18 @@ internal object SampleData {
         )
     }
 
-    val comics = listOf(
-        Comic("0", "Iron Man #1", Date(), "")
-    )
+    val comics = 0.rangeTo(100).map {
+        Comic(
+            it.toString(),
+            "Comic #$it",
+            Date(),
+            null
+        )
+    }
 
-    val comicCharacters = mapOf("0" to characters)
+    val comicCharacters =
+        0.rangeTo(100).map { it.toString() }.associateWith { characters.shuffled() }
+
+    val characterComics =
+        0.rangeTo(100).map { it.toString() }.associateWith { comics.shuffled() }
 }

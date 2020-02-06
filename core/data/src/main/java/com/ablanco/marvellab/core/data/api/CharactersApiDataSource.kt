@@ -32,8 +32,9 @@ class CharactersApiDataSource @Inject constructor() {
 
     suspend fun getComicCharacters(comicId: String, offset: Int = 0): Resource<List<Character>> {
         delay(250)
-        val limit = offset + CHARACTERS_PAGE_SIZE
-        return successOf(SampleData.comicCharacters[comicId].orEmpty())
+        return successOf(
+            SampleData.comicCharacters[comicId].orEmpty().drop(offset).take(CHARACTERS_PAGE_SIZE)
+        )
     }
 
     companion object {

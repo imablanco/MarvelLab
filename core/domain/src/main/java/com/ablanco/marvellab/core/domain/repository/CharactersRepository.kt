@@ -12,7 +12,7 @@ interface CharactersRepository {
 
     fun searchCharacters(search: String? = null, offset: Int = 0): Flow<Resource<List<Character>>>
 
-    suspend fun getCharacter(characterId: String): Flow<Resource<Character>>
+    fun getCharacter(characterId: String): Flow<Resource<Character>>
 
     fun getComicCharacters(comicId: String, offset: Int = 0): Flow<Resource<List<Character>>>
 }

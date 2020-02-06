@@ -40,7 +40,7 @@ class CharactersRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getCharacter(characterId: String): Flow<Resource<Character>> = flow {
+    override fun getCharacter(characterId: String): Flow<Resource<Character>> = flow {
         dbDataSource.getCharacter(characterId).collect { character ->
             if (character == null) {
                 apiDataSource.getCharacter(characterId).fold(

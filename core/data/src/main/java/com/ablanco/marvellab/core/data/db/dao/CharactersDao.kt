@@ -19,7 +19,7 @@ interface CharactersDao {
     suspend fun getCharacter(characterId: String): CharacterEntity?
 
     @Transaction
-    @Query("""select * from comics where comics.comicId = :comicId""")
+    @Query("""select * from comics where comicId = :comicId""")
     fun getComicCharacters(comicId: String): Flow<ComicWithCharacters>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
