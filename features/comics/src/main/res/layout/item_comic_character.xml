@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ablanco.marvellab.core.ui.views.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/characterComicSize"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/marginMini"
+    android:foreground="?selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/ivCharacter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvCharacterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_text_overlay"
+        android:ellipsize="end"
+        android:lines="1"
+        android:padding="@dimen/marginNormal"
+        tools:text="Name" />
+
+</com.ablanco.marvellab.core.ui.views.SquareFrameLayout>

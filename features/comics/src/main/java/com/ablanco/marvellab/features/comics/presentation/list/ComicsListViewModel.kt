@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.features.comics.presentation
+package com.ablanco.marvellab.features.comics.presentation.list
 
 import com.ablanco.marvellab.core.di.FragmentScope
 import com.ablanco.marvellab.core.domain.model.Comic
@@ -48,5 +48,9 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) :
         }
     }
 
-    fun comicClicked(comic: Comic) = dispatchAction(GoToComicDetailAction(comic.id))
+    fun comicClicked(comic: Comic) = dispatchAction(
+        GoToComicDetailAction(
+            comic.id
+        )
+    )
 }

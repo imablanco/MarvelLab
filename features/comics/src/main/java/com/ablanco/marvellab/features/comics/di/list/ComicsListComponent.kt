@@ -1,9 +1,9 @@
-package com.ablanco.marvellab.features.comics.di
+package com.ablanco.marvellab.features.comics.di.list
 
 import com.ablanco.marvellab.core.di.CoreComponent
 import com.ablanco.marvellab.core.di.FragmentScope
-import com.ablanco.marvellab.features.comics.presentation.ComicsListViewModelFactory
-import com.ablanco.marvellab.features.comics.ui.ComicsListFragment
+import com.ablanco.marvellab.features.comics.presentation.list.ComicsListViewModelFactory
+import com.ablanco.marvellab.features.comics.ui.list.ComicsListFragment
 import dagger.Component
 
 /**

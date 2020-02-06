@@ -7,4 +7,5 @@
     <dimen name="marginMini">8dp</dimen>
     <dimen name="roundedCornerSizeNormal">8dp</dimen>
     <dimen name="roundedCornerSizeMini">4dp</dimen>
+    <dimen name="comicDefaultWith">160dp</dimen>
 </resources>

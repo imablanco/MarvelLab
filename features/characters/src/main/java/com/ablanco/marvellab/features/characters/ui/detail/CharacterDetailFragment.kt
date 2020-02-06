@@ -4,26 +4,29 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ablanco.marvellab.core.di.coreComponent
+import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
+import com.ablanco.marvellab.core.ui.extensions.switchVisibility
+import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
+import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
+import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.ablanco.marvellab.features.characters.R
 import com.ablanco.marvellab.features.characters.di.detail.DaggerCharacterDetailComponent
 import com.ablanco.marvellab.features.characters.presentation.detail.CharacterDetailViewModel
 import com.ablanco.marvellab.features.characters.presentation.detail.CharacterDetailViewModelFactory
 import com.ablanco.marvellab.features.characters.presentation.detail.GoToCharacterComicAction
-import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
-import com.ablanco.marvellab.core.ui.extensions.switchVisibility
-import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
-import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
-import com.ablanco.marvellab.core.ui.views.EndScrollListener
+import com.ablanco.marvellab.shared.navigation.Comics
+import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import kotlinx.android.synthetic.main.fragment_characters_detail.*
+import kotlinx.android.synthetic.main.fragment_character_detail.*
 import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-30.
  * MarvelLab.
  */
-class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_characters_detail) {
+class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_character_detail) {
 
     override val toolbarConfig: ToolbarConfig = SimpleToolbarConfig()
     override val getToolbarView: () -> CollapsingToolbarLayout = { collapsingToolbarLayout }
@@ -69,8 +72,10 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
 
         viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
-                is GoToCharacterComicAction -> {
-                } //TODO
+                is GoToCharacterComicAction ->
+                    requireActivity().featureNavigator?.getFragment(Comics(action.comicId))?.let {
+                        fragmentNavigator?.navigate(it)
+                    }
             }
         })
 

@@ -8,7 +8,7 @@
     app:cardCornerRadius="@dimen/roundedCornerSizeNormal">
 
     <com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout
-        android:layout_width="160dp"
+        android:layout_width="@dimen/comicDefaultWith"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
         app:ratio="@dimen/comicRatio">

@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.features.comics.ui
+package com.ablanco.marvellab.features.comics.ui.list
 
 import android.view.LayoutInflater
 import android.view.View
