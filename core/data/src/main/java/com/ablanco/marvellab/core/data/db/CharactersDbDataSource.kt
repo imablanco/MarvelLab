@@ -6,7 +6,10 @@ import com.ablanco.marvellab.core.data.db.dao.CharactersSearchDao
 import com.ablanco.marvellab.core.data.db.model.CharacterComicCrossRef
 import com.ablanco.marvellab.core.data.db.model.CharacterSearchEntity
 import com.ablanco.marvellab.core.domain.model.Character
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -41,18 +44,13 @@ class CharactersDbDataSource @Inject constructor(
             entity.characters.map { it.toDomain() }
         }
 
-    suspend fun saveCharactersSearch(search: String?, characters: List<Character>) {
-        saveCharacters(characters)
-        /*Need to update DB search entity with new retrieved data*/
-        val existingIds = runCatching {
-            charactersSearchDao.getCharactersSearch(search.toString()).first()
-        }.getOrNull()?.characters.orEmpty()
-        val newIds = characters.map(Character::id)
-
-        /*Append new ids to existing ones (drop duplicates)*/
-        val toSaveIds = (existingIds + newIds).distinct()
-        charactersSearchDao.insert(CharacterSearchEntity(search.toString(), toSaveIds))
-    }
+    suspend fun saveCharactersSearch(search: String?, characters: List<Character>) =
+        charactersSearchDao.insert(
+            CharacterSearchEntity(
+                search.toString(),
+                characters.map(Character::id)
+            )
+        )
 
     suspend fun saveCharacters(characters: List<Character>) =
         charactersDao.insertAll(characters.map { it.toEntity() })

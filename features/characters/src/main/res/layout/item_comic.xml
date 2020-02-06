@@ -2,16 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/marginMini"
     app:cardCornerRadius="@dimen/roundedCornerSizeNormal">
 
     <com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
         app:ratio="@dimen/comicRatio">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/ivComic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,6 +32,5 @@
             tools:text="Comic" />
 
     </com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout>
-
 
 </androidx.cardview.widget.CardView>

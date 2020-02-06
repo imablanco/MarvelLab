@@ -2,10 +2,7 @@ package com.ablanco.marvellab.core.data.di
 
 import android.content.Context
 import com.ablanco.marvellab.core.di.CoreComponent
-import com.ablanco.marvellab.core.domain.repository.AuthRepository
-import com.ablanco.marvellab.core.domain.repository.CharactersRepository
-import com.ablanco.marvellab.core.domain.repository.ConfigRepository
-import com.ablanco.marvellab.core.domain.repository.UserRepository
+import com.ablanco.marvellab.core.domain.repository.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,6 +16,8 @@ import javax.inject.Singleton
 interface DataComponent : CoreComponent {
 
     override val charactersRepository: CharactersRepository
+
+    override val comicsRepository: ComicsRepository
 
     override val authRepository: AuthRepository
 

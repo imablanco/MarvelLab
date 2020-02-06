@@ -8,11 +8,13 @@ import com.ablanco.marvellab.characters.R
 import com.ablanco.marvellab.characters.di.detail.DaggerCharacterDetailComponent
 import com.ablanco.marvellab.characters.presentation.detail.CharacterDetailViewModel
 import com.ablanco.marvellab.characters.presentation.detail.CharacterDetailViewModelFactory
+import com.ablanco.marvellab.characters.presentation.detail.GoToCharacterComicAction
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_characters_detail.*
 import javax.inject.Inject
@@ -48,13 +50,15 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        val adapter = CharacterComicsAdapter()
-        rvComics.layoutManager = LinearLayoutManager(
+        val adapter = CharacterComicsAdapter(viewModel::characterComicClicked)
+        val layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
             false
         )
+        rvComics.layoutManager = layoutManager
         rvComics.adapter = adapter
+        rvComics.addOnScrollListener(EndScrollListener(layoutManager, viewModel::loadComics))
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
@@ -63,7 +67,12 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
             adapter.submitList(state.comics)
         })
 
-        viewModel.viewAction.observe(viewLifecycleOwner, Observer { action -> })
+        viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                is GoToCharacterComicAction -> {
+                } //TODO
+            }
+        })
 
         if (!isRestored) {
             viewModel.load()

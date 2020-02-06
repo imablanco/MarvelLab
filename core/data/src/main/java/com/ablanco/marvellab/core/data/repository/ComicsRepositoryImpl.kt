@@ -28,7 +28,9 @@ class ComicsRepositoryImpl @Inject constructor(
                     apiDataSource.searchComics(search, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { comics ->
                             if (comics.isNotEmpty()) {
-                                dbDataSource.saveComicsSearch(search, comics)
+                                val allComics = dbComics + comics
+                                dbDataSource.saveComics(allComics)
+                                dbDataSource.saveComicsSearch(search, allComics)
                             } else {
                                 emit(successOf(dbComics))
                             }
@@ -56,14 +58,15 @@ class ComicsRepositoryImpl @Inject constructor(
     override fun getCharacterComics(characterId: String, offset: Int): Flow<Resource<List<Comic>>> =
         flow {
             dbDataSource.getCharacterComics(characterId).collect { dbComics ->
-                if (dbComics.isEmpty()) {
-                    apiDataSource.getComicCharacters(characterId).also { apiResource ->
+                if (dbComics.size <= offset) {
+                    apiDataSource.getComicCharacters(characterId, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { comics ->
                             if (comics.isNotEmpty()) {
-                                dbDataSource.saveComics(comics)
-                                dbDataSource.saveCharacterComics(characterId, comics)
+                                val allComics = dbComics + comics
+                                dbDataSource.saveComics(allComics)
+                                dbDataSource.saveCharacterComics(characterId, allComics)
                             } else {
-                                emit(successOf(emptyList()))
+                                emit(successOf(dbComics))
                             }
                         } ?: emit(apiResource)
                     }

@@ -28,7 +28,9 @@ class CharactersRepositoryImpl @Inject constructor(
                     apiDataSource.searchCharacters(search, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { characters ->
                             if (characters.isNotEmpty()) {
-                                dbDataSource.saveCharactersSearch(search, characters)
+                                val allCharacters = dbCharacters + characters
+                                dbDataSource.saveCharacters(allCharacters)
+                                dbDataSource.saveCharactersSearch(search, allCharacters)
                             } else {
                                 emit(successOf(dbCharacters))
                             }
@@ -56,14 +58,15 @@ class CharactersRepositoryImpl @Inject constructor(
     override fun getComicCharacters(comicId: String, offset: Int): Flow<Resource<List<Character>>> =
         flow {
             dbDataSource.getComicCharacters(comicId).collect { dbCharacters ->
-                if (dbCharacters.isEmpty()) {
-                    apiDataSource.getComicCharacters(comicId).also { apiResource ->
+                if (dbCharacters.size <= offset) {
+                    apiDataSource.getComicCharacters(comicId, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { characters ->
                             if (characters.isNotEmpty()) {
-                                dbDataSource.saveCharacters(characters)
-                                dbDataSource.saveComicCharacters(comicId, characters)
+                                val allCharacters = dbCharacters + characters
+                                dbDataSource.saveCharacters(allCharacters)
+                                dbDataSource.saveComicCharacters(comicId, allCharacters)
                             } else {
-                                emit(successOf(emptyList()))
+                                emit(successOf(dbCharacters))
                             }
                         } ?: emit(apiResource)
                     }
