@@ -7,12 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ablanco.marvellab.features.characters.R
-import com.ablanco.marvellab.features.characters.di.list.DaggerCharactersListComponent
-import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModel
-import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModelFactory
-import com.ablanco.marvellab.features.characters.presentation.list.GoToCharacterDetail
-import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragment
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
@@ -20,6 +14,13 @@ import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
+import com.ablanco.marvellab.core.ui.views.GridSpacingItemDecorator
+import com.ablanco.marvellab.features.characters.R
+import com.ablanco.marvellab.features.characters.di.list.DaggerCharactersListComponent
+import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModel
+import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModelFactory
+import com.ablanco.marvellab.features.characters.presentation.list.GoToCharacterDetail
+import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragment
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import javax.inject.Inject
 
@@ -60,6 +61,13 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
         rvCharacters.addOnScrollListener(EndScrollListener(layoutManager) { items ->
             viewModel.searchCharacters(etSearch.textOrNull, items)
         })
+        rvCharacters.addItemDecoration(
+            GridSpacingItemDecorator(
+                requireContext().resources.getDimensionPixelSize(
+                    R.dimen.charactersListItemSpacing
+                )
+            )
+        )
         etSearch.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH ->
@@ -81,7 +89,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
             }
         })
 
-        if (!isRestored) {
+        if (!isRestored || savedInstanceState == null) {
             viewModel.load()
         }
     }

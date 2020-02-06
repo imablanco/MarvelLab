@@ -2,4 +2,5 @@
 <resources>
 
     <dimen name="charactersListSearchTopOffset">72dp</dimen>
+    <dimen name="charactersListItemSpacing">3dp</dimen>
 </resources>

@@ -23,7 +23,8 @@ class HomeViewModelFactory @Inject constructor(private val configRepository: Con
 
 data class HomeViewState(
     val isLoading: Boolean = false,
-    val bottomItems: List<HomeSectionUi> = emptyList()
+    val bottomItems: List<HomeSectionUi> = emptyList(),
+    val selectedBottomItemIndex: Int = 0
 ) : ViewState
 
 class HomeViewModel(

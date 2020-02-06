@@ -45,6 +45,8 @@ class CharactersListAdapter(private val onCharacterClicked: (Character) -> Unit)
         }
 
         fun bind(character: Character) {
+            val fallbackColors = itemView.context.resources.getIntArray(R.array.fallbackColors)
+            itemView.setBackgroundColor(fallbackColors[adapterPosition % fallbackColors.size])
             Glide.with(itemView.context).load(character.imageUrl).into(ivCharacter)
             tvCharacterName.text = character.name
         }

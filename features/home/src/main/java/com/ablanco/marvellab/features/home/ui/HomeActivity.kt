@@ -67,7 +67,9 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
             bottomNavigationView.selectedItemId = 0
         })
 
-        viewModel.load()
+        if (savedInstanceState == null) {
+            viewModel.load()
+        }
     }
 
     override fun onBackPressed() {

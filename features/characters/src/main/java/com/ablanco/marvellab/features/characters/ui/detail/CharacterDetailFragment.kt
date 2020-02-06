@@ -79,7 +79,7 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
             }
         })
 
-        if (!isRestored) {
+        if (!isRestored || savedInstanceState == null) {
             viewModel.load()
         }
     }
