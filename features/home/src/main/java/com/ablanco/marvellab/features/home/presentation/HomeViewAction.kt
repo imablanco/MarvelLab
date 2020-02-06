@@ -7,3 +7,5 @@ import com.ablanco.marvellab.core.presentation.ViewAction
  * MarvelLab.
  */
 sealed class HomeViewAction : ViewAction
+
+object InitializeBottomBarAction : HomeViewAction()

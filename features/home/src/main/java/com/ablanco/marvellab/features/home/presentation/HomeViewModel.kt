@@ -39,6 +39,7 @@ class HomeViewModel(
             val config = configRepository.getHomeConfig().getOrNull()
             val sections = config?.sections?.sortedBy(HomeSection::type).orEmpty()
             setState { copy(isLoading = true, bottomItems = sections.map(HomeSection::toUi)) }
+            dispatchAction(InitializeBottomBarAction)
         }
     }
 

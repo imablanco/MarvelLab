@@ -12,6 +12,7 @@ import com.ablanco.marvellab.features.home.R
 import com.ablanco.marvellab.features.home.di.DaggerHomeComponent
 import com.ablanco.marvellab.features.home.presentation.HomeViewModel
 import com.ablanco.marvellab.features.home.presentation.HomeViewModelFactory
+import com.ablanco.marvellab.features.home.presentation.InitializeBottomBarAction
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_home.*
@@ -38,33 +39,37 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
             .build()
             .inject(this)
 
+        bottomNavigationView.setOnNavigationItemSelectedListener { menu ->
+            val sectionFeature = viewModel.getState().bottomItems[menu.itemId].feature
+                ?: return@setOnNavigationItemSelectedListener false
+
+            featureNavigator?.run {
+                getFragment(sectionFeature)?.let {
+                    fragmentNavigator.clearBackStack()
+                    fragmentNavigator.navigate(it)
+                    true
+                } ?: getIntent(sectionFeature)?.let {
+                    startActivity(it)
+                    false
+                } ?: false
+            } ?: false
+        }
+
         viewModel.viewState.observe(this, Observer { state ->
             bottomNavigationView.menu.clear()
             state.bottomItems.forEachIndexed { index, section ->
                 bottomNavigationView.menu.add(0, index, index, section.name).apply {
-                    section.icon?.let { iconUrl ->
-                        Glide.with(this@HomeActivity).load(iconUrl).into(MenuIconTarget(this))
-                    }
+                    Glide.with(this@HomeActivity)
+                        .load(section.icon)
+                        .into(MenuIconTarget(this))
                 }
             }
+        })
 
-            bottomNavigationView.setOnNavigationItemSelectedListener { menu ->
-                val sectionFeature = state.bottomItems[menu.itemId].feature
-                    ?: return@setOnNavigationItemSelectedListener false
-
-                featureNavigator?.run {
-                    getFragment(sectionFeature)?.let {
-                        fragmentNavigator.clearBackStack()
-                        fragmentNavigator.navigate(it)
-                        true
-                    } ?: getIntent(sectionFeature)?.let {
-                        startActivity(it)
-                        false
-                    } ?: false
-                } ?: false
+        viewModel.viewAction.observe(this, Observer { action ->
+            when (action) {
+                is InitializeBottomBarAction -> bottomNavigationView.selectedItemId = 0
             }
-
-            bottomNavigationView.selectedItemId = 0
         })
 
         if (savedInstanceState == null) {

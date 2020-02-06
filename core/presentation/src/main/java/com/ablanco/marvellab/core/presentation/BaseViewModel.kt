@@ -22,7 +22,7 @@ abstract class BaseViewModel<V : ViewState, A : ViewAction> : ViewModel() {
     val viewState: LiveData<V> by lazy { _viewState }
     val viewAction: LiveData<A> by lazy { _viewAction }
 
-    protected fun getState(): V = viewState.value ?: throw IllegalStateException()
+    fun getState(): V = viewState.value ?: throw IllegalStateException()
 
     protected fun setState(reducer: V.() -> V) {
         _viewState.value = getState().reducer()
