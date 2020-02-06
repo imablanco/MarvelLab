@@ -3,6 +3,7 @@ package com.ablanco.marvellab.features.home.presentation
 import com.ablanco.marvellab.core.domain.model.config.HomeSection
 import com.ablanco.marvellab.core.domain.model.config.HomeSectionType
 import com.ablanco.marvellab.shared.navigation.Characters
+import com.ablanco.marvellab.shared.navigation.Comics
 import com.ablanco.marvellab.shared.navigation.Feature
 import com.ablanco.marvellab.shared.navigation.Profile
 
@@ -16,5 +17,5 @@ fun HomeSection.toUi(): HomeSectionUi = HomeSectionUi(name, icon, type?.toFeatur
 private fun HomeSectionType.toFeature(): Feature? = when (this) {
     HomeSectionType.Profile -> Profile
     HomeSectionType.Characters -> Characters()
-    HomeSectionType.Comics -> null
+    HomeSectionType.Comics -> Comics()
 }

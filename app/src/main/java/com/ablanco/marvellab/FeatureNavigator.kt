@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragment
 import com.ablanco.marvellab.features.characters.ui.list.CharactersListFragment
+import com.ablanco.marvellab.features.comics.ui.ComicsListFragment
 import com.ablanco.marvellab.features.home.ui.HomeActivity
 import com.ablanco.marvellab.features.profile.ui.ProfileFragment
 import com.ablanco.marvellab.features.welcome.ui.splash.SplashActivity
@@ -28,8 +30,11 @@ class FeatureNavigatorImpl(private val context: Context) : FeatureNavigator {
         when (feature) {
             is Profile -> ProfileFragment()
             is Characters -> {
-                //TODO manage detail
-                feature.characterId?.let { CharactersListFragment() } ?: CharactersListFragment()
+                feature.characterId?.let { CharacterDetailFragment.newInstance(it) }
+                    ?: CharactersListFragment()
+            }
+            is Comics -> {
+                feature.comicId?.let { null } ?: ComicsListFragment()
             }
             else -> null
         }

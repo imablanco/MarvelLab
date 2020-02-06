@@ -39,21 +39,13 @@ class SimpleToolbarPlugin(private val activity: FragmentActivity) : ToolbarPlugi
     }
 }
 
-class CollapsingToolbarPlugin(private val activity: FragmentActivity) :
-    ToolbarPlugin<CollapsingToolbarLayout> {
+class CollapsingToolbarPlugin(activity: FragmentActivity) : ToolbarPlugin<CollapsingToolbarLayout> {
 
-    private val getDrawable: (Int) -> Drawable? = { ContextCompat.getDrawable(activity, it) }
+    private val toolbarPlugin = SimpleToolbarPlugin(activity)
 
     override fun CollapsingToolbarLayout.applyConfig(config: ToolbarConfig) {
         val toolbar = children.find { it is Toolbar } as? Toolbar
         title = config.title
-        toolbar?.run {
-            setNavigationOnClickListener { activity.onBackPressed() }
-            config.menu?.let(::inflateMenu)
-            val navigationIcon = config.navigationIcon?.let(getDrawable)
-            val isAtRoot = activity.fragmentNavigator?.isAtRoot ?: false
-            setNavigationIcon(if (!isAtRoot) navigationIcon else null)
-            config.onMenuClickListener?.let { listener -> setOnMenuItemClickListener { listener(it) } }
-        }
+        toolbarPlugin.run { toolbar?.applyConfig(config) }
     }
 }
