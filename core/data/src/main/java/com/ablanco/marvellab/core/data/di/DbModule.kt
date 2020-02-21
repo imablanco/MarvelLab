@@ -33,6 +33,8 @@ class DbModule {
     fun providesComicsSearchDao(db: MarvelDatabase): ComicsSearchDao = db.comicsSearchDao()
 
     @Provides
-    fun providesCharacterComicCrossRefDao(db: MarvelDatabase): CharacterComicCrossRefDao =
-        db.characterComicCrossRefDao()
+    fun providesComicCharactersDao(db: MarvelDatabase): ComicCharactersDao = db.comicCharactersDao()
+
+    @Provides
+    fun providesCharacterComicsDao(db: MarvelDatabase): CharacterComicsDao = db.characterComicsDao()
 }

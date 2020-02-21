@@ -21,7 +21,8 @@ import java.lang.reflect.Method
         CharacterSearchEntity::class,
         ComicEntity::class,
         ComicSearchEntity::class,
-        CharacterComicCrossRef::class
+        ComicCharacters::class,
+        CharacterComics::class
     ],
     version = 1,
     exportSchema = false
@@ -33,7 +34,8 @@ abstract class MarvelDatabase : RoomDatabase() {
     abstract fun charactersSearchDao(): CharactersSearchDao
     abstract fun comicsDao(): ComicsDao
     abstract fun comicsSearchDao(): ComicsSearchDao
-    abstract fun characterComicCrossRefDao(): CharacterComicCrossRefDao
+    abstract fun comicCharactersDao(): ComicCharactersDao
+    abstract fun characterComicsDao(): CharacterComicsDao
 }
 
 fun CreateDatabase(context: Context) =
