@@ -1,44 +1,49 @@
 package com.ablanco.marvellab.core.data.api
 
+import com.ablanco.marvellab.core.data.api.model.CharacterData
+import com.ablanco.marvellab.core.data.api.service.CharactersService
+import com.ablanco.marvellab.core.data.api.service.buildListResource
+import com.ablanco.marvellab.core.data.api.service.buildSingleResource
 import com.ablanco.marvellab.core.domain.model.Character
 import com.ablanco.marvellab.core.domain.model.Resource
-import com.ablanco.marvellab.core.domain.model.failOf
-import com.ablanco.marvellab.core.domain.model.successOf
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2019-12-23.
  * MarvelLab.
  */
-class CharactersApiDataSource @Inject constructor() {
+class CharactersApiDataSource @Inject constructor(private val charactersService: CharactersService) {
 
     suspend fun searchCharacters(
         search: String? = null,
         offset: Int = 0
     ): Resource<List<Character>> {
-        delay(250)
-        val characters = search?.let {
-            SampleData.characters.filter { it.name?.contains(search, true) == true }
-        } ?: SampleData.characters
-        return successOf(characters.drop(offset).take(CHARACTERS_PAGE_SIZE))
+        return buildListResource {
+            charactersService.searchCharacters(
+                search,
+                PAGE_SIZE,
+                offset
+            )
+        }.map { characters -> characters.map(CharacterData::toDomain) }
     }
 
     suspend fun getCharacter(characterId: String): Resource<Character> {
-        delay(250)
-        val character = SampleData.characters.find { it.id == characterId }
-        return character?.let { successOf(it) } ?: failOf(Throwable())
+        return buildSingleResource { charactersService.getCharacter(characterId) }
+            .map(CharacterData::toDomain)
     }
 
     suspend fun getComicCharacters(comicId: String, offset: Int = 0): Resource<List<Character>> {
-        delay(250)
-        return successOf(
-            SampleData.comicCharacters[comicId].orEmpty().drop(offset).take(CHARACTERS_PAGE_SIZE)
-        )
+        return buildListResource {
+            charactersService.getComicCharacters(
+                comicId,
+                PAGE_SIZE,
+                offset
+            )
+        }.map { characters -> characters.map(CharacterData::toDomain) }
     }
 
     companion object {
-        private const val CHARACTERS_PAGE_SIZE = 20
+        private const val PAGE_SIZE = 20
     }
 
 }

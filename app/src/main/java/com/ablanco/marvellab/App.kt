@@ -16,7 +16,12 @@ class App : Application(), CoreComponentOwner, FeatureNavigatorOwner {
     override val featureNavigator: FeatureNavigator = FeatureNavigatorImpl(this)
 
     private val _coreComponent: CoreComponent by lazy {
-        DaggerDataComponent.builder().context(this).build()
+        DaggerDataComponent
+            .builder()
+            .context(this)
+            .apiBaseUrl(Constants.ApiBaseUrl)
+            .apiKey(Constants.ApiKey)
+            .build()
     }
     override val coreComponent: CoreComponent
         get() = _coreComponent

@@ -5,7 +5,7 @@ android {
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.incremental":"true"]
+                arguments = ["room.incremental": "true"]
             }
         }
     }
@@ -28,5 +28,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$gsonVersion"
     debugImplementation "com.amitshekhar.android:debug-db:$roomDebuggerVersion"
     implementation "com.google.firebase:firebase-storage:$firebaseStorageVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
 
 }

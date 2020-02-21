@@ -13,7 +13,7 @@ buildscript {
         androidCoreVersion = '1.1.0'
         constaintLayoutVersion = '1.1.3'
         coroutinesCoreVersion = '1.3.3'
-        roomVersion = '2.2.3'
+        roomVersion = '2.2.4'
         roomDebuggerVersion = '1.0.6'
         daggerVersion = '2.11'
         lifecycleVersion = "2.2.0"
@@ -23,13 +23,14 @@ buildscript {
         firebaseAnalyticsVersion = "17.2.2"
         firebaseAuthVersion = "19.2.0"
         materialVersion = "1.1.0-rc02"
-        firebaseRemoteConfigVersion = "19.1.0"
+        firebaseRemoteConfigVersion = "19.1.1"
         gsonVersion = "2.8.6"
         glideVersion = "4.11.0"
-        firebaseStorageVersion = "19.1.0"
+        firebaseStorageVersion = "19.1.1"
         imageproviderVersion = "0.1.0"
         dexterVersion = "6.0.2"
         fragmentKtxVersion = "1.2.0"
+        retrofitVersion = "2.7.1"
 
         jUnitVersion = '4.12'
         androidTestJunitVersion = '1.1.0'

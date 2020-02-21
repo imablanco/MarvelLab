@@ -11,7 +11,7 @@ import javax.inject.Singleton
  * MarvelLab.
  */
 @Module
-abstract class DataModule {
+abstract class RepositoryModule {
 
     @Singleton
     @Binds

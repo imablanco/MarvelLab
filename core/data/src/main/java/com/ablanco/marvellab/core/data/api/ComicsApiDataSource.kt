@@ -1,38 +1,45 @@
 package com.ablanco.marvellab.core.data.api
 
+import com.ablanco.marvellab.core.data.api.model.ComicData
+import com.ablanco.marvellab.core.data.api.service.ComicsService
+import com.ablanco.marvellab.core.data.api.service.buildListResource
+import com.ablanco.marvellab.core.data.api.service.buildSingleResource
 import com.ablanco.marvellab.core.domain.model.Comic
 import com.ablanco.marvellab.core.domain.model.Resource
-import com.ablanco.marvellab.core.domain.model.failOf
-import com.ablanco.marvellab.core.domain.model.successOf
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2019-12-23.
  * MarvelLab.
  */
-class ComicsApiDataSource @Inject constructor() {
+class ComicsApiDataSource @Inject constructor(private val comicsService: ComicsService) {
 
     suspend fun searchComics(
         search: String? = null,
         offset: Int = 0
     ): Resource<List<Comic>> {
-        delay(250)
-        val comics = search?.let {
-            SampleData.comics.filter { it.title?.contains(search, true) == true }
-        } ?: SampleData.comics
-        return successOf(comics.drop(offset).take(PAGE_SIZE))
+        return buildListResource {
+            comicsService.searchComics(
+                search,
+                PAGE_SIZE,
+                offset
+            )
+        }.map { comics -> comics.map(ComicData::toDomain) }
     }
 
     suspend fun getComic(characterId: String): Resource<Comic> {
-        delay(250)
-        val character = SampleData.comics.find { it.id == characterId }
-        return character?.let { successOf(it) } ?: failOf(Throwable())
+        return buildSingleResource { comicsService.getComic(characterId) }
+            .map(ComicData::toDomain)
     }
 
     suspend fun getComicCharacters(comicId: String, offset: Int = 0): Resource<List<Comic>> {
-        delay(250)
-        return successOf(SampleData.characterComics[comicId].orEmpty().drop(offset).take(PAGE_SIZE))
+        return buildListResource {
+            comicsService.getCharacterComics(
+                comicId,
+                PAGE_SIZE,
+                offset
+            )
+        }.map { comics -> comics.map(ComicData::toDomain) }
     }
 
     companion object {

@@ -12,7 +12,7 @@ import javax.inject.Singleton
  * MarvelLab.
  */
 @Singleton
-@Component(modules = [DataModule::class, DbModule::class])
+@Component(modules = [RepositoryModule::class, DbModule::class, ApiModule::class])
 interface DataComponent : CoreComponent {
 
     override val charactersRepository: CharactersRepository
@@ -30,6 +30,12 @@ interface DataComponent : CoreComponent {
 
         @BindsInstance
         fun context(context: Context): Builder
+
+        @BindsInstance
+        fun apiBaseUrl(@ApiBaseUrl apiBaseUrl: String): Builder
+
+        @BindsInstance
+        fun apiKey(@ApiKey apiKey: String): Builder
 
         fun build(): DataComponent
     }

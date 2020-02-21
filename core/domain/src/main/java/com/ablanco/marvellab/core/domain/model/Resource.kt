@@ -9,7 +9,7 @@ typealias CompletableResource = Resource<Unit>
 
 sealed class Resource<A> {
 
-    fun getOrNull(): A? = (this as Success<A>?)?.value
+    fun getOrNull(): A? = (this as? Success<A>)?.value
 
     inline fun <B> map(mapper: (A) -> B): Resource<B> = when (this) {
         is Success -> successOf(mapper(value))
