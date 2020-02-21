@@ -8,7 +8,7 @@ import com.ablanco.marvellab.core.domain.repository.ComicsRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
 import com.ablanco.marvellab.core.presentation.ViewState
-import com.ablanco.marvellab.features.comics.di.list.ComicId
+import com.ablanco.marvellab.features.comics.di.detail.ComicId
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 

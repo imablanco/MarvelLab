@@ -12,7 +12,7 @@ import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.ablanco.marvellab.features.comics.R
-import com.ablanco.marvellab.features.comics.di.list.DaggerComicDetailComponent
+import com.ablanco.marvellab.features.comics.di.detail.DaggerComicDetailComponent
 import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailViewModel
 import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailViewModelFactory
 import com.ablanco.marvellab.features.comics.presentation.detail.GoToCharacterDetailAction

@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.features.comics.di.list
+package com.ablanco.marvellab.features.comics.di.detail
 
 import com.ablanco.marvellab.core.di.CoreComponent
 import com.ablanco.marvellab.core.di.FragmentScope
