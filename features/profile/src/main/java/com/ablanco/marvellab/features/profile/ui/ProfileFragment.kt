@@ -93,7 +93,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
             }
         })
 
-        if (!isRestored || savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }

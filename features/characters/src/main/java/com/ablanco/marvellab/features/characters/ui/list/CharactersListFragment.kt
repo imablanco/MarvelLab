@@ -89,7 +89,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
             }
         })
 
-        if (!isRestored || savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }

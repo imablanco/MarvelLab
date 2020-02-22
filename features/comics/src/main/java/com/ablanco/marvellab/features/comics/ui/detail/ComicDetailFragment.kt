@@ -77,7 +77,7 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
             }
         })
 
-        if (!isRestored || savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }

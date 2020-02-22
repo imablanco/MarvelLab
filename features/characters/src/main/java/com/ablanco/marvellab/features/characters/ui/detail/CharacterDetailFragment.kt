@@ -3,7 +3,7 @@ package com.ablanco.marvellab.features.characters.ui.detail
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
@@ -18,6 +18,7 @@ import com.ablanco.marvellab.features.characters.presentation.detail.CharacterDe
 import com.ablanco.marvellab.features.characters.presentation.detail.GoToCharacterComicAction
 import com.ablanco.marvellab.shared.navigation.Comics
 import com.ablanco.marvellab.shared.navigation.featureNavigator
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_character_detail.*
 import javax.inject.Inject
@@ -54,19 +55,20 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
         val adapter = CharacterComicsAdapter(viewModel::characterComicClicked)
-        val layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        val layoutManager = GridLayoutManager(requireContext(), 2)
         rvComics.layoutManager = layoutManager
         rvComics.adapter = adapter
         rvComics.addOnScrollListener(EndScrollListener(layoutManager, viewModel::loadComics))
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
+            Glide.with(this)
+                .load(state.character?.imageUrl)
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .into(ivCharacter)
             collapsingToolbarLayout.title = state.character?.name
             tvDescription.text = state.character?.description
+            tvDescription.switchVisibility(!state.character?.description.isNullOrBlank())
             adapter.submitList(state.comics)
         })
 
@@ -79,7 +81,7 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
             }
         })
 
-        if (!isRestored || savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }

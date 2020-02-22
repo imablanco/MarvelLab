@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/marginMini"
-    app:cardCornerRadius="@dimen/roundedCornerSizeNormal">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout
-        android:layout_width="@dimen/comicDefaultWith"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:ratio="@dimen/comicRatio">
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/marginMini"
+        app:cardCornerRadius="@dimen/roundedCornerSizeNormal">
 
-        <ImageView
-            android:scaleType="centerCrop"
-            android:id="@+id/ivComic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tvComicName"
+        <com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/bg_text_overlay"
-            android:padding="@dimen/marginNormal"
-            android:textColor="@color/colorWhite"
-            tools:text="Comic" />
+            android:foreground="?selectableItemBackground"
+            app:ratio="@dimen/comicRatio">
 
-    </com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout>
+            <ImageView
+                android:id="@+id/ivComic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
 
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tvComicName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_text_overlay"
+                android:padding="@dimen/marginNormal"
+                android:textColor="@color/colorWhite"
+                tools:text="Comic" />
+
+        </com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

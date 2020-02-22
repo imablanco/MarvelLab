@@ -79,7 +79,7 @@ class ComicsListFragment : BaseToolbarFragment(R.layout.fragment_comics_list) {
             }
         })
 
-        if (!isRestored || savedInstanceState == null) {
+        if (!isRestored) {
             viewModel.load()
         }
     }
