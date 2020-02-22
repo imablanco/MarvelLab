@@ -16,4 +16,9 @@
 
     </style>
 
+    <style name="FavoriteButtonStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_favorite</item>
+        <item name="android:buttonTint">@color/colorWhite</item>
+    </style>
+
 </resources>

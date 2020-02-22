@@ -4,6 +4,7 @@ import com.ablanco.marvellab.core.data.api.FavoritesApiDataSource
 import com.ablanco.marvellab.core.domain.model.Resource
 import com.ablanco.marvellab.core.domain.model.favorites.Favorite
 import com.ablanco.marvellab.core.domain.repository.FavoritesRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -15,6 +16,7 @@ class FavoritesRepositoryImpl @Inject constructor(
     private val favoritesApiDataSource: FavoritesApiDataSource
 ) : FavoritesRepository {
 
+    @ExperimentalCoroutinesApi
     override fun getAllFavorites(): Flow<Resource<List<Favorite>>> =
         favoritesApiDataSource.getFavorites()
 

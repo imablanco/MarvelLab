@@ -13,15 +13,27 @@
         android:scaleType="centerCrop"
         tools:src="@tools:sample/avatars" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_image_overlay" />
+
     <TextView
         android:id="@+id/tvCharacterName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_text_overlay"
         android:ellipsize="end"
         android:lines="1"
-        android:padding="@dimen/marginNormal"
+        android:padding="@dimen/marginMini"
         tools:text="Name" />
+
+    <CheckBox
+        android:id="@+id/cbFavorite"
+        style="@style/FavoriteButtonStyle"
+        android:layout_width="@dimen/buttonFavoriteSize"
+        android:layout_height="@dimen/buttonFavoriteSize"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/marginMini" />
 
 </com.ablanco.marvellab.core.ui.views.SquareFrameLayout>

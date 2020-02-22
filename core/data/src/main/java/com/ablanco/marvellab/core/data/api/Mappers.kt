@@ -102,7 +102,7 @@ object FavoriteMapMapper : MapMapper<FavoriteData> {
         val name = get(FireStoreFavoriteFields.FIELD_NAME) as? String
         val imageUrl = get(FireStoreFavoriteFields.FIELD_IMAGE) as? String
         val type = FavoriteTypeData.values().first {
-            it.number == get(FireStoreFavoriteFields.FIELD_TYPE) as Int
+            it.number.toLong() == get(FireStoreFavoriteFields.FIELD_TYPE) as Long
         }
         return FavoriteData(userId, favoriteId, name, imageUrl, type)
     }

@@ -7,8 +7,10 @@ import com.ablanco.marvellab.core.domain.model.successOf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -27,25 +29,26 @@ class FavoritesApiDataSource @Inject constructor() {
         FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
     }
 
-    fun getFavorites(): Flow<Resource<List<Favorite>>> = flow {
+    @ExperimentalCoroutinesApi
+    fun getFavorites(): Flow<Resource<List<Favorite>>> = channelFlow {
         firebaseAuth.currentUser?.let { user ->
-            val favorites = suspendCancellableCoroutine<Resource<List<Favorite>>> { cont ->
-                collection
+                val listener = collection
                     .whereEqualTo(FireStoreFavoriteFields.FIELD_USER_ID, user.uid)
                     .addSnapshotListener { snapshot, e ->
                         snapshot?.let { results ->
                             val favorites = results.documents
-                                .mapNotNull { FavoriteMapMapper.run { it.data?.fromMap() } }
+                                .mapNotNull { runCatching { FavoriteMapMapper.run { it.data?.fromMap() } }.getOrNull() }
                                 .map { it.toDomain() }
-                            cont.resume(successOf(favorites))
+                            channel.offer(successOf(favorites))
                         }
                         e?.let {
-                            cont.resume(failOf(it))
+                            channel.offer(failOf(it))
                         }
                     }
-            }
-            emit(favorites)
-        } ?: emit(failOf(UserNotPresentException))
+
+                awaitClose { listener.remove() }
+
+        } ?: send(failOf(UserNotPresentException))
     }
 
     suspend fun addFavorite(favorite: Favorite): Resource<Boolean> {

@@ -31,7 +31,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_text_overlay" />
+                android:background="@drawable/bg_image_overlay" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

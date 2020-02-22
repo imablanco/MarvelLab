@@ -8,4 +8,5 @@
     <dimen name="roundedCornerSizeNormal">8dp</dimen>
     <dimen name="roundedCornerSizeMini">4dp</dimen>
     <dimen name="comicDefaultWith">160dp</dimen>
+    <dimen name="buttonFavoriteSize">24dp</dimen>
 </resources>

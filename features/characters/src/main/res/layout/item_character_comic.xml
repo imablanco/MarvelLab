@@ -26,13 +26,17 @@
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_image_overlay" />
+
             <TextView
                 android:id="@+id/tvComicName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@drawable/bg_text_overlay"
-                android:padding="@dimen/marginNormal"
+                android:padding="@dimen/marginMini"
                 android:textColor="@color/colorWhite"
                 tools:text="Comic" />
 

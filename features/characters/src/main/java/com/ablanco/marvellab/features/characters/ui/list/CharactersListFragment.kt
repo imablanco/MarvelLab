@@ -53,7 +53,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        val adapter = CharactersListAdapter(viewModel::characterClicked)
+        val adapter = CharactersListAdapter(viewModel::characterClicked, viewModel::favoriteClicked)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
         rvCharacters.layoutManager = layoutManager
