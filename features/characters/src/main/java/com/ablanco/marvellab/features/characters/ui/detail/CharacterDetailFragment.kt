@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
@@ -18,7 +19,6 @@ import com.ablanco.marvellab.features.characters.presentation.detail.CharacterDe
 import com.ablanco.marvellab.features.characters.presentation.detail.GoToCharacterComicAction
 import com.ablanco.marvellab.shared.navigation.Comics
 import com.ablanco.marvellab.shared.navigation.featureNavigator
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_character_detail.*
 import javax.inject.Inject
@@ -62,7 +62,7 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
-            Glide.with(this)
+            GlideApp.with(this)
                 .load(state.character?.imageUrl)
                 .placeholder(R.drawable.ic_person_black_24dp)
                 .into(ivCharacter)

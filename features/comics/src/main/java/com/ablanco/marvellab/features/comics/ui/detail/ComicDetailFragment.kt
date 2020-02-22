@@ -3,14 +3,16 @@ package com.ablanco.marvellab.features.comics.ui.detail
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
+import com.ablanco.marvellab.core.ui.views.GridSpacingItemDecorator
 import com.ablanco.marvellab.features.comics.R
 import com.ablanco.marvellab.features.comics.di.detail.DaggerComicDetailComponent
 import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailViewModel
@@ -18,6 +20,7 @@ import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailView
 import com.ablanco.marvellab.features.comics.presentation.detail.GoToCharacterDetailAction
 import com.ablanco.marvellab.shared.navigation.Characters
 import com.ablanco.marvellab.shared.navigation.featureNavigator
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
 import javax.inject.Inject
@@ -48,11 +51,7 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
         val adapter = ComicCharactersAdapter(viewModel::characterClicked)
-        val layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        val layoutManager = GridLayoutManager(requireContext(), 2)
         rvCharacters.layoutManager = layoutManager
         rvCharacters.adapter = adapter
         rvCharacters.addOnScrollListener(
@@ -61,11 +60,21 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
                 viewModel::loadCharacters
             )
         )
+        rvCharacters.addItemDecoration(
+            GridSpacingItemDecorator(
+                requireContext().resources.getDimensionPixelSize(
+                    R.dimen.comicDetailItemSpacing
+                )
+            )
+        )
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
             collapsingToolbarLayout.title = state.comic?.title
-            //tvDescription.text = state.comic?.description
+            GlideApp.with(this)
+                .load(state.comic?.coverImageUrl)
+                .placeholder(R.drawable.ic_book_black_24dp)
+                .into(ivComic)
             adapter.submitList(state.characters)
         })
 

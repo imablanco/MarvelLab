@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.marvellab.core.domain.model.Comic
 import com.ablanco.marvellab.core.ui.DefaultItemCallback
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.features.characters.R
-import com.bumptech.glide.Glide
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-02-03.
@@ -45,7 +45,7 @@ class CharacterComicsAdapter(private val onComicClicked: (Comic) -> Unit) :
         }
 
         fun bind(comic: Comic) {
-            Glide.with(itemView.context).load(comic.coverImageUrl).into(ivComic)
+            GlideApp.with(itemView.context).load(comic.coverImageUrl).into(ivComic)
             tvComicName.text = comic.title
         }
     }

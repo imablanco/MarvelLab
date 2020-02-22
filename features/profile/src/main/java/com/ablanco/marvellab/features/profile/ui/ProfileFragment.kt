@@ -12,6 +12,7 @@ import com.ablanco.imageprovider.ImageSource
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.domain.extensions.withIO
 import com.ablanco.marvellab.core.ui.BaseCollapsingToolbarFragment
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.extensions.bytes
 import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
@@ -22,7 +23,6 @@ import com.ablanco.marvellab.features.profile.di.DaggerProfileComponent
 import com.ablanco.marvellab.features.profile.presentation.PickPhotoAction
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModel
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModelFactory
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.karumi.dexter.Dexter
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -80,7 +80,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
             tilName.error = getString(R.string.profile_error_name).takeIf { !state.isNameValid }
             btSave.isEnabled = state.canSave
             toolbar.menu.findItem(R.id.action_change_photo)?.isEnabled = state.canEditPhoto
-            Glide.with(this)
+            GlideApp.with(this)
                 .load(state.userPictureUrl)
                 .centerCrop()
                 .placeholder(R.drawable.ic_person_black_24dp)

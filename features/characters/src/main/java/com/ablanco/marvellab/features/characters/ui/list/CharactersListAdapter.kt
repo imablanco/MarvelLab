@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.marvellab.core.domain.model.Character
 import com.ablanco.marvellab.core.ui.DefaultItemCallback
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.features.characters.R
-import com.bumptech.glide.Glide
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-29.
@@ -47,7 +47,7 @@ class CharactersListAdapter(private val onCharacterClicked: (Character) -> Unit)
         fun bind(character: Character) {
             val fallbackColors = itemView.context.resources.getIntArray(R.array.fallbackColors)
             itemView.setBackgroundColor(fallbackColors[adapterPosition % fallbackColors.size])
-            Glide.with(itemView.context).load(character.imageUrl).into(ivCharacter)
+            GlideApp.with(itemView.context).load(character.imageUrl).into(ivCharacter)
             tvCharacterName.text = character.name
         }
     }

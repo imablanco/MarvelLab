@@ -1,7 +1,10 @@
 apply from: "$rootDir/common-android-library.gradle"
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$androidCoreVersion"
     implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 }

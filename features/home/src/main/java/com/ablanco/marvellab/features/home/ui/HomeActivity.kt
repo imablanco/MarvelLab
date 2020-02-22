@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
+import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigator
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorImpl
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorOwner
@@ -14,7 +15,6 @@ import com.ablanco.marvellab.features.home.presentation.HomeViewModel
 import com.ablanco.marvellab.features.home.presentation.HomeViewModelFactory
 import com.ablanco.marvellab.features.home.presentation.InitializeBottomBarAction
 import com.ablanco.marvellab.shared.navigation.featureNavigator
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
@@ -59,7 +59,7 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
             bottomNavigationView.menu.clear()
             state.bottomItems.forEachIndexed { index, section ->
                 bottomNavigationView.menu.add(0, index, index, section.name).apply {
-                    Glide.with(this@HomeActivity)
+                    GlideApp.with(this@HomeActivity)
                         .load(section.icon)
                         .into(MenuIconTarget(this))
                 }
