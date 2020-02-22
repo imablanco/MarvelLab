@@ -7,7 +7,7 @@ package com.ablanco.marvellab.core.domain.model
 
 typealias CompletableResource = Resource<Unit>
 
-sealed class Resource<A> {
+sealed class Resource<out A> {
 
     fun getOrNull(): A? = (this as? Success<A>)?.value
 

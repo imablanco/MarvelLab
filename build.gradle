@@ -24,7 +24,7 @@ buildscript {
         firebaseAuthVersion = "19.2.0"
         materialVersion = "1.1.0"
         firebaseRemoteConfigVersion = "19.1.1"
-        gsonVersion = "2.8.6"
+        firebaseFireStoreVersion = "21.4.0"
         glideVersion = "4.11.0"
         firebaseStorageVersion = "19.1.1"
         imageproviderVersion = "0.1.0"

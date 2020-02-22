@@ -1,16 +1,16 @@
 package com.ablanco.marvellab.core.data.api.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-26.
  * MarvelLab.
  */
 enum class HomeSectionTypeData {
-    @SerializedName("0")
+    @Json(name = "0")
     Characters,
-    @SerializedName("1")
+    @Json(name = "1")
     Comics,
-    @SerializedName("2")
+    @Json(name = "2")
     Profile
 }

@@ -17,6 +17,8 @@ interface CoreComponent {
     val userRepository: UserRepository
 
     val configRepository: ConfigRepository
+
+    val favoritesRepository: FavoritesRepository
 }
 
 interface CoreComponentOwner {

@@ -25,6 +25,8 @@ interface DataComponent : CoreComponent {
 
     override val configRepository: ConfigRepository
 
+    override val favoritesRepository: FavoritesRepository
+
     @Component.Builder
     interface Builder {
 

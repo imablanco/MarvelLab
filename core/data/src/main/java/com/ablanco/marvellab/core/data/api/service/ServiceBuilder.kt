@@ -5,7 +5,6 @@ import com.ablanco.marvellab.core.data.di.ApiBaseUrl
 import com.ablanco.marvellab.core.data.di.ApiKey
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.EnumJsonAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -33,7 +32,6 @@ class ServiceBuilder @Inject constructor(
                 EnumJsonAdapter.create(DateTypeData::class.java)
                     .withUnknownFallback(DateTypeData.Unknown)
             )
-            .add(KotlinJsonAdapterFactory())
             .build()
 
         Retrofit.Builder()

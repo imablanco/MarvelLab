@@ -82,8 +82,6 @@ class UserApiDataSource @Inject constructor() {
     }
 
     companion object {
-        val UserNotPresentException = IllegalStateException()
-
         private const val USERS_BUCKET_PATH = "users/profile"
     }
 }

@@ -6,6 +6,8 @@ import com.ablanco.marvellab.core.domain.model.Comic
 import com.ablanco.marvellab.core.domain.model.config.HomeConfig
 import com.ablanco.marvellab.core.domain.model.config.HomeSection
 import com.ablanco.marvellab.core.domain.model.config.HomeSectionType
+import com.ablanco.marvellab.core.domain.model.favorites.Favorite
+import com.ablanco.marvellab.core.domain.model.favorites.FavoriteType
 import com.ablanco.marvellab.core.domain.model.user.User
 import com.google.firebase.auth.FirebaseUser
 import java.util.*
@@ -47,3 +49,62 @@ fun CharacterData.toDomain(): Character =
 
 fun ComicData.toDomain(): Comic =
     Comic(id.orEmpty(), title, dates.toDomain(DateTypeData.OnSaleDate), thumbnail?.toDomain())
+
+fun FavoriteData.toDomain(): Favorite = Favorite(
+    favoriteId,
+    name,
+    imageUrl,
+    when (type) {
+        FavoriteTypeData.Character -> FavoriteType.Character
+        FavoriteTypeData.Comic -> FavoriteType.Comic
+    }
+)
+
+fun Favorite.toData(userId: String): FavoriteData = FavoriteData(
+    userId,
+    id,
+    name,
+    imageUrl,
+    when (favoriteType) {
+        FavoriteType.Character -> FavoriteTypeData.Character
+        FavoriteType.Comic -> FavoriteTypeData.Comic
+    }
+)
+
+interface MapMapper<T> {
+
+    fun T.toMap(): Map<String, Any?>
+
+    fun Map<String, Any?>.fromMap(): T
+}
+
+object FireStoreFavoriteFields {
+    const val FIELD_USER_ID = "userId"
+    const val FIELD_FAVORITE_ID = "favoriteId"
+    const val FIELD_NAME = "name"
+    const val FIELD_IMAGE = "imageUrl"
+    const val FIELD_TYPE = "type"
+}
+
+object FavoriteMapMapper : MapMapper<FavoriteData> {
+
+    override fun FavoriteData.toMap(): Map<String, Any?> = mapOf(
+        FireStoreFavoriteFields.FIELD_USER_ID to userId,
+        FireStoreFavoriteFields.FIELD_FAVORITE_ID to favoriteId,
+        FireStoreFavoriteFields.FIELD_NAME to name,
+        FireStoreFavoriteFields.FIELD_IMAGE to imageUrl,
+        FireStoreFavoriteFields.FIELD_TYPE to type.number
+    )
+
+    override fun Map<String, Any?>.fromMap(): FavoriteData {
+        val userId = get(FireStoreFavoriteFields.FIELD_USER_ID) as String
+        val favoriteId = get(FireStoreFavoriteFields.FIELD_FAVORITE_ID) as String
+        val name = get(FireStoreFavoriteFields.FIELD_NAME) as? String
+        val imageUrl = get(FireStoreFavoriteFields.FIELD_IMAGE) as? String
+        val type = FavoriteTypeData.values().first {
+            it.number == get(FireStoreFavoriteFields.FIELD_TYPE) as Int
+        }
+        return FavoriteData(userId, favoriteId, name, imageUrl, type)
+    }
+
+}

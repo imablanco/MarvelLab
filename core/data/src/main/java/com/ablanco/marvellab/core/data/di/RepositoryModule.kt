@@ -33,4 +33,8 @@ abstract class RepositoryModule {
     @Binds
     abstract fun providesConfigRepository(impl: ConfigRepositoryImpl): ConfigRepository
 
+    @Singleton
+    @Binds
+    abstract fun providesFavoritesRepository(impl: FavoritesRepositoryImpl): FavoritesRepository
+
 }
