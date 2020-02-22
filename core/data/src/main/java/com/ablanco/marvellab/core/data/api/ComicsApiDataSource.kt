@@ -32,7 +32,7 @@ class ComicsApiDataSource @Inject constructor(private val comicsService: ComicsS
             .map(ComicData::toDomain)
     }
 
-    suspend fun getComicCharacters(comicId: String, offset: Int = 0): Resource<List<Comic>> {
+    suspend fun getCharacterComics(comicId: String, offset: Int = 0): Resource<List<Comic>> {
         return buildListResource {
             comicsService.getCharacterComics(
                 comicId,

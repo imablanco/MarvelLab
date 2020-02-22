@@ -33,7 +33,12 @@ fun HomeSectionData.toDomain() = HomeSection(name, icon, type?.toDomain(), order
 
 fun HomeConfigData.toDomain() = HomeConfig(sections?.map(HomeSectionData::toDomain))
 
-fun ImageData.toDomain(): String = "$path.$extension"
+/*The only way we to have to detect if the image is not valid is checking the literal
+* that the API throws at us (image_not_available)*/
+private const val ImageNotAvailableLiteral = "image_not_available"
+
+fun ImageData.toDomain(): String? = "$path.$extension"
+    .takeIf { !it.contains(ImageNotAvailableLiteral) }
 
 fun List<DateData>.toDomain(typeData: DateTypeData): Date? = find { it.type == typeData }?.date
 
@@ -41,4 +46,4 @@ fun CharacterData.toDomain(): Character =
     Character(id.orEmpty(), name, description, thumbnail?.toDomain())
 
 fun ComicData.toDomain(): Comic =
-    Comic(id.orEmpty(), title, dates.toDomain(DateTypeData.onSaleDate), thumbnail?.toDomain())
+    Comic(id.orEmpty(), title, dates.toDomain(DateTypeData.OnSaleDate), thumbnail?.toDomain())

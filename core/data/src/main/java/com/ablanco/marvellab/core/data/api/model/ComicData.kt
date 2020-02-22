@@ -8,7 +8,7 @@ import com.squareup.moshi.Json
  */
 data class ComicData(
     @Json(name = "id") val id: String?,
-    @Json(name = "name") val title: String?,
+    @Json(name = "title") val title: String?,
     @Json(name = "thumbnail") val thumbnail: ImageData?,
     @Json(name = "dates") val dates: List<DateData>
 )

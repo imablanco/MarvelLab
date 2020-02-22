@@ -59,7 +59,7 @@ class ComicsRepositoryImpl @Inject constructor(
         flow {
             dbDataSource.getCharacterComics(characterId).collect { dbComics ->
                 if (dbComics.size <= offset) {
-                    apiDataSource.getComicCharacters(characterId, offset).also { apiResource ->
+                    apiDataSource.getCharacterComics(characterId, offset).also { apiResource ->
                         apiResource.getOrNull()?.let { comics ->
                             if (comics.isNotEmpty()) {
                                 val allComics = dbComics + comics
