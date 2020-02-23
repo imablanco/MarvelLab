@@ -36,6 +36,14 @@
                 android:textColor="@color/colorWhite"
                 tools:text="Comic" />
 
+            <CheckBox
+                android:id="@+id/cbFavorite"
+                style="@style/FavoriteButtonStyle"
+                android:layout_width="@dimen/buttonFavoriteSize"
+                android:layout_height="@dimen/buttonFavoriteSize"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/marginMini" />
+
         </com.ablanco.marvellab.core.ui.views.AspectRatioFrameLayout>
 
     </androidx.cardview.widget.CardView>

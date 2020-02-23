@@ -1,6 +1,7 @@
 package com.ablanco.marvellab.features.comics.ui.detail
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,7 +21,6 @@ import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailView
 import com.ablanco.marvellab.features.comics.presentation.detail.GoToCharacterDetailAction
 import com.ablanco.marvellab.shared.navigation.Characters
 import com.ablanco.marvellab.shared.navigation.featureNavigator
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
 import javax.inject.Inject
@@ -31,8 +31,19 @@ import javax.inject.Inject
  */
 class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comic_detail) {
 
-    override val toolbarConfig: ToolbarConfig by lazy { SimpleToolbarConfig() }
+    override val toolbarConfig: ToolbarConfig = SimpleToolbarConfig(
+        menu = R.menu.menu_comic_detail,
+        onMenuClickListener = {
+            when (it.itemId) {
+                R.id.action_fav -> viewModel.favoriteComicClicked()
+            }
+            true
+        }
+    )
     override val getToolbarView: () -> CollapsingToolbarLayout = { collapsingToolbarLayout }
+
+    private val menuActionView: MenuItem?
+        get() = toolbar.menu?.findItem(R.id.action_fav)
 
     @Inject
     lateinit var viewModelFactory: ComicDetailViewModelFactory
@@ -50,7 +61,7 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
     }
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
-        val adapter = ComicCharactersAdapter(viewModel::characterClicked)
+        val adapter = ComicCharactersAdapter(viewModel::characterClicked, viewModel::favoriteCharacterClicked)
         val layoutManager = GridLayoutManager(requireContext(), 2)
         rvCharacters.layoutManager = layoutManager
         rvCharacters.adapter = adapter
@@ -70,12 +81,17 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
-            collapsingToolbarLayout.title = state.comic?.title
+            collapsingToolbarLayout.title = state.comic?.comic?.title
             GlideApp.with(this)
-                .load(state.comic?.coverImageUrl)
+                .load(state.comic?.comic?.coverImageUrl)
                 .placeholder(R.drawable.ic_book_black_24dp)
                 .into(ivComic)
             adapter.submitList(state.characters)
+            val isFavorite = state.comic?.isFavorite == true
+            menuActionView?.setIcon(
+                if (isFavorite) R.drawable.ic_favorite_black_24dp
+                else R.drawable.ic_favorite_border_black_24dp
+            )
         })
 
         viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->

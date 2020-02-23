@@ -2,4 +2,5 @@
     <string name="app_name">Comics</string>
     <string name="comics_list_search_hint">Search</string>
     <string name="comics_list_title">Comics</string>
+    <string name="comic_detail_favorite">Favorite</string>
 </resources>

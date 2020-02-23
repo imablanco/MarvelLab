@@ -49,16 +49,12 @@ class CharacterDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_
 
     private val viewModel: CharacterDetailViewModel by viewModels { viewModelFactory }
 
-    private val characterId: String by lazy {
-        arguments?.getString(ARG_CHARACTER_ID).orEmpty()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         DaggerCharacterDetailComponent
             .builder()
-            .characterId(characterId)
+            .characterId(arguments?.getString(ARG_CHARACTER_ID).orEmpty())
             .coreComponent(coreComponent)
             .build()
             .inject(this)

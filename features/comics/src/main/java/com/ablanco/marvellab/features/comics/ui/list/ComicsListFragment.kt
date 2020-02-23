@@ -51,7 +51,7 @@ class ComicsListFragment : BaseToolbarFragment(R.layout.fragment_comics_list) {
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        val adapter = ComicsListAdapter(viewModel::comicClicked)
+        val adapter = ComicsListAdapter(viewModel::comicClicked, viewModel::favoriteClicked)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
         rvComics.layoutManager = layoutManager
@@ -61,8 +61,7 @@ class ComicsListFragment : BaseToolbarFragment(R.layout.fragment_comics_list) {
         })
         etSearch.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH ->
-                    viewModel.searchComics(etSearch.textOrNull)
+                EditorInfo.IME_ACTION_SEARCH -> viewModel.searchComics(etSearch.textOrNull)
             }
             false
         }
