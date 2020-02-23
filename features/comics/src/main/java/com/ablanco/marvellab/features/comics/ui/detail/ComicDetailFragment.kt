@@ -61,7 +61,10 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
     }
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
-        val adapter = ComicCharactersAdapter(viewModel::characterClicked, viewModel::favoriteCharacterClicked)
+        val adapter = ComicCharactersAdapter(
+            viewModel::characterClicked,
+            viewModel::favoriteCharacterClicked
+        )
         val layoutManager = GridLayoutManager(requireContext(), 2)
         rvCharacters.layoutManager = layoutManager
         rvCharacters.adapter = adapter
