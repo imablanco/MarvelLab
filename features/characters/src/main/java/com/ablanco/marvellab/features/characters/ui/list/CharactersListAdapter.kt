@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.marvellab.core.ui.DefaultItemCallback
 import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.features.characters.R
-import com.ablanco.marvellab.features.characters.presentation.list.CharacterPresentation
+import com.ablanco.marvellab.features.characters.presentation.common.CharacterPresentation
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-29.

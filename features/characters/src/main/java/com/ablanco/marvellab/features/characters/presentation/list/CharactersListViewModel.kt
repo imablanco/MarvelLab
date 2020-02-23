@@ -1,14 +1,17 @@
 package com.ablanco.marvellab.features.characters.presentation.list
 
 import com.ablanco.marvellab.core.di.FragmentScope
+import com.ablanco.marvellab.core.domain.extensions.toFavorite
 import com.ablanco.marvellab.core.domain.model.favorites.Favorite
-import com.ablanco.marvellab.core.domain.model.favorites.FavoriteType
 import com.ablanco.marvellab.core.domain.repository.CharactersRepository
 import com.ablanco.marvellab.core.domain.repository.FavoritesRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
 import com.ablanco.marvellab.core.presentation.ViewState
 import com.ablanco.marvellab.core.presentation.autoCancelableJob
+import com.ablanco.marvellab.features.characters.presentation.common.CharacterPresentation
+import com.ablanco.marvellab.features.characters.presentation.common.mapCharacterPresentationsWithFavorites
+import com.ablanco.marvellab.features.characters.presentation.common.mapCharactersWithFavorites
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -40,8 +43,7 @@ class CharactersListViewModel(
     private val favoritesRepository: FavoritesRepository
 ) : LoaderViewModel<CharactersListViewState, CharactersListViewAction>() {
 
-    override val initialViewState: CharactersListViewState =
-        CharactersListViewState()
+    override val initialViewState: CharactersListViewState = CharactersListViewState()
 
     private var searchJob by autoCancelableJob()
 
@@ -51,7 +53,11 @@ class CharactersListViewModel(
         launch {
             favoritesRepository.getAllFavorites().collect { resource ->
                 favorites = resource.getOrNull().orEmpty()
-                setState { copy(characters = characters.mapWithFavorites(favorites)) }
+                setState {
+                    copy(
+                        characters = characters.mapCharacterPresentationsWithFavorites(favorites)
+                    )
+                }
             }
         }
         searchCharacters()
@@ -62,8 +68,7 @@ class CharactersListViewModel(
             setState { copy(isLoading = true) }
             charactersRepository.searchCharacters(search, offset).collect { resource ->
                 val characters = resource.getOrNull()
-                    ?.map { CharacterPresentation(it, false) }
-                    ?.mapWithFavorites(favorites)
+                    ?.mapCharactersWithFavorites(favorites)
                     .orEmpty()
                 setState { copy(isLoading = false, characters = characters) }
             }
@@ -76,28 +81,12 @@ class CharactersListViewModel(
 
     fun favoriteClicked(item: CharacterPresentation) {
         launch {
-            val character = item.character
-            val favorite = Favorite(
-                character.id,
-                character.name,
-                character.imageUrl,
-                FavoriteType.Character
-            )
+            val favorite = item.character.toFavorite()
             if (item.isFavorite) {
                 favoritesRepository.removeFavorite(favorite)
             } else {
                 favoritesRepository.addFavorite(favorite)
             }
         }
-    }
-
-    private fun List<CharacterPresentation>.mapWithFavorites(
-        favorites: List<Favorite>
-    ): List<CharacterPresentation> {
-        val favoritesIds = favorites
-            .filter { it.favoriteType == FavoriteType.Character }
-            .map(Favorite::id)
-
-        return map { it.copy(isFavorite = it.character.id in favoritesIds) }
     }
 }

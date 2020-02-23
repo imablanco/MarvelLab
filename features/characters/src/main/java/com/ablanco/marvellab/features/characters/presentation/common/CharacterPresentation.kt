@@ -1,4 +1,4 @@
-package com.ablanco.marvellab.features.characters.presentation.list
+package com.ablanco.marvellab.features.characters.presentation.common
 
 import com.ablanco.marvellab.core.domain.model.Character
 

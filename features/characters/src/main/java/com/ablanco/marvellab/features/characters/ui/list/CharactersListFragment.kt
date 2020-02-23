@@ -36,9 +36,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
     private val viewModel: CharactersListViewModel by viewModels { viewModelFactory }
 
     override val toolbarConfig: ToolbarConfig by lazy {
-        SimpleToolbarConfig(
-            title = getString(R.string.characters_list_title)
-        )
+        SimpleToolbarConfig(title = getString(R.string.characters_list_title))
     }
     override val getToolbarView: () -> Toolbar = { toolbar }
 
