@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ablanco.marvellab.core.data.db.model.ComicEntity
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-05.
@@ -17,7 +18,7 @@ interface ComicsDao {
     suspend fun getComicsById(ids: List<String>): List<ComicEntity>
 
     @Query("""select * from comics where comicId = :comicId """)
-    suspend fun getComic(comicId: String): ComicEntity?
+    fun getComic(comicId: String): Flow<ComicEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(comics: List<ComicEntity>)

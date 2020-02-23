@@ -7,5 +7,6 @@ package com.ablanco.marvellab.core.domain.model.config
 enum class HomeSectionType {
     Characters,
     Comics,
-    Profile
+    Profile,
+    Favorites,
 }

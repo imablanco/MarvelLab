@@ -12,5 +12,7 @@ enum class HomeSectionTypeData {
     @Json(name = "1")
     Comics,
     @Json(name = "2")
-    Profile
+    Profile,
+    @Json(name = "3")
+    Favorites
 }

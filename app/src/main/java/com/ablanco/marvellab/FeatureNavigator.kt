@@ -8,6 +8,7 @@ import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragme
 import com.ablanco.marvellab.features.characters.ui.list.CharactersListFragment
 import com.ablanco.marvellab.features.comics.ui.detail.ComicDetailFragment
 import com.ablanco.marvellab.features.comics.ui.list.ComicsListFragment
+import com.ablanco.marvellab.features.favorites.ui.FavoritesFragment
 import com.ablanco.marvellab.features.home.ui.HomeActivity
 import com.ablanco.marvellab.features.profile.ui.ProfileFragment
 import com.ablanco.marvellab.features.welcome.ui.splash.SplashActivity
@@ -38,6 +39,7 @@ class FeatureNavigatorImpl(private val context: Context) : FeatureNavigator {
                 feature.comicId?.let { ComicDetailFragment.newInstance(it) }
                     ?: ComicsListFragment()
             }
+            is Favorites -> FavoritesFragment()
             else -> null
         }
 }

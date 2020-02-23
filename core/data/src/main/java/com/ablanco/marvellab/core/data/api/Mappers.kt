@@ -29,6 +29,7 @@ fun HomeSectionTypeData.toDomain() = when (this) {
     HomeSectionTypeData.Characters -> HomeSectionType.Characters
     HomeSectionTypeData.Comics -> HomeSectionType.Comics
     HomeSectionTypeData.Profile -> HomeSectionType.Profile
+    HomeSectionTypeData.Favorites -> HomeSectionType.Favorites
 }
 
 fun HomeSectionData.toDomain() = HomeSection(name, icon, type?.toDomain(), order)

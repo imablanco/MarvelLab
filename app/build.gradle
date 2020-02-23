@@ -45,6 +45,7 @@ dependencies {
     implementation project(':features:profile')
     implementation project(':features:characters')
     implementation project(':features:comics')
+    implementation project(':features:favorites')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"

@@ -6,7 +6,7 @@
     android:foreground="?selectableItemBackground">
 
     <ImageView
-        android:id="@+id/ivCharacter"
+        android:id="@+id/ivFavorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@null"
@@ -19,13 +19,13 @@
         android:background="@drawable/bg_image_overlay" />
 
     <TextView
-        android:id="@+id/tvCharacterName"
+        android:id="@+id/tvFavoriteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:ellipsize="end"
         android:lines="1"
-        android:padding="@dimen/marginNormal"
+        android:padding="@dimen/marginMini"
         tools:text="Name" />
 
     <CheckBox

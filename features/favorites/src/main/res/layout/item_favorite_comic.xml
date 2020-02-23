@@ -19,7 +19,7 @@
             app:ratio="@dimen/comicRatio">
 
             <ImageView
-                android:id="@+id/ivComic"
+                android:id="@+id/ivFavorite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
@@ -32,7 +32,7 @@
                 android:background="@drawable/bg_image_overlay" />
 
             <TextView
-                android:id="@+id/tvComicName"
+                android:id="@+id/tvFavoriteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

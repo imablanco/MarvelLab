@@ -9,6 +9,7 @@ import com.ablanco.marvellab.core.domain.model.Comic
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -34,9 +35,7 @@ class ComicsDbDataSource @Inject constructor(
         }
     }
 
-    fun getComic(comicId: String): Flow<Comic?> = flow {
-        emit(comicsDao.getComic(comicId)?.toDomain())
-    }
+    fun getComic(comicId: String): Flow<Comic?> = comicsDao.getComic(comicId).map { it?.toDomain() }
 
     fun getCharacterComics(characterId: String): Flow<List<Comic>> = flow {
         characterComicsDao.getCharacterComics(characterId).collect { entity ->
