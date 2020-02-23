@@ -11,7 +11,8 @@ data class FavoriteData(
     val favoriteId: String,
     val name: String?,
     val imageUrl: String?,
-    val type: FavoriteTypeData
+    val type: FavoriteTypeData,
+    val createdAt: Long
 ) : FireStoreEntity {
 
     override val fireStoreId: String

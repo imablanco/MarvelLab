@@ -69,7 +69,8 @@ fun Favorite.toData(userId: String): FavoriteData = FavoriteData(
     when (favoriteType) {
         FavoriteType.Character -> FavoriteTypeData.Character
         FavoriteType.Comic -> FavoriteTypeData.Comic
-    }
+    },
+    System.currentTimeMillis()
 )
 
 interface MapMapper<T> {
@@ -85,6 +86,7 @@ object FireStoreFavoriteFields {
     const val FIELD_NAME = "name"
     const val FIELD_IMAGE = "imageUrl"
     const val FIELD_TYPE = "type"
+    const val FIELD_TIMESTAMP = "createdAt"
 }
 
 object FavoriteMapMapper : MapMapper<FavoriteData> {
@@ -94,7 +96,8 @@ object FavoriteMapMapper : MapMapper<FavoriteData> {
         FireStoreFavoriteFields.FIELD_FAVORITE_ID to favoriteId,
         FireStoreFavoriteFields.FIELD_NAME to name,
         FireStoreFavoriteFields.FIELD_IMAGE to imageUrl,
-        FireStoreFavoriteFields.FIELD_TYPE to type.number
+        FireStoreFavoriteFields.FIELD_TYPE to type.number,
+        FireStoreFavoriteFields.FIELD_TIMESTAMP to createdAt
     )
 
     override fun Map<String, Any?>.fromMap(): FavoriteData {
@@ -105,7 +108,8 @@ object FavoriteMapMapper : MapMapper<FavoriteData> {
         val type = FavoriteTypeData.values().first {
             it.number.toLong() == get(FireStoreFavoriteFields.FIELD_TYPE) as Long
         }
-        return FavoriteData(userId, favoriteId, name, imageUrl, type)
+        val createdAt = get(FireStoreFavoriteFields.FIELD_TIMESTAMP) as Long
+        return FavoriteData(userId, favoriteId, name, imageUrl, type, createdAt)
     }
 
 }

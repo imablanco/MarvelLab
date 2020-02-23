@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ablanco.marvellab.core.ui.views.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground">
+    android:layout_margin="@dimen/marginMini"
+    app:cardCornerRadius="@dimen/roundedCornerSizeNormal">
 
-    <ImageView
-        android:id="@+id/ivFavorite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        tools:src="@tools:sample/avatars" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_image_overlay" />
-
-    <TextView
-        android:id="@+id/tvFavoriteName"
+    <com.ablanco.marvellab.core.ui.views.SquareFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:ellipsize="end"
-        android:lines="1"
-        android:padding="@dimen/marginMini"
-        tools:text="Name" />
+        android:foreground="?selectableItemBackground">
 
-    <CheckBox
-        android:id="@+id/cbFavorite"
-        style="@style/FavoriteButtonStyle"
-        android:layout_width="@dimen/buttonFavoriteSize"
-        android:layout_height="@dimen/buttonFavoriteSize"
-        android:layout_gravity="end"
-        android:layout_margin="@dimen/marginMini" />
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars" />
 
-</com.ablanco.marvellab.core.ui.views.SquareFrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_image_overlay" />
+
+        <TextView
+            android:id="@+id/tvFavoriteName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:lines="1"
+            android:padding="@dimen/marginMini"
+            tools:text="Name" />
+
+        <CheckBox
+            android:id="@+id/cbFavorite"
+            style="@style/FavoriteButtonStyle"
+            android:layout_width="@dimen/buttonFavoriteSize"
+            android:layout_height="@dimen/buttonFavoriteSize"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/marginMini" />
+
+    </com.ablanco.marvellab.core.ui.views.SquareFrameLayout>
+</androidx.cardview.widget.CardView>

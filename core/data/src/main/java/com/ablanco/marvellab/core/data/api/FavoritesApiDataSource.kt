@@ -32,21 +32,22 @@ class FavoritesApiDataSource @Inject constructor() {
     @ExperimentalCoroutinesApi
     fun getFavorites(): Flow<Resource<List<Favorite>>> = channelFlow {
         firebaseAuth.currentUser?.let { user ->
-                val listener = collection
-                    .whereEqualTo(FireStoreFavoriteFields.FIELD_USER_ID, user.uid)
-                    .addSnapshotListener { snapshot, e ->
-                        snapshot?.let { results ->
-                            val favorites = results.documents
-                                .mapNotNull { runCatching { FavoriteMapMapper.run { it.data?.fromMap() } }.getOrNull() }
-                                .map { it.toDomain() }
-                            channel.offer(successOf(favorites))
-                        }
-                        e?.let {
-                            channel.offer(failOf(it))
-                        }
+            val listener = collection
+                .whereEqualTo(FireStoreFavoriteFields.FIELD_USER_ID, user.uid)
+                .orderBy(FireStoreFavoriteFields.FIELD_TIMESTAMP)
+                .addSnapshotListener { snapshot, e ->
+                    snapshot?.let { results ->
+                        val favorites = results.documents
+                            .mapNotNull { runCatching { FavoriteMapMapper.run { it.data?.fromMap() } }.getOrNull() }
+                            .map { it.toDomain() }
+                        channel.offer(successOf(favorites))
                     }
+                    e?.let {
+                        channel.offer(failOf(it))
+                    }
+                }
 
-                awaitClose { listener.remove() }
+            awaitClose { listener.remove() }
 
         } ?: send(failOf(UserNotPresentException))
     }
