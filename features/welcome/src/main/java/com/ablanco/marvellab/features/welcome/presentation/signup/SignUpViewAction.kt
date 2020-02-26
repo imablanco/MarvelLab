@@ -9,3 +9,4 @@ import com.ablanco.marvellab.core.presentation.ViewAction
 sealed class SignUpViewAction : ViewAction
 
 data class UserSignedUpAction(val success: Boolean) : SignUpViewAction()
+object PickPhotoAction : SignUpViewAction()

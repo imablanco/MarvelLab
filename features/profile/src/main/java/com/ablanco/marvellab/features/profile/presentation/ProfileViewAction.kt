@@ -10,3 +10,4 @@ sealed class ProfileViewAction : ViewAction
 
 object ErrorSavingAction : ProfileViewAction()
 object PickPhotoAction : ProfileViewAction()
+object LogoutAction : ProfileViewAction()

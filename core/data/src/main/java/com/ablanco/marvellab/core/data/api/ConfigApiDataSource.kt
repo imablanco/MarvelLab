@@ -8,7 +8,6 @@ import com.ablanco.marvellab.core.domain.model.failOf
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-26.
@@ -29,9 +28,9 @@ class ConfigApiDataSource @Inject constructor() {
                     val result = remoteConfig.getString(HOME)
                         .fromJson<HomeConfigData>()
                         .map { it.toDomain() }
-                    cont.resume(result)
+                    cont.resumeIfActive(result)
                 }
-                .addOnFailureListener { cont.resume(failOf(it)) }
+                .addOnFailureListener { cont.resumeIfActive(failOf(it)) }
         }
 
 

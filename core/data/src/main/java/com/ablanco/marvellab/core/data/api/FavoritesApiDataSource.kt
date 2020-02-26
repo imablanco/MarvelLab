@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-02-22.
@@ -58,7 +57,7 @@ class FavoritesApiDataSource @Inject constructor() {
                 val favoriteData = favorite.toData(user.uid)
                 collection.document(favoriteData.fireStoreId)
                     .set(FavoriteMapMapper.run { favoriteData.toMap() })
-                    .addOnCompleteListener { cont.resume(successOf(it.isSuccessful)) }
+                    .addOnCompleteListener { cont.resumeIfActive(successOf(it.isSuccessful)) }
             }
         } ?: failOf(UserNotPresentException)
     }
@@ -69,7 +68,7 @@ class FavoritesApiDataSource @Inject constructor() {
                 val favoriteData = favorite.toData(user.uid)
                 collection.document(favoriteData.fireStoreId)
                     .delete()
-                    .addOnCompleteListener { cont.resume(successOf(it.isSuccessful)) }
+                    .addOnCompleteListener { cont.resumeIfActive(successOf(it.isSuccessful)) }
             }
         } ?: failOf(UserNotPresentException)
     }

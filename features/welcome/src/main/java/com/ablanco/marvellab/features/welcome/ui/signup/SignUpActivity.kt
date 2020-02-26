@@ -1,5 +1,6 @@
 package com.ablanco.marvellab.features.welcome.ui.signup
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,17 +8,26 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.ablanco.imageprovider.ImageProvider
+import com.ablanco.imageprovider.ImageSource
 import com.ablanco.marvellab.core.di.coreComponent
+import com.ablanco.marvellab.core.domain.extensions.withIO
+import com.ablanco.marvellab.core.ui.extensions.bytes
+import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.features.welcome.R
 import com.ablanco.marvellab.features.welcome.di.DaggerSignUpComponent
+import com.ablanco.marvellab.features.welcome.presentation.signup.PickPhotoAction
 import com.ablanco.marvellab.features.welcome.presentation.signup.SignUpViewModelFactory
 import com.ablanco.marvellab.features.welcome.presentation.signup.SingUpViewModel
 import com.ablanco.marvellab.features.welcome.presentation.signup.UserSignedUpAction
 import com.ablanco.marvellab.shared.navigation.Home
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.snackbar.Snackbar
+import com.karumi.dexter.Dexter
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignUpActivity : AppCompatActivity() {
@@ -40,6 +50,7 @@ class SignUpActivity : AppCompatActivity() {
         etEmail.doAfterTextChanged { it?.toString()?.let(viewModel::onEmail) }
         etPassword.doAfterTextChanged { it?.toString()?.let(viewModel::onPassword) }
         btSignUp.setOnClickListener { viewModel.signUp() }
+        ivPhoto.setOnClickListener { viewModel.pickPhotoClicked() }
 
         viewModel.viewState.observe(this, Observer { state ->
             progressBar.switchVisibility(state.isLoading)
@@ -63,11 +74,30 @@ class SignUpActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
+
+                is PickPhotoAction -> pickPhoto()
             }
         })
     }
 
+
+    private fun pickPhoto() {
+        Dexter.withActivity(this)
+            .withPermission(Manifest.permission.CAMERA)
+            .withListener(PermissionListener {
+                ImageProvider(this).getImage(ImageSource.CAMERA) { bitmap ->
+                    bitmap?.let {
+                        lifecycleScope.launch {
+                            val data = withIO { bitmap.scale(IMAGE_MAX_SIZE_PX).bytes() }
+                            viewModel.onProfilePicture(data)
+                        }
+                    }
+                }
+            }).check()
+    }
+
     companion object {
+        private const val IMAGE_MAX_SIZE_PX = 512
         fun start(context: Context) {
             val intent = Intent(context, SignUpActivity::class.java)
             context.startActivity(intent)

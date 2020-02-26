@@ -2,6 +2,7 @@ package com.ablanco.marvellab.features.welcome.presentation.signup
 
 import com.ablanco.marvellab.core.di.ActivityScope
 import com.ablanco.marvellab.core.domain.model.Success
+import com.ablanco.marvellab.core.domain.model.auth.SignUp
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.presentation.*
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class SingUpViewModel(private val authRepository: AuthRepository) :
 
     private val emailValidator = EmailValidator()
     private val passwordValidator = MinLengthTextValidator(PASSWORD_MIN_LENGTH)
+    private var profilePicture: ByteArray? = null
 
     fun onEmail(text: String) {
         setState {
@@ -57,17 +59,25 @@ class SingUpViewModel(private val authRepository: AuthRepository) :
         }
     }
 
+
+    fun onProfilePicture(byteArray: ByteArray) {
+        profilePicture = byteArray
+    }
+
     fun signUp() {
-        val username = getState().email ?: return
+        val email = getState().email ?: return
         val password = getState().password ?: return
 
         launch {
-            setState { copy(isLoading = true) }
-            val signUpSuccessful = authRepository.signUp(username, password) is Success
+            setState { copy(isLoading = true, canContinue = false) }
+            val signUp = SignUp(email, password, profilePicture)
+            val signUpSuccessful = authRepository.signUp(signUp) is Success
             dispatchAction(UserSignedUpAction(signUpSuccessful))
-            setState { copy(isLoading = false) }
+            setState { copy(isLoading = false, canContinue = true) }
         }
     }
+
+    fun pickPhotoClicked() = dispatchAction(PickPhotoAction)
 
     companion object {
         private const val PASSWORD_MIN_LENGTH = 6

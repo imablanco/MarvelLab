@@ -1,6 +1,7 @@
 package com.ablanco.marvellab.features.welcome.presentation.login
 
 import com.ablanco.marvellab.core.di.ActivityScope
+import com.ablanco.marvellab.core.domain.model.auth.Login
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.presentation.*
 import javax.inject.Inject
@@ -57,14 +58,15 @@ class LoginViewModel(private val authRepository: AuthRepository) :
     }
 
     fun login() {
-        val username = getState().email ?: return
+        val email = getState().email ?: return
         val password = getState().password ?: return
 
         launch {
-            setState { copy(isLoading = true) }
-            val loginSuccessful = authRepository.login(username, password).getOrNull() ?: false
+            setState { copy(isLoading = true, canContinue = false) }
+            val login = Login(email, password)
+            val loginSuccessful = authRepository.login(login).getOrNull() ?: false
             dispatchAction(UserLoggedAction(loginSuccessful))
-            setState { copy(isLoading = false) }
+            setState { copy(isLoading = false, canContinue = true) }
         }
     }
 

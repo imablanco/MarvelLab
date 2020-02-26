@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-26.
@@ -63,7 +62,7 @@ class UserApiDataSource @Inject constructor() {
                         .build()
                     updateUser(request, cont)
                 }
-                .addOnFailureListener { cont.resume(failed(it)) }
+                .addOnFailureListener { cont.resumeIfActive(failed(it)) }
         }
     }
 
@@ -75,10 +74,10 @@ class UserApiDataSource @Inject constructor() {
         firebaseAuth.currentUser?.updateProfile(request)
             ?.addOnSuccessListener {
                 firebaseAuth.currentUser?.let { userChannel.offer(successOf(it.toDomain())) }
-                cont.resume(completed())
+                cont.resumeIfActive(completed())
             }
-            ?.addOnFailureListener { cont.resume(failed(it)) }
-            ?: run { cont.resume(failed(UserNotPresentException)) }
+            ?.addOnFailureListener { cont.resumeIfActive(failed(it)) }
+            ?: run { cont.resumeIfActive(failed(UserNotPresentException)) }
     }
 
     companion object {

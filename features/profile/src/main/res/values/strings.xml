@@ -5,4 +5,5 @@
     <string name="profile_name_hint">Username</string>
     <string name="profile_email_hint">Email</string>
     <string name="profile_error_name">Name can not be empty</string>
+    <string name="profile_logout">Logout</string>
 </resources>

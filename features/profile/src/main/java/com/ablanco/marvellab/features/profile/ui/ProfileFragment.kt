@@ -20,9 +20,12 @@ import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
 import com.ablanco.marvellab.features.profile.R
 import com.ablanco.marvellab.features.profile.di.DaggerProfileComponent
+import com.ablanco.marvellab.features.profile.presentation.LogoutAction
 import com.ablanco.marvellab.features.profile.presentation.PickPhotoAction
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModel
 import com.ablanco.marvellab.features.profile.presentation.ProfileViewModelFactory
+import com.ablanco.marvellab.shared.navigation.Welcome
+import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.karumi.dexter.Dexter
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -68,6 +71,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
 
         etName.doAfterTextChanged { it?.toString()?.let(viewModel::nameEntered) }
         btSave.setOnClickListener { viewModel.save() }
+        btLogout.setOnClickListener { viewModel.logOutClicked() }
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
             viewLoading.switchVisibility(state.isLoading)
@@ -90,6 +94,8 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
         viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
                 is PickPhotoAction -> pickPhoto()
+                is LogoutAction -> requireContext().featureNavigator?.getIntent(Welcome)
+                    ?.let(requireContext()::startActivity)
             }
         })
 

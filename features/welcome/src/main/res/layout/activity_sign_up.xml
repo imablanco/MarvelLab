@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.SignUpActivity">
 
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="@dimen/profilePhotoSize"
+        android:layout_height="@dimen/profilePhotoSize"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_profile_picture"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@+id/tilEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_person_black_24dp" />
+
     <Button
         android:id="@+id/btSignUp"
         android:layout_width="0dp"
@@ -70,6 +83,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

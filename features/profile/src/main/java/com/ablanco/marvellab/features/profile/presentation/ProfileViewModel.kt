@@ -3,6 +3,7 @@ package com.ablanco.marvellab.features.profile.presentation
 import com.ablanco.marvellab.core.di.FragmentScope
 import com.ablanco.marvellab.core.domain.model.Success
 import com.ablanco.marvellab.core.domain.model.user.UserUpdate
+import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.domain.repository.UserRepository
 import com.ablanco.marvellab.core.presentation.BaseViewModelFactory
 import com.ablanco.marvellab.core.presentation.LoaderViewModel
@@ -17,10 +18,12 @@ import javax.inject.Inject
  */
 
 @FragmentScope
-class ProfileViewModelFactory @Inject constructor(private val userRepository: UserRepository) :
-    BaseViewModelFactory<ProfileViewModel>() {
+class ProfileViewModelFactory @Inject constructor(
+    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository
+) : BaseViewModelFactory<ProfileViewModel>() {
 
-    override fun create(): ProfileViewModel = ProfileViewModel(userRepository)
+    override fun create(): ProfileViewModel = ProfileViewModel(userRepository, authRepository)
 }
 
 data class ProfileViewState(
@@ -33,8 +36,10 @@ data class ProfileViewState(
     val isNameValid: Boolean = true
 ) : ViewState
 
-class ProfileViewModel(private val userRepository: UserRepository) :
-    LoaderViewModel<ProfileViewState, ProfileViewAction>() {
+class ProfileViewModel(
+    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository
+) : LoaderViewModel<ProfileViewState, ProfileViewAction>() {
 
     override val initialViewState: ProfileViewState = ProfileViewState()
 
@@ -82,6 +87,13 @@ class ProfileViewModel(private val userRepository: UserRepository) :
             val isSuccess = userRepository.uploadUserProfilePicture(byteArray) is Success
             if (!isSuccess) dispatchAction(ErrorSavingAction)
             setState { copy(isLoading = false, canSave = true, canEditPhoto = true) }
+        }
+    }
+
+    fun logOutClicked() {
+        launch {
+            authRepository.logout()
+            dispatchAction(LogoutAction)
         }
     }
 }

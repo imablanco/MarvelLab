@@ -3,7 +3,10 @@ package com.ablanco.marvellab.core.data.repository
 import com.ablanco.marvellab.core.data.api.AuthApiDataSource
 import com.ablanco.marvellab.core.domain.model.CompletableResource
 import com.ablanco.marvellab.core.domain.model.Resource
+import com.ablanco.marvellab.core.domain.model.auth.Login
+import com.ablanco.marvellab.core.domain.model.auth.SignUp
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -15,11 +18,12 @@ class AuthRepositoryImpl @Inject constructor(private val authApiDataSource: Auth
 
     override suspend fun isUserLogged(): Resource<Boolean> = authApiDataSource.isUserLogged()
 
-    override suspend fun login(username: String, password: String): Resource<Boolean> =
-        authApiDataSource.login(username, password)
+    override suspend fun login(login: Login): Resource<Boolean> =
+        authApiDataSource.login(login)
 
-    override suspend fun signUp(username: String, password: String): CompletableResource =
-        authApiDataSource.signUp(username, password)
+    @ExperimentalCoroutinesApi
+    override suspend fun signUp(signUp: SignUp): CompletableResource =
+        authApiDataSource.signUp(signUp)
 
     override suspend fun logout() = authApiDataSource.logout()
 }
