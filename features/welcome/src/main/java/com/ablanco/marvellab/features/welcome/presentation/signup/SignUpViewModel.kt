@@ -1,10 +1,12 @@
 package com.ablanco.marvellab.features.welcome.presentation.signup
 
 import com.ablanco.marvellab.core.di.ActivityScope
+import com.ablanco.marvellab.core.domain.extensions.withIO
 import com.ablanco.marvellab.core.domain.model.Success
 import com.ablanco.marvellab.core.domain.model.auth.SignUp
 import com.ablanco.marvellab.core.domain.repository.AuthRepository
 import com.ablanco.marvellab.core.presentation.*
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -25,7 +27,8 @@ data class SignUpViewState(
     val isEmailInvalid: Boolean = false,
     val isPasswordInvalid: Boolean = false,
     val canContinue: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val profilePictureUrl: String? = null
 ) : ViewState
 
 class SingUpViewModel(private val authRepository: AuthRepository) :
@@ -60,8 +63,11 @@ class SingUpViewModel(private val authRepository: AuthRepository) :
     }
 
 
-    fun onProfilePicture(byteArray: ByteArray) {
-        profilePicture = byteArray
+    fun onProfilePicture(file: File) {
+        launch {
+            profilePicture = withIO { file.readBytes() }
+            setState { copy(profilePictureUrl = file.absolutePath) }
+        }
     }
 
     fun signUp() {

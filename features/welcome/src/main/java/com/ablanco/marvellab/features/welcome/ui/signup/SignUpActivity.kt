@@ -13,7 +13,8 @@ import com.ablanco.imageprovider.ImageProvider
 import com.ablanco.imageprovider.ImageSource
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.domain.extensions.withIO
-import com.ablanco.marvellab.core.ui.extensions.bytes
+import com.ablanco.marvellab.core.ui.GlideApp
+import com.ablanco.marvellab.core.ui.extensions.saveToFile
 import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.features.welcome.R
@@ -24,6 +25,7 @@ import com.ablanco.marvellab.features.welcome.presentation.signup.SingUpViewMode
 import com.ablanco.marvellab.features.welcome.presentation.signup.UserSignedUpAction
 import com.ablanco.marvellab.shared.navigation.Home
 import com.ablanco.marvellab.shared.navigation.featureNavigator
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -59,6 +61,11 @@ class SignUpActivity : AppCompatActivity() {
             tilPassword.error =
                 getString(R.string.sign_up_invalid_password).takeIf { state.isPasswordInvalid }
             btSignUp.isEnabled = state.canContinue
+            GlideApp.with(this)
+                .applyDefaultRequestOptions(RequestOptions.circleCropTransform())
+                .load(state.profilePictureUrl)
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .into(ivPhoto)
         })
 
         viewModel.viewAction.observe(this, Observer { action ->
@@ -88,8 +95,12 @@ class SignUpActivity : AppCompatActivity() {
                 ImageProvider(this).getImage(ImageSource.CAMERA) { bitmap ->
                     bitmap?.let {
                         lifecycleScope.launch {
-                            val data = withIO { bitmap.scale(IMAGE_MAX_SIZE_PX).bytes() }
-                            viewModel.onProfilePicture(data)
+                            val file = withIO {
+                                bitmap
+                                    .scale(IMAGE_MAX_SIZE_PX)
+                                    .saveToFile(this@SignUpActivity)
+                            }
+                            file?.let(viewModel::onProfilePicture)
                         }
                     }
                 }

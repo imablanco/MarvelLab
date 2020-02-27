@@ -9,5 +9,4 @@
     <dimen name="roundedCornerSizeMini">4dp</dimen>
     <dimen name="comicDefaultWith">160dp</dimen>
     <dimen name="buttonFavoriteSize">24dp</dimen>
-    <dimen name="profilePhotoSize">84dp</dimen>
 </resources>

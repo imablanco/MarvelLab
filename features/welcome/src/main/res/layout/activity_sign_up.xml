@@ -20,6 +20,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
+    <ImageView
+        android:contentDescription="@null"
+        android:id="@+id/ivEdit"
+        android:background="@drawable/bg_profile_picture"
+        android:tint="@color/colorWhite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPhoto"
+        app:layout_constraintEnd_toEndOf="@+id/ivPhoto"
+        app:srcCompat="@drawable/ic_edit_24dp" />
+
     <Button
         android:id="@+id/btSignUp"
         android:layout_width="0dp"
