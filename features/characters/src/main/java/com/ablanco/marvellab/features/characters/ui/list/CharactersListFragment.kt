@@ -13,15 +13,16 @@ import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.ablanco.marvellab.core.ui.views.GridSpacingItemDecorator
 import com.ablanco.marvellab.features.characters.R
+import com.ablanco.marvellab.features.characters.databinding.FragmentCharactersListBinding
 import com.ablanco.marvellab.features.characters.di.list.DaggerCharactersListComponent
 import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModel
 import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModelFactory
 import com.ablanco.marvellab.features.characters.presentation.list.GoToCharacterDetail
 import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragment
-import kotlinx.android.synthetic.main.fragment_characters_list.*
 import javax.inject.Inject
 
 /**
@@ -38,7 +39,9 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
     override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(title = getString(R.string.characters_list_title))
     }
-    override val getToolbarView: () -> Toolbar = { toolbar }
+    override val getToolbarView: () -> Toolbar = { binding.toolbar }
+
+    private val binding: FragmentCharactersListBinding by binding(FragmentCharactersListBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,28 +57,28 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
         val adapter = CharactersListAdapter(viewModel::characterClicked, viewModel::favoriteClicked)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
-        rvCharacters.layoutManager = layoutManager
-        rvCharacters.adapter = adapter
-        rvCharacters.addOnScrollListener(EndScrollListener(layoutManager) { items ->
-            viewModel.searchCharacters(etSearch.textOrNull, items)
+        binding.rvCharacters.layoutManager = layoutManager
+        binding.rvCharacters.adapter = adapter
+        binding.rvCharacters.addOnScrollListener(EndScrollListener(layoutManager) { items ->
+            viewModel.searchCharacters(binding.etSearch.textOrNull, items)
         })
-        rvCharacters.addItemDecoration(
+        binding.rvCharacters.addItemDecoration(
             GridSpacingItemDecorator(
                 requireContext().resources.getDimensionPixelSize(
                     R.dimen.charactersListItemSpacing
                 )
             )
         )
-        etSearch.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH ->
-                    viewModel.searchCharacters(etSearch.textOrNull)
+                    viewModel.searchCharacters(binding.etSearch.textOrNull)
             }
             false
         }
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
-            viewLoading.switchVisibility(state.isLoading)
+            binding.viewLoading.switchVisibility(state.isLoading)
             adapter.submitList(state.characters)
         })
 

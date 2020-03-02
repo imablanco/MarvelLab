@@ -1,0 +1,47 @@
+package com.ablanco.marvellab.core.ui.viewbinding
+
+import android.app.Activity
+import android.view.LayoutInflater
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
+
+/**
+ * Created by Álvaro Blanco Cabrero on 01/03/2020.
+ * MarvelLab.
+ */
+class FragmentViewBindingDelegate<T : Any>(
+    val fragment: Fragment,
+    val bind: (View) -> T
+) : ReadOnlyProperty<Any, T>, DefaultLifecycleObserver {
+
+    private var binding: T? = null
+
+    init {
+        fragment.viewLifecycleOwnerLiveData.observe(fragment, Observer {
+            fragment.viewLifecycleOwner.lifecycle.addObserver(this)
+        })
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        binding = null
+    }
+
+    override fun getValue(thisRef: Any, property: KProperty<*>): T {
+        return binding?.let { it } ?: run {
+            val rootView = fragment.view ?: throw IllegalStateException()
+            bind(rootView).also { binding = it }
+        }
+    }
+}
+
+fun <T : Any> Fragment.binding(bind: (View) -> T) =
+    FragmentViewBindingDelegate(this, bind)
+
+fun <T : Any> Activity.binding(inflate: (LayoutInflater) -> T) = lazy {
+    inflate(layoutInflater)
+}
