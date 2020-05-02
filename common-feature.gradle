@@ -24,4 +24,6 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
+    testImplementation project(":core:test")
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
 }
