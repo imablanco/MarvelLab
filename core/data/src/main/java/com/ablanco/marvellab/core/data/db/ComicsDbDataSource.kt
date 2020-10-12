@@ -5,6 +5,7 @@ import com.ablanco.marvellab.core.data.db.dao.ComicsDao
 import com.ablanco.marvellab.core.data.db.dao.ComicsSearchDao
 import com.ablanco.marvellab.core.data.db.model.CharacterComics
 import com.ablanco.marvellab.core.data.db.model.ComicSearchEntity
+import com.ablanco.marvellab.core.domain.model.Character
 import com.ablanco.marvellab.core.domain.model.Comic
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -31,7 +32,7 @@ class ComicsDbDataSource @Inject constructor(
                 /*As SQL returns comics in random order, sort them according to search entity*/
                 val orderById = comicsIds.withIndex().associate { it.value to it.index }
                 emit(comics.sortedBy { orderById[it.id] })
-            } ?: emit(emptyList())
+            } ?: emit(emptyList<Comic>())
         }
     }
 
@@ -46,7 +47,7 @@ class ComicsDbDataSource @Inject constructor(
                 /*As SQL returns comics in random order, sort them according to search entity*/
                 val orderById = comicsIds.withIndex().associate { it.value to it.index }
                 emit(comics.sortedBy { orderById[it.id] })
-            } ?: emit(emptyList())
+            } ?: emit(emptyList<Comic>())
         }
     }
 

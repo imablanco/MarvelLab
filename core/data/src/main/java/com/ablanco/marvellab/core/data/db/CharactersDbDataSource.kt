@@ -31,7 +31,7 @@ class CharactersDbDataSource @Inject constructor(
                 /*As SQL returns characters in random order, sort them according to search entity*/
                 val orderById = characterIds.withIndex().associate { it.value to it.index }
                 emit(characters.sortedBy { orderById[it.id] })
-            } ?: emit(emptyList())
+            } ?: emit(emptyList<Character>())
         }
     }
 
@@ -47,7 +47,7 @@ class CharactersDbDataSource @Inject constructor(
                 /*As SQL returns characters in random order, sort them according to search entity*/
                 val orderById = characterIds.withIndex().associate { it.value to it.index }
                 emit(characters.sortedBy { orderById[it.id] })
-            } ?: emit(emptyList())
+            } ?: emit(emptyList<Character>())
         }
     }
 

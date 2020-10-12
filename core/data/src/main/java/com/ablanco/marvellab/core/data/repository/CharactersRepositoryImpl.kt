@@ -47,7 +47,7 @@ class CharactersRepositoryImpl @Inject constructor(
             if (character == null) {
                 apiDataSource.getCharacter(characterId).fold(
                     { dbDataSource.saveCharacter(it) },
-                    { emit(failOf(it)) }
+                    { emit(failOf<Character>(it)) }
                 )
             } else {
                 emit(successOf(character))

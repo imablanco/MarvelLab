@@ -47,7 +47,7 @@ class ComicsRepositoryImpl @Inject constructor(
             if (comic == null) {
                 apiDataSource.getComic(comicId).fold(
                     { dbDataSource.saveComic(it) },
-                    { emit(failOf(it)) }
+                    { emit(failOf<Comic>(it)) }
                 )
             } else {
                 emit(successOf(comic))
