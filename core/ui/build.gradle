@@ -1,6 +1,12 @@
 apply from: "$rootDir/common-android-library.gradle"
 apply plugin: 'kotlin-kapt'
 
+android{
+    buildFeatures {
+        viewBinding true
+    }
+}
+
 dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$androidCoreVersion"

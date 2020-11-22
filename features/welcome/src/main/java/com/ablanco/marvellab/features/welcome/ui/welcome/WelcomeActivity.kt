@@ -7,7 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.welcome.R
+import com.ablanco.marvellab.features.welcome.databinding.ActivityWelcomeBinding
 import com.ablanco.marvellab.features.welcome.di.DaggerWelcomeComponent
 import com.ablanco.marvellab.features.welcome.presentation.welcome.LoginAction
 import com.ablanco.marvellab.features.welcome.presentation.welcome.SignUpAction
@@ -15,7 +17,6 @@ import com.ablanco.marvellab.features.welcome.presentation.welcome.WelcomeViewMo
 import com.ablanco.marvellab.features.welcome.presentation.welcome.WelcomeViewModelFactory
 import com.ablanco.marvellab.features.welcome.ui.login.LoginActivity
 import com.ablanco.marvellab.features.welcome.ui.signup.SignUpActivity
-import kotlinx.android.synthetic.main.activity_welcome.*
 import javax.inject.Inject
 
 class WelcomeActivity : AppCompatActivity() {
@@ -24,6 +25,8 @@ class WelcomeActivity : AppCompatActivity() {
     lateinit var welcomeViewModelFactory: WelcomeViewModelFactory
 
     private val viewModel: WelcomeViewModel by viewModels { welcomeViewModelFactory }
+
+    private val binding: ActivityWelcomeBinding by binding(ActivityWelcomeBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +39,8 @@ class WelcomeActivity : AppCompatActivity() {
             .inject(this)
 
 
-        btLogin.setOnClickListener { viewModel.loginClicked() }
-        btSignUp.setOnClickListener { viewModel.signUpClicked() }
+        binding.btLogin.setOnClickListener { viewModel.loginClicked() }
+        binding.btSignUp.setOnClickListener { viewModel.signUpClicked() }
 
         viewModel.viewAction.observe(this, Observer { action ->
             when (action) {

@@ -31,6 +31,7 @@ buildscript {
         fragmentKtxVersion = "1.2.0"
         retrofitVersion = "2.7.2"
         moshiVersion = "1.9.2"
+        composeVersion = "1.0.0-alpha07"
 
         jUnitVersion = '4.13'
         espressoVersion = '3.3.0'
@@ -45,7 +46,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.2.0-alpha16'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.google.gms:google-services:4.3.4'
         classpath 'org.jacoco:org.jacoco.core:0.8.1'

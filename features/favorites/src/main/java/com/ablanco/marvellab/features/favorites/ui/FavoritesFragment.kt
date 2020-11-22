@@ -11,7 +11,9 @@ import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.favorites.R
+import com.ablanco.marvellab.features.favorites.databinding.FragmentFavoritesBinding
 import com.ablanco.marvellab.features.favorites.di.DaggerFavoritesComponent
 import com.ablanco.marvellab.features.favorites.presentation.FavoritesViewModel
 import com.ablanco.marvellab.features.favorites.presentation.FavoritesViewModelFactory
@@ -20,7 +22,6 @@ import com.ablanco.marvellab.features.favorites.presentation.GoToComicDetailView
 import com.ablanco.marvellab.shared.navigation.Characters
 import com.ablanco.marvellab.shared.navigation.Comics
 import com.ablanco.marvellab.shared.navigation.featureNavigator
-import kotlinx.android.synthetic.main.fragment_favorites.*
 import javax.inject.Inject
 
 /**
@@ -32,12 +33,14 @@ class FavoritesFragment : BaseToolbarFragment(R.layout.fragment_favorites) {
     override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(title = getString(R.string.favorites_title))
     }
-    override val getToolbarView: () -> Toolbar = { toolbar }
+    override val getToolbarView: () -> Toolbar = { binding.toolbar }
 
     @Inject
     lateinit var favoritesViewModelFactory: FavoritesViewModelFactory
 
     private val viewModel: FavoritesViewModel by viewModels { favoritesViewModelFactory }
+
+    private val binding: FragmentFavoritesBinding by binding(FragmentFavoritesBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +56,14 @@ class FavoritesFragment : BaseToolbarFragment(R.layout.fragment_favorites) {
 
         val adapter = FavoritesAdapter(viewModel::favoriteClicked, viewModel::removeFavorite)
 
-        rvFavorites.layoutManager = StaggeredGridLayoutManager(
+        binding.rvFavorites.layoutManager = StaggeredGridLayoutManager(
             2,
             StaggeredGridLayoutManager.VERTICAL
         )
-        rvFavorites.adapter = adapter
+        binding.rvFavorites.adapter = adapter
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
-            viewLoading.switchVisibility(state.isLoading)
+            binding.viewLoading.switchVisibility(state.isLoading)
             adapter.submitList(state.favorites)
         })
 

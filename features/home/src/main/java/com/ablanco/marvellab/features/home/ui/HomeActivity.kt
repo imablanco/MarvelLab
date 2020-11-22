@@ -9,13 +9,14 @@ import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigator
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorImpl
 import com.ablanco.marvellab.core.ui.navigation.FragmentNavigatorOwner
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.home.R
+import com.ablanco.marvellab.features.home.databinding.ActivityHomeBinding
 import com.ablanco.marvellab.features.home.di.DaggerHomeComponent
 import com.ablanco.marvellab.features.home.presentation.HomeViewModel
 import com.ablanco.marvellab.features.home.presentation.HomeViewModelFactory
 import com.ablanco.marvellab.features.home.presentation.InitializeBottomBarAction
 import com.ablanco.marvellab.shared.navigation.featureNavigator
-import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
@@ -29,6 +30,8 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
 
     private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
+    private val binding: ActivityHomeBinding by binding(ActivityHomeBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -39,7 +42,7 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
             .build()
             .inject(this)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { menu ->
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { menu ->
             val sectionFeature = viewModel.getState().bottomItems[menu.itemId].feature
                 ?: return@setOnNavigationItemSelectedListener false
 
@@ -56,9 +59,9 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
         }
 
         viewModel.viewState.observe(this, Observer { state ->
-            bottomNavigationView.menu.clear()
+            binding.bottomNavigationView.menu.clear()
             state.bottomItems.forEachIndexed { index, section ->
-                bottomNavigationView.menu.add(0, index, index, section.name).apply {
+                binding.bottomNavigationView.menu.add(0, index, index, section.name).apply {
                     GlideApp.with(this@HomeActivity)
                         .load(section.icon)
                         .into(MenuIconTarget(this))
@@ -68,7 +71,7 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
 
         viewModel.viewAction.observe(this, Observer { action ->
             when (action) {
-                is InitializeBottomBarAction -> bottomNavigationView.selectedItemId = 0
+                is InitializeBottomBarAction -> binding.bottomNavigationView.selectedItemId = 0
             }
         })
 

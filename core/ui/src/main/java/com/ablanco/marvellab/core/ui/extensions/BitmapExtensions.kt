@@ -1,6 +1,5 @@
 package com.ablanco.marvellab.core.ui.extensions
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
@@ -13,7 +12,7 @@ import java.io.FileOutputStream
  * MarvelLab.
  */
 
-fun Bitmap.saveToFile(context: Context): File? {
+fun Bitmap.saveToFile(): File? {
     return runCatching {
         File.createTempFile(System.currentTimeMillis().toString(), ".jpeg").apply {
             FileOutputStream(absolutePath).use {

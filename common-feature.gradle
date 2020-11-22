@@ -1,10 +1,16 @@
 apply from: "$rootDir/common-android-library.gradle"
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    viewBinding {
-        enabled = true
+
+    buildFeatures {
+        compose true
+        viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion "$kotlinVersion"
+        kotlinCompilerExtensionVersion "$composeVersion"
     }
 }
 dependencies {
@@ -24,6 +30,13 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
+    implementation "androidx.compose.ui:ui:$composeVersion"
+    implementation "androidx.ui:ui-tooling:$composeVersion"
+    implementation "androidx.compose.foundation:foundation:$composeVersion"
+    implementation "androidx.compose.material:material:$composeVersion"
+    implementation "androidx.compose.runtime:runtime-livedata:$composeVersion"
+
     testImplementation project(":core:test")
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    androidTestImplementation "androidx.ui:ui-test:$composeVersion"
 }

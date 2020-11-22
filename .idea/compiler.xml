@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="MarvelLab.app" target="11" />
+      <module name="MarvelLab.core.data" target="11" />
+      <module name="MarvelLab.core.di" target="11" />
+      <module name="MarvelLab.core.presentation" target="11" />
+      <module name="MarvelLab.core.test" target="11" />
+      <module name="MarvelLab.core.ui" target="11" />
+      <module name="MarvelLab.features.characters" target="11" />
+      <module name="MarvelLab.features.comics" target="11" />
+      <module name="MarvelLab.features.favorites" target="11" />
+      <module name="MarvelLab.features.home" target="11" />
+      <module name="MarvelLab.features.profile" target="11" />
+      <module name="MarvelLab.features.welcome" target="11" />
+      <module name="MarvelLab.shared.navigation" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

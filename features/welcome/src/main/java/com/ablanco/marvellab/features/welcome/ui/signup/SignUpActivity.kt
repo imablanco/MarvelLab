@@ -17,7 +17,9 @@ import com.ablanco.marvellab.core.ui.GlideApp
 import com.ablanco.marvellab.core.ui.extensions.saveToFile
 import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.welcome.R
+import com.ablanco.marvellab.features.welcome.databinding.ActivitySignUpBinding
 import com.ablanco.marvellab.features.welcome.di.DaggerSignUpComponent
 import com.ablanco.marvellab.features.welcome.presentation.signup.PickPhotoAction
 import com.ablanco.marvellab.features.welcome.presentation.signup.SignUpViewModelFactory
@@ -28,7 +30,6 @@ import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,6 +39,8 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var signUpViewModelFactory: SignUpViewModelFactory
 
     private val viewModel: SingUpViewModel by viewModels { signUpViewModelFactory }
+
+    private val binding: ActivitySignUpBinding by binding(ActivitySignUpBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,23 +52,23 @@ class SignUpActivity : AppCompatActivity() {
             .build()
             .inject(this)
 
-        etEmail.doAfterTextChanged { it?.toString()?.let(viewModel::onEmail) }
-        etPassword.doAfterTextChanged { it?.toString()?.let(viewModel::onPassword) }
-        btSignUp.setOnClickListener { viewModel.signUp() }
-        ivPhoto.setOnClickListener { viewModel.pickPhotoClicked() }
+        binding.etEmail.doAfterTextChanged { it?.toString()?.let(viewModel::onEmail) }
+        binding.etPassword.doAfterTextChanged { it?.toString()?.let(viewModel::onPassword) }
+        binding.btSignUp.setOnClickListener { viewModel.signUp() }
+        binding.ivPhoto.setOnClickListener { viewModel.pickPhotoClicked() }
 
         viewModel.viewState.observe(this, Observer { state ->
-            progressBar.switchVisibility(state.isLoading)
-            tilEmail.error =
+            binding.progressBar.switchVisibility(state.isLoading)
+            binding.tilEmail.error =
                 getString(R.string.sign_up_invalid_email).takeIf { state.isEmailInvalid }
-            tilPassword.error =
+            binding.tilPassword.error =
                 getString(R.string.sign_up_invalid_password).takeIf { state.isPasswordInvalid }
-            btSignUp.isEnabled = state.canContinue
+            binding.btSignUp.isEnabled = state.canContinue
             GlideApp.with(this)
                 .applyDefaultRequestOptions(RequestOptions.circleCropTransform())
                 .load(state.profilePictureUrl)
                 .placeholder(R.drawable.ic_person_black_24dp)
-                .into(ivPhoto)
+                .into(binding.ivPhoto)
         })
 
         viewModel.viewAction.observe(this, Observer { action ->
@@ -75,7 +78,7 @@ class SignUpActivity : AppCompatActivity() {
                         featureNavigator?.getIntent(Home)?.let(::startActivity)
                     } else {
                         Snackbar.make(
-                            rootLayout,
+                            binding.rootLayout,
                             getString(R.string.sign_up_process_error),
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -98,7 +101,7 @@ class SignUpActivity : AppCompatActivity() {
                             val file = withIO {
                                 bitmap
                                     .scale(IMAGE_MAX_SIZE_PX)
-                                    .saveToFile(this@SignUpActivity)
+                                    .saveToFile()
                             }
                             file?.let(viewModel::onProfilePicture)
                         }

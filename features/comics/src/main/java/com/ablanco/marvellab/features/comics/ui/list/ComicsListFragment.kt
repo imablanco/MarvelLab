@@ -13,14 +13,15 @@ import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.ablanco.marvellab.features.comics.R
+import com.ablanco.marvellab.features.comics.databinding.FragmentComicsListBinding
 import com.ablanco.marvellab.features.comics.di.list.DaggerComicsListComponent
 import com.ablanco.marvellab.features.comics.presentation.list.ComicsListViewModel
 import com.ablanco.marvellab.features.comics.presentation.list.ComicsListViewModelFactory
 import com.ablanco.marvellab.features.comics.presentation.list.GoToComicDetailAction
 import com.ablanco.marvellab.features.comics.ui.detail.ComicDetailFragment
-import kotlinx.android.synthetic.main.fragment_comics_list.*
 import javax.inject.Inject
 
 /**
@@ -32,12 +33,14 @@ class ComicsListFragment : BaseToolbarFragment(R.layout.fragment_comics_list) {
     override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(getString(R.string.comics_list_title))
     }
-    override val getToolbarView: () -> Toolbar = { toolbar }
+    override val getToolbarView: () -> Toolbar = { binding.toolbar }
 
     @Inject
     lateinit var comicsListViewModelFactory: ComicsListViewModelFactory
 
     private val viewModel: ComicsListViewModel by viewModels { comicsListViewModelFactory }
+
+    private val binding: FragmentComicsListBinding by binding(FragmentComicsListBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,20 +57,20 @@ class ComicsListFragment : BaseToolbarFragment(R.layout.fragment_comics_list) {
         val adapter = ComicsListAdapter(viewModel::comicClicked, viewModel::favoriteClicked)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
-        rvComics.layoutManager = layoutManager
-        rvComics.adapter = adapter
-        rvComics.addOnScrollListener(EndScrollListener(layoutManager) { items ->
-            viewModel.searchComics(etSearch.textOrNull, items)
+        binding.rvComics.layoutManager = layoutManager
+        binding.rvComics.adapter = adapter
+        binding.rvComics.addOnScrollListener(EndScrollListener(layoutManager) { items ->
+            viewModel.searchComics(binding.etSearch.textOrNull, items)
         })
-        etSearch.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH -> viewModel.searchComics(etSearch.textOrNull)
+                EditorInfo.IME_ACTION_SEARCH -> viewModel.searchComics(binding.etSearch.textOrNull)
             }
             false
         }
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
-            viewLoading.switchVisibility(state.isLoading)
+            binding.viewLoading.switchVisibility(state.isLoading)
             adapter.submitList(state.comics)
         })
 

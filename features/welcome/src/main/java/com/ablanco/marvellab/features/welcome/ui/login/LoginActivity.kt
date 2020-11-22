@@ -9,7 +9,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.welcome.R
+import com.ablanco.marvellab.features.welcome.databinding.ActivityLoginBinding
 import com.ablanco.marvellab.features.welcome.di.DaggerLoginComponent
 import com.ablanco.marvellab.features.welcome.presentation.login.LoginViewModel
 import com.ablanco.marvellab.features.welcome.presentation.login.LoginViewModelFactory
@@ -17,7 +19,6 @@ import com.ablanco.marvellab.features.welcome.presentation.login.UserLoggedActio
 import com.ablanco.marvellab.shared.navigation.Home
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -26,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginViewModelFactory: LoginViewModelFactory
 
     private val viewModel: LoginViewModel by viewModels { loginViewModelFactory }
+
+    private val binding: ActivityLoginBinding by binding(ActivityLoginBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +40,17 @@ class LoginActivity : AppCompatActivity() {
             .build()
             .inject(this)
 
-        etEmail.doAfterTextChanged { it?.toString()?.let(viewModel::onEmail) }
-        etPassword.doAfterTextChanged { it?.toString()?.let(viewModel::onPassword) }
-        btLogin.setOnClickListener { viewModel.login() }
+        binding.etEmail.doAfterTextChanged { it?.toString()?.let(viewModel::onEmail) }
+        binding.etPassword.doAfterTextChanged { it?.toString()?.let(viewModel::onPassword) }
+        binding.btLogin.setOnClickListener { viewModel.login() }
 
         viewModel.viewState.observe(this, Observer { state ->
-            progressBar.switchVisibility(state.isLoading)
-            tilEmail.error =
+            binding.progressBar.switchVisibility(state.isLoading)
+            binding.tilEmail.error =
                 getString(R.string.sign_up_invalid_email).takeIf { state.isEmailInvalid }
-            tilPassword.error =
+            binding.tilPassword.error =
                 getString(R.string.sign_up_invalid_password).takeIf { state.isPasswordInvalid }
-            btLogin.isEnabled = state.canContinue
+            binding.btLogin.isEnabled = state.canContinue
         })
 
         viewModel.viewAction.observe(this, Observer { action ->
@@ -57,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
                         featureNavigator?.getIntent(Home)?.let(::startActivity)
                     } else {
                         Snackbar.make(
-                            rootLayout,
+                            binding.rootLayout,
                             getString(R.string.sign_up_process_error),
                             Snackbar.LENGTH_LONG
                         ).show()

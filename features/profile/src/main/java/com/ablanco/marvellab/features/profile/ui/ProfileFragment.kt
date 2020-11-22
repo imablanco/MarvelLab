@@ -18,7 +18,9 @@ import com.ablanco.marvellab.core.ui.extensions.scale
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.features.profile.R
+import com.ablanco.marvellab.features.profile.databinding.FragmentProfileBinding
 import com.ablanco.marvellab.features.profile.di.DaggerProfileComponent
 import com.ablanco.marvellab.features.profile.presentation.LogoutAction
 import com.ablanco.marvellab.features.profile.presentation.PickPhotoAction
@@ -28,7 +30,6 @@ import com.ablanco.marvellab.shared.navigation.Welcome
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.karumi.dexter.Dexter
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +44,8 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
 
     private val viewModel: ProfileViewModel by viewModels { profileViewModelFactory }
 
+    private val binding: FragmentProfileBinding by binding(FragmentProfileBinding::bind)
+
     override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(
             title = getString(R.string.profile_title),
@@ -56,7 +59,7 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
         )
     }
 
-    override val getToolbarView: () -> CollapsingToolbarLayout = { collapsingToolbarLayout }
+    override val getToolbarView: () -> CollapsingToolbarLayout = { binding.collapsingToolbarLayout }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,26 +72,27 @@ class ProfileFragment : BaseCollapsingToolbarFragment(R.layout.fragment_profile)
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        etName.doAfterTextChanged { it?.toString()?.let(viewModel::nameEntered) }
-        btSave.setOnClickListener { viewModel.save() }
-        btLogout.setOnClickListener { viewModel.logOutClicked() }
+        binding.etName.doAfterTextChanged { it?.toString()?.let(viewModel::nameEntered) }
+        binding.btSave.setOnClickListener { viewModel.save() }
+        binding.btLogout.setOnClickListener { viewModel.logOutClicked() }
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
-            viewLoading.switchVisibility(state.isLoading)
-            if (state.email.orEmpty() != etEmail.text?.toString()) {
-                etEmail.setText(state.email, TextView.BufferType.EDITABLE)
+            binding.viewLoading.switchVisibility(state.isLoading)
+            if (state.email.orEmpty() != binding.etEmail.text?.toString()) {
+                binding.etEmail.setText(state.email, TextView.BufferType.EDITABLE)
             }
-            if (state.name.orEmpty() != etName.text?.toString()) {
-                etName.setText(state.name, TextView.BufferType.EDITABLE)
+            if (state.name.orEmpty() != binding.etName.text?.toString()) {
+                binding.etName.setText(state.name, TextView.BufferType.EDITABLE)
             }
-            tilName.error = getString(R.string.profile_error_name).takeIf { !state.isNameValid }
-            btSave.isEnabled = state.canSave
-            toolbar.menu.findItem(R.id.action_change_photo)?.isEnabled = state.canEditPhoto
+            binding.tilName.error =
+                getString(R.string.profile_error_name).takeIf { !state.isNameValid }
+            binding.btSave.isEnabled = state.canSave
+            binding.toolbar.menu.findItem(R.id.action_change_photo)?.isEnabled = state.canEditPhoto
             GlideApp.with(this)
                 .load(state.userPictureUrl)
                 .centerCrop()
                 .placeholder(R.drawable.ic_person_black_24dp)
-                .into(ivProfile)
+                .into(binding.ivProfile)
         })
 
         viewModel.viewAction.observe(viewLifecycleOwner, Observer { action ->

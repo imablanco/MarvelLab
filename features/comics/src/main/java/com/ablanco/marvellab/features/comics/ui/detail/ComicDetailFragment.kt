@@ -12,9 +12,11 @@ import com.ablanco.marvellab.core.ui.extensions.switchVisibility
 import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
 import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
 import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
+import com.ablanco.marvellab.core.ui.viewbinding.binding
 import com.ablanco.marvellab.core.ui.views.EndScrollListener
 import com.ablanco.marvellab.core.ui.views.GridSpacingItemDecorator
 import com.ablanco.marvellab.features.comics.R
+import com.ablanco.marvellab.features.comics.databinding.FragmentComicDetailBinding
 import com.ablanco.marvellab.features.comics.di.detail.DaggerComicDetailComponent
 import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailViewModel
 import com.ablanco.marvellab.features.comics.presentation.detail.ComicDetailViewModelFactory
@@ -22,7 +24,6 @@ import com.ablanco.marvellab.features.comics.presentation.detail.GoToCharacterDe
 import com.ablanco.marvellab.shared.navigation.Characters
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import kotlinx.android.synthetic.main.fragment_comic_detail.*
 import javax.inject.Inject
 
 /**
@@ -40,15 +41,17 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
             true
         }
     )
-    override val getToolbarView: () -> CollapsingToolbarLayout = { collapsingToolbarLayout }
+    override val getToolbarView: () -> CollapsingToolbarLayout = { binding.collapsingToolbarLayout }
 
     private val menuActionView: MenuItem?
-        get() = toolbar.menu?.findItem(R.id.action_fav)
+        get() = binding.toolbar.menu?.findItem(R.id.action_fav)
 
     @Inject
     lateinit var viewModelFactory: ComicDetailViewModelFactory
 
     private val viewModel: ComicDetailViewModel by viewModels { viewModelFactory }
+
+    private val binding: FragmentComicDetailBinding by binding(FragmentComicDetailBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,15 +69,15 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
             viewModel::favoriteCharacterClicked
         )
         val layoutManager = GridLayoutManager(requireContext(), 2)
-        rvCharacters.layoutManager = layoutManager
-        rvCharacters.adapter = adapter
-        rvCharacters.addOnScrollListener(
+        binding.rvCharacters.layoutManager = layoutManager
+        binding.rvCharacters.adapter = adapter
+        binding.rvCharacters.addOnScrollListener(
             EndScrollListener(
                 layoutManager,
                 viewModel::loadCharacters
             )
         )
-        rvCharacters.addItemDecoration(
+        binding.rvCharacters.addItemDecoration(
             GridSpacingItemDecorator(
                 requireContext().resources.getDimensionPixelSize(
                     R.dimen.comicDetailItemSpacing
@@ -83,12 +86,12 @@ class ComicDetailFragment : BaseCollapsingToolbarFragment(R.layout.fragment_comi
         )
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
-            viewLoading.switchVisibility(state.isLoading)
-            collapsingToolbarLayout.title = state.comic?.comic?.title
+            binding.viewLoading.switchVisibility(state.isLoading)
+            binding.collapsingToolbarLayout.title = state.comic?.comic?.title
             GlideApp.with(this)
                 .load(state.comic?.comic?.coverImageUrl)
                 .placeholder(R.drawable.ic_book_black_24dp)
-                .into(ivComic)
+                .into(binding.ivComic)
             adapter.submitList(state.characters)
             val isFavorite = state.comic?.isFavorite == true
             menuActionView?.setIcon(

@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.Text
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.ui.tooling.preview.Preview
 import com.ablanco.marvellab.core.di.coreComponent
 import com.ablanco.marvellab.core.ui.BaseToolbarFragment
 import com.ablanco.marvellab.core.ui.extensions.switchVisibility
