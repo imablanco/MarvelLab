@@ -13,6 +13,7 @@ android {
         kotlinCompilerExtensionVersion "$composeVersion"
     }
 }
+
 dependencies {
 
     implementation project(":core:domain")

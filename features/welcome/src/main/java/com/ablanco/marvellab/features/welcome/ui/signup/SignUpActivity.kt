@@ -91,7 +91,7 @@ class SignUpActivity : AppCompatActivity(R.layout.activity_sign_up) {
 
 
     private fun pickPhoto() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(PermissionListener {
                 ImageProvider(this).getImage(ImageSource.CAMERA) { bitmap ->

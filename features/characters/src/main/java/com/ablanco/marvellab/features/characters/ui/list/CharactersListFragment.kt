@@ -1,47 +1,40 @@
 package com.ablanco.marvellab.features.characters.ui.list
 
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.ui.tooling.preview.Preview
 import com.ablanco.marvellab.core.di.coreComponent
-import com.ablanco.marvellab.core.ui.BaseToolbarFragment
-import com.ablanco.marvellab.core.ui.extensions.switchVisibility
-import com.ablanco.marvellab.core.ui.navigation.fragmentNavigator
-import com.ablanco.marvellab.core.ui.toolbar.SimpleToolbarConfig
-import com.ablanco.marvellab.core.ui.toolbar.ToolbarConfig
-import com.ablanco.marvellab.core.ui.viewbinding.binding
-import com.ablanco.marvellab.core.ui.views.EndScrollListener
-import com.ablanco.marvellab.core.ui.views.GridSpacingItemDecorator
+import com.ablanco.marvellab.core.presentation.compose.ViewModelComposition
+import com.ablanco.marvellab.core.presentation.compose.currentViewState
+import com.ablanco.marvellab.core.ui.ComposeFragment
+import com.ablanco.marvellab.core.ui.compose.MarvelLabTheme
+import com.ablanco.marvellab.core.ui.compose.Toolbar
 import com.ablanco.marvellab.features.characters.R
-import com.ablanco.marvellab.features.characters.databinding.FragmentCharactersListBinding
 import com.ablanco.marvellab.features.characters.di.list.DaggerCharactersListComponent
 import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModel
 import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewModelFactory
-import com.ablanco.marvellab.features.characters.presentation.list.GoToCharacterDetail
-import com.ablanco.marvellab.features.characters.ui.detail.CharacterDetailFragment
+import com.ablanco.marvellab.features.characters.presentation.list.CharactersListViewState
 import javax.inject.Inject
 
 /**
  * Created by Álvaro Blanco Cabrero on 2020-01-28.
  * MarvelLab.
  */
-class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_list) {
+class CharactersListFragment : ComposeFragment() {
 
     @Inject
     lateinit var viewModelFactory: CharactersListViewModelFactory
 
     private val viewModel: CharactersListViewModel by viewModels { viewModelFactory }
 
-    override val toolbarConfig: ToolbarConfig by lazy {
+/*    override val toolbarConfig: ToolbarConfig by lazy {
         SimpleToolbarConfig(title = getString(R.string.characters_list_title))
     }
-    override val getToolbarView: () -> Toolbar = { binding.toolbar }
-
-    private val binding: FragmentCharactersListBinding by binding(FragmentCharactersListBinding::bind)
+    override val getToolbarView: () -> Toolbar = { binding.toolbar }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +47,7 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
 
     override fun onViewReady(savedInstanceState: Bundle?, isRestored: Boolean) {
 
-        val adapter = CharactersListAdapter(viewModel::characterClicked, viewModel::favoriteClicked)
+        /*val adapter = CharactersListAdapter(viewModel::characterClicked, viewModel::favoriteClicked)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvCharacters.layoutManager = layoutManager
@@ -92,10 +85,23 @@ class CharactersListFragment : BaseToolbarFragment(R.layout.fragment_characters_
 
         if (!isRestored) {
             viewModel.load()
-        }
+        }*/
     }
 
     private val TextView.textOrNull: String?
         get() = text.toString().takeIf { it.isNotBlank() }
 
+
+    @Composable
+    override fun compose() = ViewModelComposition(viewModel = viewModel) { state ->
+        CharactersListContent()
+    }
+
+}
+
+@Preview
+@Composable
+fun CharactersListContent() = MarvelLabTheme {
+    Scaffold(topBar = { Toolbar(title = stringResource(R.string.characters_list_title)) }) {
+    }
 }

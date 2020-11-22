@@ -18,8 +18,8 @@ abstract class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
 
     private var isRestored = false
 
-    final override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         onViewReady(savedInstanceState, isRestored)
         isRestored = true
     }
