@@ -19,18 +19,17 @@ import com.ablanco.marvellab.features.welcome.ui.login.LoginActivity
 import com.ablanco.marvellab.features.welcome.ui.signup.SignUpActivity
 import javax.inject.Inject
 
-class WelcomeActivity : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
 
     @Inject
     lateinit var welcomeViewModelFactory: WelcomeViewModelFactory
 
     private val viewModel: WelcomeViewModel by viewModels { welcomeViewModelFactory }
 
-    private val binding: ActivityWelcomeBinding by binding(ActivityWelcomeBinding::inflate)
+    private val binding: ActivityWelcomeBinding by binding(ActivityWelcomeBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
 
         DaggerWelcomeComponent
             .builder()

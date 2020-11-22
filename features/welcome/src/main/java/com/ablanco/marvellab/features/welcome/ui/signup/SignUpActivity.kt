@@ -33,18 +33,17 @@ import com.karumi.dexter.Dexter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity(R.layout.activity_sign_up) {
 
     @Inject
     lateinit var signUpViewModelFactory: SignUpViewModelFactory
 
     private val viewModel: SingUpViewModel by viewModels { signUpViewModelFactory }
 
-    private val binding: ActivitySignUpBinding by binding(ActivitySignUpBinding::inflate)
+    private val binding: ActivitySignUpBinding by binding(ActivitySignUpBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
 
         DaggerSignUpComponent
             .builder()

@@ -21,18 +21,17 @@ import com.ablanco.marvellab.shared.navigation.featureNavigator
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
 
     private val viewModel: LoginViewModel by viewModels { loginViewModelFactory }
 
-    private val binding: ActivityLoginBinding by binding(ActivityLoginBinding::inflate)
+    private val binding: ActivityLoginBinding by binding(ActivityLoginBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         DaggerLoginComponent
             .builder()

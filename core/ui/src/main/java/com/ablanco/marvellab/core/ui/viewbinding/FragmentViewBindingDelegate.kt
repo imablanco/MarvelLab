@@ -43,6 +43,10 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 fun <T : ViewBinding> Fragment.binding(bind: (View) -> T) =
     FragmentViewBindingDelegate(this, bind)
 
-fun <T : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> T) = lazy {
+fun <T : ViewBinding> Activity.inflate(inflate: (LayoutInflater) -> T) = lazy {
     inflate(layoutInflater)
+}
+
+fun <T : ViewBinding> Activity.binding(bind: (View) -> T) = lazy {
+    bind(findViewById<View>(android.R.id.content).rootView)
 }

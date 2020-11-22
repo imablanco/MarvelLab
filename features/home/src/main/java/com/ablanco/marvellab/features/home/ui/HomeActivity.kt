@@ -19,7 +19,7 @@ import com.ablanco.marvellab.features.home.presentation.InitializeBottomBarActio
 import com.ablanco.marvellab.shared.navigation.featureNavigator
 import javax.inject.Inject
 
-class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
+class HomeActivity : AppCompatActivity(R.layout.activity_home), FragmentNavigatorOwner {
 
     override val fragmentNavigator: FragmentNavigator by lazy {
         FragmentNavigatorImpl(supportFragmentManager, R.id.container)
@@ -30,11 +30,10 @@ class HomeActivity : AppCompatActivity(), FragmentNavigatorOwner {
 
     private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
-    private val binding: ActivityHomeBinding by binding(ActivityHomeBinding::inflate)
+    private val binding: ActivityHomeBinding by binding(ActivityHomeBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
         DaggerHomeComponent
             .builder()
