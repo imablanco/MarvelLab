@@ -3,6 +3,7 @@ package com.ablanco.marvellab.core.ui.viewbinding
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -48,5 +49,5 @@ fun <T : ViewBinding> Activity.inflate(inflate: (LayoutInflater) -> T) = lazy {
 }
 
 fun <T : ViewBinding> Activity.binding(bind: (View) -> T) = lazy {
-    bind(findViewById<View>(android.R.id.content).rootView)
+    bind(findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
 }
